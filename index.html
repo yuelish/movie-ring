@@ -6,24 +6,71 @@
 
   <title>Movie Ring</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    :root {
+      --black: #090909;
+      --ivory: #f1eee5;
+      --muted: #aaa69c;
+      --burgundy: #741f2b;
+      --burgundy-bright: #a83245;
+      --silver: #d9d9d9;
+    }
+
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(
-        circle at center,
-        #252525 0%,
-        #0b0b0b 55%,
-        #000 100%
+      background:
+        radial-gradient(
+          circle at 50% 25%,
+          #292929 0%,
+          #151515 30%,
+          #090909 70%,
+          #020202 100%
+        );
+      color: var(--ivory);
+      font-family: "DM Mono", monospace;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.045;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(255,255,255,0.35) 3px
       );
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
+      z-index: 100;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        inset 0 0 100px rgba(255,255,255,0.025),
+        inset 0 0 250px rgba(116,31,43,0.08);
+      z-index: 99;
     }
 
     .app {
@@ -32,57 +79,133 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 32px 20px 60px;
+    }
+
+    /* HEADER */
+
+    .header {
+      width: min(900px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .catalog-number {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-align: left;
+    }
+
+    .brand {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--ivory);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #67d27d;
+      box-shadow: 0 0 8px #67d27d;
     }
 
     h1 {
-      margin: 0;
-      font-size: clamp(36px, 7vw, 60px);
-      letter-spacing: 4px;
+      margin: 38px 0 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(46px, 9vw, 82px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      color: var(--ivory);
+      text-shadow: 0 2px 15px rgba(0,0,0,0.7);
     }
 
     .subtitle {
-      color: #aaa;
-      margin: 10px 0 0;
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
     }
+
+    /* WHEEL */
 
     .wheel-container {
       position: relative;
-      width: min(78vw, 440px);
-      height: min(78vw, 440px);
-      margin: 45px 0 35px;
+      width: min(76vw, 430px);
+      height: min(76vw, 430px);
+      margin: 48px 0 32px;
+    }
+
+    .wheel-container::before {
+      content: "";
+      position: absolute;
+      inset: -25px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 0 50px rgba(116,31,43,0.2),
+        inset 0 0 25px rgba(255,255,255,0.03);
+    }
+
+    .wheel-container::after {
+      content: "";
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1px solid rgba(217,217,217,0.15);
+      pointer-events: none;
     }
 
     .pointer {
       position: absolute;
       z-index: 10;
-      top: -25px;
+      top: -31px;
       left: 50%;
       transform: translateX(-50%);
-      color: #e5b93f;
-      font-size: 42px;
+      color: var(--ivory);
+      font-size: 27px;
+      filter: drop-shadow(0 0 7px rgba(255,255,255,0.5));
     }
 
     .wheel {
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 12px solid #e5b93f;
+      border: 8px solid #bcbcbc;
 
-      background: conic-gradient(
-        #e63946 0deg 45deg,
-        #1d3557 45deg 90deg,
-        #457b9d 90deg 135deg,
-        #e9c46a 135deg 180deg,
-        #2a9d8f 180deg 225deg,
-        #264653 225deg 270deg,
-        #f4a261 270deg 315deg,
-        #6a4c93 315deg 360deg
-      );
+      background:
+        conic-gradient(
+          #761e2b 0deg 45deg,
+          #111827 45deg 90deg,
+          #31526d 90deg 135deg,
+          #b69d69 135deg 180deg,
+          #273f3d 180deg 225deg,
+          #151f25 225deg 270deg,
+          #9b6040 270deg 315deg,
+          #514266 315deg 360deg
+        );
 
       box-shadow:
-        0 0 35px rgba(229, 185, 63, 0.3),
-        inset 0 0 35px rgba(0, 0, 0, 0.6);
+        0 0 0 3px #222,
+        0 0 0 5px #8d8d8d,
+        0 0 45px rgba(0,0,0,0.9),
+        inset 0 0 45px rgba(0,0,0,0.65);
 
       display: flex;
       align-items: center;
@@ -92,80 +215,237 @@
         transform 4s cubic-bezier(.12,.72,.12,1);
     }
 
-    .wheel-center {
-      width: 95px;
-      height: 95px;
+    .wheel::before {
+      content: "";
+      position: absolute;
+      width: 72%;
+      height: 32%;
+      top: 9%;
+      left: 14%;
       border-radius: 50%;
-      background: #111;
-      border: 5px solid #e5b93f;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.16),
+        rgba(255,255,255,0)
+      );
+      transform: rotate(-20deg);
+      pointer-events: none;
+    }
+
+    .wheel-center {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          circle at 35% 25%,
+          #3c3c3c,
+          #101010 55%,
+          #050505
+        );
+
+      border: 3px solid #d5d5d5;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size: 38px;
+      font-size: 34px;
+
+      box-shadow:
+        0 0 0 4px #1b1b1b,
+        0 0 0 5px #888,
+        0 8px 25px rgba(0,0,0,0.7);
     }
 
-    #spinButton {
-      border: none;
-      border-radius: 50px;
-      padding: 18px 60px;
+    /* BUTTON */
 
-      background: #e5b93f;
+    #spinButton {
+      border: 1px solid #f4f4f4;
+      border-radius: 4px;
+
+      padding: 16px 58px;
+
+      background:
+        linear-gradient(
+          180deg,
+          #f7f7f7 0%,
+          #cfcfcf 48%,
+          #8d8d8d 52%,
+          #e8e8e8 100%
+        );
+
       color: #111;
 
-      font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 2px;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 4px;
 
       cursor: pointer;
+
+      box-shadow:
+        0 3px 0 #555,
+        0 7px 20px rgba(0,0,0,0.5);
+
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     #spinButton:hover {
-      background: #ffd95a;
-      transform: scale(1.05);
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 5px 0 #555,
+        0 10px 25px rgba(0,0,0,0.6),
+        0 0 18px rgba(108,167,255,0.15);
+    }
+
+    #spinButton:active {
+      transform: translateY(2px);
+
+      box-shadow:
+        0 1px 0 #555,
+        0 3px 10px rgba(0,0,0,0.5);
     }
 
     #spinButton:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: not-allowed;
       transform: none;
+      box-shadow: 0 2px 0 #555;
     }
+
+    /* REMAINING */
 
     .remaining {
-      margin-top: 18px;
-      color: #999;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
+    .remaining::before {
+      content: "ARCHIVE // ";
+      color: var(--burgundy-bright);
+    }
+
+    /* RESULT */
+
     .result {
-      margin-top: 35px;
+      width: min(700px, 100%);
+      margin-top: 45px;
+      padding: 30px 20px;
+
+      border-top: 1px solid rgba(255,255,255,0.18);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+
+      animation: reveal 0.7s ease both;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .result-label {
-      color: #e5b93f;
-      font-size: 13px;
-      letter-spacing: 3px;
+      color: var(--burgundy-bright);
+      font-size: 9px;
+      letter-spacing: 4px;
+      margin-bottom: 5px;
     }
 
     #movieTitle {
-      font-size: clamp(28px, 5vw, 42px);
-      margin: 10px 0 5px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(34px, 7vw, 58px);
+      line-height: 1.05;
+      margin: 8px 0;
+      color: var(--ivory);
     }
 
     #movieYear {
-      color: #aaa;
-      font-size: 20px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 3px;
       margin: 0;
+    }
+
+    #movieYear::before {
+      content: "— ";
+      color: var(--burgundy-bright);
     }
 
     .hidden {
       display: none;
     }
 
+    /* MESSAGE */
+
     #message {
       margin-top: 20px;
-      color: #ff7777;
+      color: #e87878;
+      font-size: 10px;
       max-width: 600px;
+      letter-spacing: 0.5px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      margin-top: auto;
+      padding-top: 55px;
+      color: #555;
+      font-size: 8px;
+      letter-spacing: 2px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+      .app {
+        padding-top: 22px;
+      }
+
+      .header {
+        padding-bottom: 14px;
+      }
+
+      .catalog-number {
+        display: none;
+      }
+
+      .header {
+        justify-content: center;
+      }
+
+      .status {
+        position: absolute;
+        right: 20px;
+      }
+
+      h1 {
+        margin-top: 32px;
+      }
+
+      .wheel-container {
+        margin-top: 42px;
+      }
+
+      .wheel-center {
+        width: 82px;
+        height: 82px;
+        font-size: 29px;
+      }
     }
   </style>
 </head>
@@ -174,10 +454,27 @@
 
   <main class="app">
 
-    <h1>🎬 MOVIE RING</h1>
+    <header class="header">
+
+      <div class="catalog-number">
+        FILM / 001
+      </div>
+
+      <div class="brand">
+        MOVIE RING
+      </div>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        READY
+      </div>
+
+    </header>
+
+    <h1>Choose a Film.</h1>
 
     <p class="subtitle">
-      Let fate choose your next movie.
+      Let fate select your next screening.
     </p>
 
     <div class="wheel-container">
@@ -205,7 +502,7 @@
     <div id="result" class="result hidden">
 
       <div class="result-label">
-        YOUR MOVIE
+        NOW PLAYING
       </div>
 
       <h2 id="movieTitle"></h2>
@@ -216,24 +513,24 @@
 
     <div id="message"></div>
 
+    <div class="footer">
+      SELECTED FROM THE ARCHIVE
+    </div>
+
   </main>
 
-
   <script>
-
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-
     const client =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
-
 
     const wheel =
       document.getElementById("wheel");
@@ -256,16 +553,12 @@
     const message =
       document.getElementById("message");
 
-
     let movies = [];
     let rotation = 0;
 
-
     async function loadMovies() {
-
       remaining.textContent =
         "Loading movies...";
-
 
       const { data, error } =
         await client
@@ -273,9 +566,7 @@
           .select("id, title, year")
           .eq("chosen", false);
 
-
       if (error) {
-
         console.error(
           "Supabase error:",
           error
@@ -292,16 +583,12 @@
         return;
       }
 
-
       movies = data || [];
-
 
       updateRemaining();
     }
 
-
     function updateRemaining() {
-
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
@@ -309,32 +596,24 @@
         movies.length === 0;
     }
 
-
     spinButton.addEventListener(
       "click",
       async () => {
-
         if (movies.length === 0) {
           return;
         }
 
-
         spinButton.disabled = true;
-
         message.textContent = "";
-
         result.classList.add("hidden");
-
 
         const randomIndex =
           Math.floor(
             Math.random() * movies.length
           );
 
-
         const movie =
           movies[randomIndex];
-
 
         rotation +=
           1800 +
@@ -342,25 +621,20 @@
             Math.random() * 720
           );
 
-
         wheel.style.transform =
           `rotate(${rotation}deg)`;
 
-
         setTimeout(
           async () => {
-
             movieTitle.textContent =
               movie.title;
 
             movieYear.textContent =
               movie.year || "";
 
-
             result.classList.remove(
               "hidden"
             );
-
 
             const { error } =
               await client
@@ -372,9 +646,7 @@
                 })
                 .eq("id", movie.id);
 
-
             if (error) {
-
               console.error(
                 "Update error:",
                 error
@@ -388,25 +660,19 @@
               return;
             }
 
-
             movies =
               movies.filter(
                 m => m.id !== movie.id
               );
 
-
             updateRemaining();
-
           },
           4000
         );
-
       }
     );
 
-
     loadMovies();
-
   </script>
 
 </body>
