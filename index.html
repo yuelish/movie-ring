@@ -6,24 +6,26 @@
 
   <title>Movie Ring</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    :root {
-      --black: #090909;
-      --ivory: #f1eee5;
-      --muted: #aaa69c;
-      --burgundy: #741f2b;
-      --burgundy-bright: #a83245;
-      --silver: #d9d9d9;
-    }
-
     * {
       box-sizing: border-box;
+    }
+
+    :root {
+      --black: #111111;
+      --white: #f7f7f3;
+      --red: #d62839;
+
+      --sea-1: #a8e6d4;
+      --sea-2: #8edbd5;
+      --sea-3: #82cfe0;
+      --sea-4: #91c9e8;
+      --sea-5: #a8c8e8;
+      --sea-6: #9dd9dc;
+      --sea-7: #8dd8c9;
+      --sea-8: #b1e2d3;
     }
 
     html {
@@ -33,316 +35,291 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        radial-gradient(
-          circle at 50% 25%,
-          #292929 0%,
-          #151515 30%,
-          #090909 70%,
-          #020202 100%
-        );
-      color: var(--ivory);
-      font-family: "DM Mono", monospace;
+
+      background: var(--white);
+      color: var(--black);
+
+      font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.045;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 2px,
-        rgba(255,255,255,0.35) 3px
-      );
-      z-index: 100;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow:
-        inset 0 0 100px rgba(255,255,255,0.025),
-        inset 0 0 250px rgba(116,31,43,0.08);
-      z-index: 99;
     }
 
     .app {
       min-height: 100vh;
+
       display: flex;
       flex-direction: column;
       align-items: center;
+
       text-align: center;
-      padding: 32px 20px 60px;
+
+      padding: 30px 20px 50px;
     }
 
-    /* HEADER */
+    /* ---------------- HEADER ---------------- */
 
-    .header {
-      width: min(900px, 100%);
+    header {
+      width: 100%;
+      max-width: 1000px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.16);
+
+      border-bottom: 2px solid var(--black);
+
+      padding-bottom: 12px;
     }
 
-    .catalog-number {
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-align: left;
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
     }
 
-    .brand {
+    .header-right {
       font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--ivory);
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--muted);
-      font-size: 9px;
-      letter-spacing: 1.5px;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #67d27d;
-      box-shadow: 0 0 8px #67d27d;
-    }
-
-    h1 {
-      margin: 38px 0 0;
-      font-family: "Playfair Display", Georgia, serif;
-      font-size: clamp(46px, 9vw, 82px);
-      font-weight: 500;
-      line-height: 0.95;
-      letter-spacing: -3px;
-      color: var(--ivory);
-      text-shadow: 0 2px 15px rgba(0,0,0,0.7);
-    }
-
-    .subtitle {
-      margin: 15px 0 0;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 3px;
+      font-weight: 600;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
-    /* WHEEL */
+    /* ---------------- TITLE ---------------- */
+
+    h1 {
+      margin: 55px 0 8px;
+
+      font-size: clamp(48px, 9vw, 92px);
+      line-height: 0.9;
+
+      font-weight: 700;
+      letter-spacing: -5px;
+    }
+
+    .subtitle {
+      margin: 0;
+
+      font-size: 14px;
+      font-weight: 400;
+
+      letter-spacing: 0.5px;
+
+      color: #555;
+    }
+
+    /* ---------------- WHEEL ---------------- */
 
     .wheel-container {
       position: relative;
-      width: min(76vw, 430px);
-      height: min(76vw, 430px);
-      margin: 48px 0 32px;
+
+      width: min(78vw, 470px);
+      height: min(78vw, 470px);
+
+      margin: 55px 0 35px;
     }
 
     .wheel-container::before {
       content: "";
-      position: absolute;
-      inset: -25px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow:
-        0 0 50px rgba(116,31,43,0.2),
-        inset 0 0 25px rgba(255,255,255,0.03);
-    }
 
-    .wheel-container::after {
-      content: "";
       position: absolute;
-      inset: -14px;
-      border-radius: 50%;
-      border: 1px solid rgba(217,217,217,0.15);
-      pointer-events: none;
-    }
 
-    .pointer {
-      position: absolute;
-      z-index: 10;
-      top: -31px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--ivory);
-      font-size: 27px;
-      filter: drop-shadow(0 0 7px rgba(255,255,255,0.5));
+      inset: -12px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(0, 0, 0, 0.15);
     }
 
     .wheel {
+      position: relative;
+
       width: 100%;
       height: 100%;
+
       border-radius: 50%;
-      border: 8px solid #bcbcbc;
+
+      border: 10px solid var(--black);
 
       background:
         conic-gradient(
-          #761e2b 0deg 45deg,
-          #111827 45deg 90deg,
-          #31526d 90deg 135deg,
-          #b69d69 135deg 180deg,
-          #273f3d 180deg 225deg,
-          #151f25 225deg 270deg,
-          #9b6040 270deg 315deg,
-          #514266 315deg 360deg
+          var(--sea-1) 0deg 45deg,
+          var(--sea-2) 45deg 90deg,
+          var(--sea-3) 90deg 135deg,
+          var(--sea-4) 135deg 180deg,
+          var(--sea-5) 180deg 225deg,
+          var(--sea-6) 225deg 270deg,
+          var(--sea-7) 270deg 315deg,
+          var(--sea-8) 315deg 360deg
         );
-
-      box-shadow:
-        0 0 0 3px #222,
-        0 0 0 5px #8d8d8d,
-        0 0 45px rgba(0,0,0,0.9),
-        inset 0 0 45px rgba(0,0,0,0.65);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
+      box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.16);
+
       transition:
-        transform 4s cubic-bezier(.12,.72,.12,1);
+        transform 4s cubic-bezier(.12, .72, .12, 1);
     }
+
+    /*
+      Subtle glossy Y2K highlight.
+    */
 
     .wheel::before {
       content: "";
+
       position: absolute;
-      width: 72%;
+
+      width: 70%;
       height: 32%;
-      top: 9%;
-      left: 14%;
+
+      top: 7%;
+      left: 15%;
+
       border-radius: 50%;
-      background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.16),
-        rgba(255,255,255,0)
-      );
-      transform: rotate(-20deg);
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.5),
+          rgba(255, 255, 255, 0)
+        );
+
+      transform: rotate(-18deg);
+
       pointer-events: none;
     }
 
     .wheel-center {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      background:
-        radial-gradient(
-          circle at 35% 25%,
-          #3c3c3c,
-          #101010 55%,
-          #050505
-        );
+      position: relative;
+      z-index: 2;
 
-      border: 3px solid #d5d5d5;
+      width: 105px;
+      height: 105px;
+
+      border-radius: 50%;
+
+      background: var(--black);
+
+      color: white;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size: 34px;
+      font-size: 36px;
+
+      border: 4px solid white;
 
       box-shadow:
-        0 0 0 4px #1b1b1b,
-        0 0 0 5px #888,
-        0 8px 25px rgba(0,0,0,0.7);
+        0 0 0 3px var(--black),
+        0 8px 20px rgba(0, 0, 0, 0.25);
     }
 
-    /* BUTTON */
+    /* ---------------- POINTER ---------------- */
+
+    .pointer {
+      position: absolute;
+
+      z-index: 10;
+
+      top: -24px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      color: var(--red);
+
+      font-size: 38px;
+
+      line-height: 1;
+    }
+
+    /* ---------------- BUTTON ---------------- */
 
     #spinButton {
-      border: 1px solid #f4f4f4;
-      border-radius: 4px;
+      border: 2px solid var(--black);
 
-      padding: 16px 58px;
+      background: var(--black);
+      color: white;
 
-      background:
-        linear-gradient(
-          180deg,
-          #f7f7f7 0%,
-          #cfcfcf 48%,
-          #8d8d8d 52%,
-          #e8e8e8 100%
-        );
+      padding: 17px 65px;
 
-      color: #111;
+      border-radius: 0;
 
-      font-family: "DM Mono", monospace;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 4px;
+      font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      font-size: 15px;
+      font-weight: 700;
+
+      letter-spacing: 2px;
 
       cursor: pointer;
 
-      box-shadow:
-        0 3px 0 #555,
-        0 7px 20px rgba(0,0,0,0.5);
-
       transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
     }
 
     #spinButton:hover {
-      transform: translateY(-2px);
+      background: var(--red);
 
-      box-shadow:
-        0 5px 0 #555,
-        0 10px 25px rgba(0,0,0,0.6),
-        0 0 18px rgba(108,167,255,0.15);
+      border-color: var(--red);
+
+      transform: translateY(-2px);
     }
 
     #spinButton:active {
-      transform: translateY(2px);
-
-      box-shadow:
-        0 1px 0 #555,
-        0 3px 10px rgba(0,0,0,0.5);
+      transform: translateY(1px);
     }
 
     #spinButton:disabled {
-      opacity: 0.45;
+      opacity: 0.35;
+
       cursor: not-allowed;
+
       transform: none;
-      box-shadow: 0 2px 0 #555;
     }
 
-    /* REMAINING */
+    /* ---------------- REMAINING ---------------- */
 
     .remaining {
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 9px;
-      letter-spacing: 2px;
+      margin-top: 20px;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+      letter-spacing: 1px;
+
       text-transform: uppercase;
+
+      color: #555;
     }
 
-    .remaining::before {
-      content: "ARCHIVE // ";
-      color: var(--burgundy-bright);
-    }
-
-    /* RESULT */
+    /* ---------------- RESULT ---------------- */
 
     .result {
-      width: min(700px, 100%);
-      margin-top: 45px;
+      width: min(800px, 100%);
+
+      margin-top: 55px;
+
       padding: 30px 20px;
 
-      border-top: 1px solid rgba(255,255,255,0.18);
-      border-bottom: 1px solid rgba(255,255,255,0.18);
+      border-top: 2px solid var(--black);
+      border-bottom: 2px solid var(--black);
 
-      animation: reveal 0.7s ease both;
+      animation:
+        reveal 0.6s ease both;
     }
 
     @keyframes reveal {
@@ -358,93 +335,138 @@
     }
 
     .result-label {
-      color: var(--burgundy-bright);
-      font-size: 9px;
-      letter-spacing: 4px;
-      margin-bottom: 5px;
+      margin-bottom: 12px;
+
+      color: var(--red);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
     }
 
     #movieTitle {
-      font-family: "Playfair Display", Georgia, serif;
-      font-weight: 500;
-      font-size: clamp(34px, 7vw, 58px);
-      line-height: 1.05;
-      margin: 8px 0;
-      color: var(--ivory);
+      margin: 0;
+
+      font-size: clamp(36px, 7vw, 70px);
+
+      line-height: 0.95;
+
+      font-weight: 700;
+
+      letter-spacing: -3px;
     }
 
     #movieYear {
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: 3px;
-      margin: 0;
-    }
+      margin: 15px 0 0;
 
-    #movieYear::before {
-      content: "— ";
-      color: var(--burgundy-bright);
+      font-size: 15px;
+
+      color: #555;
+
+      font-weight: 400;
     }
 
     .hidden {
       display: none;
     }
 
-    /* MESSAGE */
+    /* ---------------- MESSAGE ---------------- */
 
     #message {
       margin-top: 20px;
-      color: #e87878;
-      font-size: 10px;
+
       max-width: 600px;
-      letter-spacing: 0.5px;
+
+      color: var(--red);
+
+      font-size: 12px;
     }
 
-    /* FOOTER */
+    /* ---------------- FOOTER ---------------- */
 
-    .footer {
+    footer {
       margin-top: auto;
-      padding-top: 55px;
-      color: #555;
-      font-size: 8px;
-      letter-spacing: 2px;
+
+      padding-top: 60px;
+
+      font-size: 10px;
+
+      color: #888;
+
+      letter-spacing: 1px;
     }
 
-    /* MOBILE */
+    /* ---------------- MOBILE ---------------- */
 
     @media (max-width: 600px) {
+
       .app {
-        padding-top: 22px;
+        padding-top: 20px;
       }
 
-      .header {
-        padding-bottom: 14px;
+      header {
+        padding-bottom: 10px;
       }
 
-      .catalog-number {
-        display: none;
+      .logo {
+        font-size: 15px;
       }
 
-      .header {
-        justify-content: center;
-      }
-
-      .status {
-        position: absolute;
-        right: 20px;
+      .header-right {
+        font-size: 9px;
       }
 
       h1 {
-        margin-top: 32px;
+        margin-top: 45px;
+
+        font-size: clamp(48px, 15vw, 72px);
+
+        letter-spacing: -4px;
+      }
+
+      .subtitle {
+        font-size: 12px;
       }
 
       .wheel-container {
-        margin-top: 42px;
+        width: 82vw;
+        height: 82vw;
+
+        margin-top: 48px;
+      }
+
+      .wheel {
+        border-width: 8px;
       }
 
       .wheel-center {
         width: 82px;
         height: 82px;
+
         font-size: 29px;
+      }
+
+      .pointer {
+        font-size: 32px;
+        top: -21px;
+      }
+
+      #spinButton {
+        width: min(80vw, 330px);
+
+        padding: 16px 30px;
+      }
+
+      .result {
+        margin-top: 45px;
+      }
+
+      #movieTitle {
+        letter-spacing: -2px;
       }
     }
   </style>
@@ -454,32 +476,33 @@
 
   <main class="app">
 
-    <header class="header">
+    <header>
 
-      <div class="catalog-number">
-        FILM / 001
-      </div>
-
-      <div class="brand">
+      <div class="logo">
         MOVIE RING
       </div>
 
-      <div class="status">
-        <span class="status-dot"></span>
-        READY
+      <div class="header-right">
+        Film Selection
       </div>
 
     </header>
 
-    <h1>Choose a Film.</h1>
+
+    <h1>
+      Choose a Film.
+    </h1>
 
     <p class="subtitle">
-      Let fate select your next screening.
+      Let fate select your next movie.
     </p>
+
 
     <div class="wheel-container">
 
-      <div class="pointer">▼</div>
+      <div class="pointer">
+        ▼
+      </div>
 
       <div id="wheel" class="wheel">
 
@@ -491,18 +514,21 @@
 
     </div>
 
+
     <button id="spinButton">
       SPIN
     </button>
+
 
     <div id="remaining" class="remaining">
       Loading movies...
     </div>
 
+
     <div id="result" class="result hidden">
 
       <div class="result-label">
-        NOW PLAYING
+        Your Film
       </div>
 
       <h2 id="movieTitle"></h2>
@@ -511,26 +537,32 @@
 
     </div>
 
+
     <div id="message"></div>
 
-    <div class="footer">
-      SELECTED FROM THE ARCHIVE
-    </div>
+
+    <footer>
+      MOVIE RING
+    </footer>
 
   </main>
 
+
   <script>
+
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
+
     const client =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
+
 
     const wheel =
       document.getElementById("wheel");
@@ -553,12 +585,17 @@
     const message =
       document.getElementById("message");
 
+
     let movies = [];
+
     let rotation = 0;
 
+
     async function loadMovies() {
+
       remaining.textContent =
         "Loading movies...";
+
 
       const { data, error } =
         await client
@@ -566,7 +603,9 @@
           .select("id, title, year")
           .eq("chosen", false);
 
+
       if (error) {
+
         console.error(
           "Supabase error:",
           error
@@ -583,37 +622,51 @@
         return;
       }
 
+
       movies = data || [];
 
+
       updateRemaining();
+
     }
 
+
     function updateRemaining() {
+
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
       spinButton.disabled =
         movies.length === 0;
+
     }
+
 
     spinButton.addEventListener(
       "click",
       async () => {
+
         if (movies.length === 0) {
           return;
         }
 
+
         spinButton.disabled = true;
+
         message.textContent = "";
+
         result.classList.add("hidden");
+
 
         const randomIndex =
           Math.floor(
             Math.random() * movies.length
           );
 
+
         const movie =
           movies[randomIndex];
+
 
         rotation +=
           1800 +
@@ -621,20 +674,26 @@
             Math.random() * 720
           );
 
+
         wheel.style.transform =
           `rotate(${rotation}deg)`;
 
+
         setTimeout(
           async () => {
+
             movieTitle.textContent =
               movie.title;
+
 
             movieYear.textContent =
               movie.year || "";
 
+
             result.classList.remove(
               "hidden"
             );
+
 
             const { error } =
               await client
@@ -646,33 +705,46 @@
                 })
                 .eq("id", movie.id);
 
+
             if (error) {
+
               console.error(
                 "Update error:",
                 error
               );
 
+
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
-              spinButton.disabled = false;
+
+              spinButton.disabled =
+                false;
+
 
               return;
+
             }
+
 
             movies =
               movies.filter(
                 m => m.id !== movie.id
               );
 
+
             updateRemaining();
+
           },
           4000
         );
+
       }
     );
 
+
     loadMovies();
+
   </script>
 
 </body>
