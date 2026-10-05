@@ -246,8 +246,9 @@
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-    const { createClient } =
-      window.supabase;
+console.log("Supabase library:", window.supabase);
+
+const { createClient } = window.supabase;
 
     const supabase =
       createClient(SUPABASE_URL, SUPABASE_KEY);
