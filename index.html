@@ -396,17 +396,19 @@
             .eq("id", movie.id);
 
 
-        if (error) {
+if (error) {
 
-          console.error(error);
+  console.error("SUPABASE ERROR:", error);
 
-          message.textContent =
-            "The movie was selected, but it could not be marked as chosen.";
+  remaining.textContent = "";
 
-          spinButton.disabled = false;
+  message.textContent =
+    `Supabase error: ${error.message}`;
 
-          return;
-        }
+  spinButton.disabled = true;
+
+  return;
+}
 
 
         // Remove it from our local list
