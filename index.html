@@ -16,8 +16,12 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background:
-        radial-gradient(circle at center, #252525 0%, #0b0b0b 55%, #000 100%);
+      background: radial-gradient(
+        circle at center,
+        #252525 0%,
+        #0b0b0b 55%,
+        #000 100%
+      );
       color: white;
       font-family: Arial, Helvetica, sans-serif;
     }
@@ -57,7 +61,6 @@
       transform: translateX(-50%);
       color: #e5b93f;
       font-size: 42px;
-      filter: drop-shadow(0 3px 4px #000);
     }
 
     .wheel {
@@ -106,7 +109,6 @@
     #spinButton {
       border: none;
       border-radius: 50px;
-
       padding: 18px 60px;
 
       background: #e5b93f;
@@ -117,18 +119,11 @@
       letter-spacing: 2px;
 
       cursor: pointer;
-
-      box-shadow:
-        0 8px 25px rgba(229, 185, 63, 0.25);
-
-      transition:
-        transform 0.15s,
-        background 0.15s;
     }
 
     #spinButton:hover {
-      transform: scale(1.05);
       background: #ffd95a;
+      transform: scale(1.05);
     }
 
     #spinButton:disabled {
@@ -144,8 +139,6 @@
 
     .result {
       margin-top: 35px;
-      max-width: 700px;
-      animation: reveal 0.5s ease;
     }
 
     .result-label {
@@ -171,20 +164,8 @@
 
     #message {
       margin-top: 20px;
-      color: #e66;
+      color: #ff7777;
       max-width: 600px;
-    }
-
-    @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
   </style>
 </head>
@@ -204,9 +185,11 @@
       <div class="pointer">▼</div>
 
       <div id="wheel" class="wheel">
+
         <div class="wheel-center">
           🎬
         </div>
+
       </div>
 
     </div>
@@ -235,10 +218,8 @@
 
   </main>
 
+
   <script>
-    // =========================
-    // SUPABASE
-    // =========================
 
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
@@ -246,17 +227,13 @@
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-console.log("Supabase library:", window.supabase);
 
-const { createClient } = window.supabase;
+    const client =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-    const supabase =
-      createClient(SUPABASE_URL, SUPABASE_KEY);
-
-
-    // =========================
-    // PAGE ELEMENTS
-    // =========================
 
     const wheel =
       document.getElementById("wheel");
@@ -284,150 +261,149 @@ const { createClient } = window.supabase;
     let rotation = 0;
 
 
-    // =========================
-    // LOAD MOVIES
-    // =========================
-
     async function loadMovies() {
 
-      message.textContent = "";
-      remaining.textContent = "Loading movies...";
+      remaining.textContent =
+        "Loading movies...";
 
-      const { data, error } = await supabase
-        .from("Movies")
-        .select("id, title, year")
-        .eq("chosen", false);
+
+      const { data, error } =
+        await client
+          .from("Movies")
+          .select("id, title, year")
+          .eq("chosen", false);
+
 
       if (error) {
 
-        console.error(error);
+        console.error(
+          "Supabase error:",
+          error
+        );
 
         remaining.textContent = "";
 
         message.textContent =
-          "Couldn't load the movies. Check your Supabase table and permissions.";
+          "Supabase error: " +
+          error.message;
 
         spinButton.disabled = true;
 
         return;
       }
 
+
       movies = data || [];
+
 
       updateRemaining();
     }
 
-
-    // =========================
-    // REMAINING COUNT
-    // =========================
 
     function updateRemaining() {
 
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
-      if (movies.length === 0) {
-
-        spinButton.disabled = true;
-
-        remaining.textContent =
-          "No movies remaining.";
-
-      } else {
-
-        spinButton.disabled = false;
-      }
+      spinButton.disabled =
+        movies.length === 0;
     }
 
 
-    // =========================
-    // SPIN
-    // =========================
+    spinButton.addEventListener(
+      "click",
+      async () => {
 
-    spinButton.addEventListener("click", async () => {
-
-      if (movies.length === 0) {
-        return;
-      }
-
-      spinButton.disabled = true;
-      message.textContent = "";
-
-      result.classList.add("hidden");
+        if (movies.length === 0) {
+          return;
+        }
 
 
-      // Pick a random movie
-      const randomIndex =
-        Math.floor(Math.random() * movies.length);
+        spinButton.disabled = true;
 
-      const movie =
-        movies[randomIndex];
+        message.textContent = "";
 
-
-      // Spin the wheel
-      rotation +=
-        1800 +
-        Math.floor(Math.random() * 720);
-
-      wheel.style.transform =
-        `rotate(${rotation}deg)`;
+        result.classList.add("hidden");
 
 
-      // Wait for animation
-      setTimeout(async () => {
-
-        movieTitle.textContent =
-          movie.title;
-
-        movieYear.textContent =
-          movie.year ? movie.year : "";
-
-        result.classList.remove("hidden");
-
-
-        // Mark movie as chosen
-        const { error } =
-          await supabase
-            .from("Movies")
-            .update({
-              chosen: true,
-              chosen_at: new Date().toISOString()
-            })
-            .eq("id", movie.id);
-
-
-if (error) {
-
-  console.error("SUPABASE ERROR:", error);
-
-  remaining.textContent = "";
-
-  message.textContent =
-    `Supabase error: ${error.message}`;
-
-  spinButton.disabled = true;
-
-  return;
-}
-
-
-        // Remove it from our local list
-        movies =
-          movies.filter(
-            m => m.id !== movie.id
+        const randomIndex =
+          Math.floor(
+            Math.random() * movies.length
           );
 
-        updateRemaining();
 
-      }, 4000);
-
-    });
+        const movie =
+          movies[randomIndex];
 
 
-    // =========================
-    // START
-    // =========================
+        rotation +=
+          1800 +
+          Math.floor(
+            Math.random() * 720
+          );
+
+
+        wheel.style.transform =
+          `rotate(${rotation}deg)`;
+
+
+        setTimeout(
+          async () => {
+
+            movieTitle.textContent =
+              movie.title;
+
+            movieYear.textContent =
+              movie.year || "";
+
+
+            result.classList.remove(
+              "hidden"
+            );
+
+
+            const { error } =
+              await client
+                .from("Movies")
+                .update({
+                  chosen: true,
+                  chosen_at:
+                    new Date().toISOString()
+                })
+                .eq("id", movie.id);
+
+
+            if (error) {
+
+              console.error(
+                "Update error:",
+                error
+              );
+
+              message.textContent =
+                "The movie was selected, but it could not be marked as chosen.";
+
+              spinButton.disabled = false;
+
+              return;
+            }
+
+
+            movies =
+              movies.filter(
+                m => m.id !== movie.id
+              );
+
+
+            updateRemaining();
+
+          },
+          4000
+        );
+
+      }
+    );
+
 
     loadMovies();
 
