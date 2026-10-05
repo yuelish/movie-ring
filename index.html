@@ -6,6 +6,8 @@
 
   <title>Movie Ring</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -170,6 +172,7 @@
     #message {
       margin-top: 20px;
       color: #e66;
+      max-width: 600px;
     }
 
     @keyframes reveal {
@@ -233,41 +236,197 @@
   </main>
 
   <script>
+    // =========================
+    // SUPABASE
+    // =========================
 
-    // Supabase connection will go here.
+    const SUPABASE_URL =
+      "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 
-    const wheel = document.getElementById("wheel");
-    const spinButton = document.getElementById("spinButton");
-    const remaining = document.getElementById("remaining");
-    const result = document.getElementById("result");
-    const movieTitle = document.getElementById("movieTitle");
-    const movieYear = document.getElementById("movieYear");
-    const message = document.getElementById("message");
+    const SUPABASE_KEY =
+      "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
+    const { createClient } =
+      window.supabase;
+
+    const supabase =
+      createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+    // =========================
+    // PAGE ELEMENTS
+    // =========================
+
+    const wheel =
+      document.getElementById("wheel");
+
+    const spinButton =
+      document.getElementById("spinButton");
+
+    const remaining =
+      document.getElementById("remaining");
+
+    const result =
+      document.getElementById("result");
+
+    const movieTitle =
+      document.getElementById("movieTitle");
+
+    const movieYear =
+      document.getElementById("movieYear");
+
+    const message =
+      document.getElementById("message");
+
+
+    let movies = [];
     let rotation = 0;
 
-    spinButton.addEventListener("click", () => {
+
+    // =========================
+    // LOAD MOVIES
+    // =========================
+
+    async function loadMovies() {
 
       message.textContent = "";
+      remaining.textContent = "Loading movies...";
+
+      const { data, error } = await supabase
+        .from("Movies")
+        .select("id, title, year")
+        .eq("chosen", false);
+
+      if (error) {
+
+        console.error(error);
+
+        remaining.textContent = "";
+
+        message.textContent =
+          "Couldn't load the movies. Check your Supabase table and permissions.";
+
+        spinButton.disabled = true;
+
+        return;
+      }
+
+      movies = data || [];
+
+      updateRemaining();
+    }
+
+
+    // =========================
+    // REMAINING COUNT
+    // =========================
+
+    function updateRemaining() {
+
+      remaining.textContent =
+        `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
+
+      if (movies.length === 0) {
+
+        spinButton.disabled = true;
+
+        remaining.textContent =
+          "No movies remaining.";
+
+      } else {
+
+        spinButton.disabled = false;
+      }
+    }
+
+
+    // =========================
+    // SPIN
+    // =========================
+
+    spinButton.addEventListener("click", async () => {
+
+      if (movies.length === 0) {
+        return;
+      }
 
       spinButton.disabled = true;
+      message.textContent = "";
 
-      rotation += 1800 + Math.floor(Math.random() * 720);
+      result.classList.add("hidden");
 
-      wheel.style.transform = `rotate(${rotation}deg)`;
 
-      setTimeout(() => {
+      // Pick a random movie
+      const randomIndex =
+        Math.floor(Math.random() * movies.length);
 
-        movieTitle.textContent = "Supabase connection coming next";
-        movieYear.textContent = "";
+      const movie =
+        movies[randomIndex];
+
+
+      // Spin the wheel
+      rotation +=
+        1800 +
+        Math.floor(Math.random() * 720);
+
+      wheel.style.transform =
+        `rotate(${rotation}deg)`;
+
+
+      // Wait for animation
+      setTimeout(async () => {
+
+        movieTitle.textContent =
+          movie.title;
+
+        movieYear.textContent =
+          movie.year ? movie.year : "";
 
         result.classList.remove("hidden");
 
-        spinButton.disabled = false;
+
+        // Mark movie as chosen
+        const { error } =
+          await supabase
+            .from("Movies")
+            .update({
+              chosen: true,
+              chosen_at: new Date().toISOString()
+            })
+            .eq("id", movie.id);
+
+
+        if (error) {
+
+          console.error(error);
+
+          message.textContent =
+            "The movie was selected, but it could not be marked as chosen.";
+
+          spinButton.disabled = false;
+
+          return;
+        }
+
+
+        // Remove it from our local list
+        movies =
+          movies.filter(
+            m => m.id !== movie.id
+          );
+
+        updateRemaining();
 
       }, 4000);
 
     });
+
+
+    // =========================
+    // START
+    // =========================
+
+    loadMovies();
 
   </script>
 
