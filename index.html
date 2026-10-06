@@ -46,7 +46,82 @@
       overflow-x: hidden;
     }
 
+    /* =========================================================
+       DIRECTOR CASCADE
+       ========================================================= */
+
+    #directorLayer {
+      position: fixed;
+      z-index: 0;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+
+      pointer-events: none;
+    }
+
+    .director {
+      position: absolute;
+
+      top: -10vh;
+
+      color: var(--black);
+
+      white-space: nowrap;
+
+      font-size: clamp(12px, 1.4vw, 19px);
+      font-weight: 600;
+
+      letter-spacing: -0.4px;
+
+      opacity: 0;
+
+      will-change:
+        transform,
+        opacity;
+
+      animation-name: directorFall;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes directorFall {
+      0% {
+        opacity: 0;
+        transform:
+          translate3d(0, -12vh, 0)
+          rotate(var(--rotation));
+      }
+
+      8% {
+        opacity: var(--opacity);
+      }
+
+      88% {
+        opacity: var(--opacity);
+      }
+
+      100% {
+        opacity: 0;
+
+        transform:
+          translate3d(var(--drift), 115vh, 0)
+          rotate(var(--rotation));
+      }
+    }
+
+    /* =========================================================
+       APP
+       ========================================================= */
+
     .app {
+      position: relative;
+      z-index: 2;
+
       min-height: 100vh;
 
       display: flex;
@@ -71,6 +146,11 @@
       overflow: hidden;
 
       position: relative;
+
+      background: rgba(247, 247, 243, 0.78);
+
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
     }
 
     .header-text {
@@ -122,7 +202,9 @@
       }
     }
 
-    /* ---------------- WHEEL ---------------- */
+    /* =========================================================
+       WHEEL
+       ========================================================= */
 
     .wheel-container {
       position: relative;
@@ -156,6 +238,8 @@
       filter: blur(1.5px);
 
       pointer-events: none;
+
+      animation: wheelAura 4s ease-in-out infinite;
     }
 
     .wheel-container::after {
@@ -180,6 +264,21 @@
       filter: blur(3px);
 
       pointer-events: none;
+
+      animation: wheelAura 4s ease-in-out infinite reverse;
+    }
+
+    @keyframes wheelAura {
+      0%,
+      100% {
+        opacity: 0.7;
+        transform: scale(0.99);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.025);
+      }
     }
 
     .wheel {
@@ -245,6 +344,19 @@
       transform: rotate(-18deg);
 
       pointer-events: none;
+
+      animation: wheelHighlight 5s ease-in-out infinite;
+    }
+
+    @keyframes wheelHighlight {
+      0%,
+      100% {
+        opacity: 0.7;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
 
     /* ---------------- CENTER ---------------- */
@@ -284,13 +396,25 @@
       cursor: pointer;
 
       transition:
-        transform 0.15s ease;
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
     }
 
     .wheel-center:hover {
       transform:
         translate(-50%, -50%)
         scale(1.06);
+
+      box-shadow:
+        inset 0 4px 8px rgba(214, 40, 57, 0.28),
+        inset 0 -2px 5px rgba(214, 40, 57, 0.12),
+        0 0 22px rgba(214, 40, 57, 0.22);
+    }
+
+    .wheel-center:active {
+      transform:
+        translate(-50%, -50%)
+        scale(0.96);
     }
 
     /* ---------------- POINTER ---------------- */
@@ -311,9 +435,63 @@
       font-size: 38px;
 
       line-height: 1;
+
+      filter:
+        drop-shadow(
+          0 2px 2px rgba(0, 0, 0, 0.12)
+        );
+
+      animation: pointerFloat 2.5s ease-in-out infinite;
     }
 
-    /* ---------------- BUTTON ---------------- */
+    @keyframes pointerFloat {
+      0%,
+      100% {
+        transform:
+          translateX(-50%)
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateX(-50%)
+          translateY(3px);
+      }
+    }
+
+    .pointer.bounce {
+      animation: pointerBounce 0.45s ease;
+    }
+
+    @keyframes pointerBounce {
+      0% {
+        transform:
+          translateX(-50%)
+          translateY(0);
+      }
+
+      35% {
+        transform:
+          translateX(-50%)
+          translateY(8px);
+      }
+
+      65% {
+        transform:
+          translateX(-50%)
+          translateY(-3px);
+      }
+
+      100% {
+        transform:
+          translateX(-50%)
+          translateY(0);
+      }
+    }
+
+    /* =========================================================
+       BUTTON
+       ========================================================= */
 
     #spinButton {
       border: 2px solid var(--black);
@@ -340,7 +518,8 @@
       transition:
         background 0.15s ease,
         color 0.15s ease,
-        transform 0.15s ease;
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     #spinButton:hover {
@@ -351,10 +530,15 @@
       color: var(--black);
 
       transform: translateY(-2px);
+
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
     }
 
     #spinButton:active {
       transform: translateY(1px);
+
+      box-shadow: none;
     }
 
     #spinButton:disabled {
@@ -363,9 +547,27 @@
       cursor: not-allowed;
 
       transform: none;
+
+      box-shadow: none;
     }
 
-    /* ---------------- REMAINING ---------------- */
+    #spinButton.spinning {
+      animation: buttonPulse 0.7s ease-in-out infinite alternate;
+    }
+
+    @keyframes buttonPulse {
+      from {
+        opacity: 0.55;
+      }
+
+      to {
+        opacity: 0.9;
+      }
+    }
+
+    /* =========================================================
+       REMAINING
+       ========================================================= */
 
     .remaining {
       margin-top: 20px;
@@ -381,9 +583,14 @@
       text-transform: uppercase;
 
       color: #555;
+
+      transition:
+        opacity 0.2s ease;
     }
 
-    /* ---------------- HISTORY ---------------- */
+    /* =========================================================
+       HISTORY
+       ========================================================= */
 
     #history {
       width: min(800px, 100%);
@@ -393,6 +600,12 @@
       padding-top: 25px;
 
       border-top: 2px solid var(--black);
+
+      background:
+        rgba(247, 247, 243, 0.82);
+
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
 
       animation:
         reveal 0.4s ease both;
@@ -427,13 +640,30 @@
       font-size: 16px;
 
       color: var(--black);
+
+      animation:
+        historyItemReveal 0.35s ease both;
     }
 
     #historyList li:last-child {
       border-bottom: none;
     }
 
-    /* ---------------- MESSAGE ---------------- */
+    @keyframes historyItemReveal {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
 
     #message {
       margin-top: 20px;
@@ -443,6 +673,12 @@
       color: var(--red);
 
       font-size: 12px;
+
+      background:
+        rgba(247, 247, 243, 0.75);
+
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
     }
 
     .hidden {
@@ -461,7 +697,27 @@
       }
     }
 
-    /* ---------------- MOBILE ---------------- */
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+
+      .wheel {
+        transition: none;
+      }
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
 
     @media (max-width: 600px) {
 
@@ -518,11 +774,27 @@
       .wheel-container::after {
         inset: -8px;
       }
+
+      .director {
+        font-size: 11px;
+
+        letter-spacing: -0.25px;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- =======================================================
+       CASCADING DIRECTORS
+       ======================================================= -->
+
+  <div
+    id="directorLayer"
+    aria-hidden="true"
+  ></div>
+
 
   <main class="app">
 
@@ -540,7 +812,7 @@
 
     <div class="wheel-container">
 
-      <div class="pointer">
+      <div class="pointer" id="pointer">
         ▼
       </div>
 
@@ -591,6 +863,10 @@
 
   <script>
 
+    /* =========================================================
+       SUPABASE
+       ========================================================= */
+
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 
@@ -604,6 +880,10 @@
         SUPABASE_KEY
       );
 
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
 
     const wheel =
       document.getElementById("wheel");
@@ -629,6 +909,12 @@
     const message =
       document.getElementById("message");
 
+    const pointer =
+      document.getElementById("pointer");
+
+    const directorLayer =
+      document.getElementById("directorLayer");
+
 
     let movies = [];
 
@@ -637,11 +923,298 @@
     let isSpinning = false;
 
 
-    /* ---------------- WHEEL GENERATOR ---------------- */
+    /* =========================================================
+       DIRECTORS
+       ========================================================= */
+
+    const directors = [
+
+      "Chantal Akerman",
+      "Pedro Almodóvar",
+      "Robert Altman",
+      "Michelangelo Antonioni",
+      "Ingmar Bergman",
+      "Robert Bresson",
+      "Luis Buñuel",
+      "Federico Fellini",
+      "Jean-Luc Godard",
+      "Alfred Hitchcock",
+
+      "Stanley Kubrick",
+      "Akira Kurosawa",
+      "David Lynch",
+      "Kenji Mizoguchi",
+      "Yasujiro Ozu",
+      "Satyajit Ray",
+      "Jean Renoir",
+      "François Truffaut",
+      "Agnès Varda",
+      "Wong Kar-wai",
+
+      "Paul Thomas Anderson",
+      "Wes Anderson",
+      "Jane Campion",
+      "Claire Denis",
+      "David Cronenberg",
+      "Brian De Palma",
+      "Abbas Kiarostami",
+      "Terrence Malick",
+      "Martin Scorsese",
+      "Steven Soderbergh",
+
+      "Wim Wenders",
+      "Lars von Trier",
+      "Bong Joon-ho",
+      "Park Chan-wook",
+      "Hayao Miyazaki",
+      "Hirokazu Kore-eda",
+      "Yorgos Lanthimos",
+      "Richard Linklater",
+      "Spike Lee",
+      "Jim Jarmusch",
+
+      "John Cassavetes",
+      "Francis Ford Coppola",
+      "George Cukor",
+      "Billy Wilder",
+      "Howard Hawks",
+      "John Ford",
+      "Orson Welles",
+      "Nicholas Ray",
+      "Samuel Fuller",
+      "Elia Kazan",
+
+      "Sidney Lumet",
+      "Robert Mulligan",
+      "Arthur Penn",
+      "Mike Nichols",
+      "Hal Ashby",
+      "Robert Wise",
+      "William Wyler",
+      "Preston Sturges",
+      "Ernst Lubitsch",
+      "Fritz Lang",
+
+      "Rainer Werner Fassbinder",
+      "Werner Herzog",
+      "F. W. Murnau",
+      "Georg Wilhelm Pabst",
+      "Aki Kaurismäki",
+      "Carl Theodor Dreyer",
+      "Jacques Tati",
+      "Jean-Pierre Melville",
+      "Jacques Demy",
+      "Éric Rohmer",
+
+      "Chris Marker",
+      "Louis Malle",
+      "Marcel Carné",
+      "Jean Vigo",
+      "Jacques Rivette",
+      "Claude Chabrol",
+      "Olivier Assayas",
+      "Leos Carax",
+      "Andrei Tarkovsky",
+      "Sergei Eisenstein",
+
+      "Dziga Vertov",
+      "Elem Klimov",
+      "Larisa Shepitko",
+      "Béla Tarr",
+      "Krzysztof Kieślowski",
+      "Andrzej Wajda",
+      "Miklós Jancsó",
+      "Agnieszka Holland",
+      "Ousmane Sembène",
+      "Mira Nair",
+
+      "Mati Diop",
+      "Apichatpong Weerasethakul",
+      "Edward Yang",
+      "Hou Hsiao-hsien",
+      "Tsai Ming-liang",
+      "Masaki Kobayashi",
+      "Shohei Imamura",
+      "Yasujiro Shimazu",
+      "Seijun Suzuki",
+      "Masanobu Hiraoka"
+
+    ];
+
+
+    /*
+      The list above intentionally contains 100 entries.
+    */
+
+
+    /* =========================================================
+       DIRECTOR CASCADE
+       ========================================================= */
+
+    function randomBetween(min, max) {
+
+      return Math.random() * (max - min) + min;
+
+    }
+
+
+    function randomDirector() {
+
+      return directors[
+        Math.floor(
+          Math.random() * directors.length
+        )
+      ];
+
+    }
+
+
+    function createDirector() {
+
+      const element =
+        document.createElement("div");
+
+
+      element.className =
+        "director";
+
+
+      element.textContent =
+        randomDirector();
+
+
+      const left =
+        randomBetween(-5, 95);
+
+
+      const duration =
+        randomBetween(9, 22);
+
+
+      const delay =
+        randomBetween(0, 2);
+
+
+      const opacity =
+        randomBetween(0.07, 0.23);
+
+
+      const drift =
+        randomBetween(-80, 80);
+
+
+      const rotation =
+        randomBetween(-3, 3);
+
+
+      const fontSize =
+        randomBetween(11, 20);
+
+
+      element.style.left =
+        `${left}vw`;
+
+
+      element.style.fontSize =
+        `${fontSize}px`;
+
+
+      element.style.setProperty(
+        "--opacity",
+        opacity
+      );
+
+
+      element.style.setProperty(
+        "--drift",
+        `${drift}px`
+      );
+
+
+      element.style.setProperty(
+        "--rotation",
+        `${rotation}deg`
+      );
+
+
+      element.style.animationDuration =
+        `${duration}s`;
+
+
+      element.style.animationDelay =
+        `${delay}s`;
+
+
+      directorLayer.appendChild(element);
+
+
+      element.addEventListener(
+        "animationend",
+        () => {
+
+          element.remove();
+
+        },
+        {
+          once: true
+        }
+      );
+
+    }
+
+
+    function startDirectorCascade() {
+
+      /*
+        Initial population.
+      */
+
+      for (let i = 0; i < 13; i++) {
+
+        createDirector();
+
+      }
+
+
+      /*
+        Continuously introduce new names
+        at randomized intervals.
+      */
+
+      function scheduleNext() {
+
+        const delay =
+          randomBetween(450, 1500);
+
+
+        setTimeout(
+          () => {
+
+            createDirector();
+
+            scheduleNext();
+
+          },
+          delay
+        );
+
+      }
+
+
+      scheduleNext();
+
+    }
+
+
+    /* =========================================================
+       WHEEL GENERATOR
+       ========================================================= */
 
     function updateWheel() {
 
-      const count = movies.length;
+      const count =
+        movies.length;
+
 
       if (count === 0) {
 
@@ -653,6 +1226,7 @@
 
 
       const colors = [
+
         "#a8e6d4",
         "#8edbd5",
         "#82cfe0",
@@ -661,25 +1235,35 @@
         "#9dd9dc",
         "#8dd8c9",
         "#b1e2d3"
+
       ];
 
 
       const segmentSize =
         360 / count;
 
+
       const stops = [];
 
 
-      for (let i = 0; i < count; i++) {
+      for (
+        let i = 0;
+        i < count;
+        i++
+      ) {
 
         const start =
           i * segmentSize;
 
+
         const end =
           (i + 1) * segmentSize;
 
+
         const color =
-          colors[i % colors.length];
+          colors[
+            i % colors.length
+          ];
 
 
         stops.push(
@@ -695,7 +1279,9 @@
     }
 
 
-    /* ---------------- LOAD MOVIES ---------------- */
+    /* =========================================================
+       LOAD MOVIES
+       ========================================================= */
 
     async function loadMovies() {
 
@@ -717,41 +1303,55 @@
           error
         );
 
-        remaining.textContent = "";
+
+        remaining.textContent =
+          "";
+
 
         message.textContent =
           "Supabase error: " +
           error.message;
 
-        spinButton.disabled = true;
+
+        spinButton.disabled =
+          true;
+
 
         return;
       }
 
 
-      movies = data || [];
+      movies =
+        data || [];
 
 
       updateWheel();
+
       updateRemaining();
 
     }
 
 
-    /* ---------------- UPDATE COUNTER ---------------- */
+    /* =========================================================
+       UPDATE COUNTER
+       ========================================================= */
 
     function updateRemaining() {
 
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
+
       spinButton.disabled =
-        movies.length === 0 || isSpinning;
+        movies.length === 0 ||
+        isSpinning;
 
     }
 
 
-    /* ---------------- LOAD HISTORY ---------------- */
+    /* =========================================================
+       LOAD HISTORY
+       ========================================================= */
 
     async function loadHistory() {
 
@@ -776,55 +1376,78 @@
           error
         );
 
+
         historyList.innerHTML =
           "<li>Unable to load previously chosen films.</li>";
+
 
         return;
       }
 
 
-      historyList.innerHTML = "";
+      historyList.innerHTML =
+        "";
 
 
-      if (!data || data.length === 0) {
+      if (
+        !data ||
+        data.length === 0
+      ) {
 
         historyList.innerHTML =
           "<li>No films have been chosen yet.</li>";
 
+
         return;
       }
 
 
-      data.forEach(movie => {
+      data.forEach(
+        (movie, index) => {
 
-        const li =
-          document.createElement("li");
+          const li =
+            document.createElement("li");
 
-        li.textContent =
-          movie.title;
 
-        historyList.appendChild(li);
+          li.textContent =
+            movie.title;
 
-      });
+
+          li.style.animationDelay =
+            `${index * 35}ms`;
+
+
+          historyList.appendChild(li);
+
+        }
+      );
 
     }
 
 
-    /* ---------------- HISTORY BUTTON ---------------- */
+    /* =========================================================
+       HISTORY BUTTON
+       ========================================================= */
 
     historyButton.addEventListener(
       "click",
       async () => {
 
         const isHidden =
-          history.classList.contains("hidden");
+          history.classList.contains(
+            "hidden"
+          );
 
 
         if (isHidden) {
 
-          history.classList.remove("hidden");
+          history.classList.remove(
+            "hidden"
+          );
+
 
           await loadHistory();
+
 
           history.scrollIntoView({
             behavior: "smooth",
@@ -833,7 +1456,9 @@
 
         } else {
 
-          history.classList.add("hidden");
+          history.classList.add(
+            "hidden"
+          );
 
         }
 
@@ -841,7 +1466,9 @@
     );
 
 
-    /* ---------------- SPIN ---------------- */
+    /* =========================================================
+       SPIN
+       ========================================================= */
 
     spinButton.addEventListener(
       "click",
@@ -851,20 +1478,32 @@
           movies.length === 0 ||
           isSpinning
         ) {
+
           return;
+
         }
 
 
-        isSpinning = true;
+        isSpinning =
+          true;
 
-        spinButton.disabled = true;
 
-        message.textContent = "";
+        spinButton.disabled =
+          true;
+
+
+        spinButton.classList.add(
+          "spinning"
+        );
+
+
+        message.textContent =
+          "";
 
 
         /*
-          Update the segments BEFORE the new
-          spin begins, never after it ends.
+          Update the segments BEFORE the
+          new spin begins.
         */
 
         updateWheel();
@@ -872,13 +1511,18 @@
 
         const randomIndex =
           Math.floor(
-            Math.random() * movies.length
+            Math.random() *
+            movies.length
           );
 
 
         const movie =
           movies[randomIndex];
 
+
+        /*
+          Add a large random rotation.
+        */
 
         rotation +=
           1800 +
@@ -892,8 +1536,33 @@
 
 
         /*
-          Start the header transition before
-          the wheel finishes.
+          Make the pointer react as the
+          wheel reaches its destination.
+        */
+
+        setTimeout(
+          () => {
+
+            pointer.classList.remove(
+              "bounce"
+            );
+
+
+            void pointer.offsetWidth;
+
+
+            pointer.classList.add(
+              "bounce"
+            );
+
+          },
+          3850
+        );
+
+
+        /*
+          Start the header transition
+          before the wheel finishes.
         */
 
         setTimeout(
@@ -903,6 +1572,7 @@
               "slide-in",
               "movie-result"
             );
+
 
             headerText.classList.add(
               "slide-out"
@@ -965,7 +1635,10 @@
                   chosen_at:
                     new Date().toISOString()
                 })
-                .eq("id", movie.id);
+                .eq(
+                  "id",
+                  movie.id
+                );
 
 
             if (error) {
@@ -979,17 +1652,28 @@
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
-              isSpinning = false;
+
+              isSpinning =
+                false;
+
+
+              spinButton.classList.remove(
+                "spinning"
+              );
+
 
               updateRemaining();
 
+
               return;
+
             }
 
 
             movies =
               movies.filter(
-                m => m.id !== movie.id
+                m =>
+                  m.id !== movie.id
               );
 
 
@@ -997,7 +1681,14 @@
               `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
 
-            isSpinning = false;
+            isSpinning =
+              false;
+
+
+            spinButton.classList.remove(
+              "spinning"
+            );
+
 
             updateRemaining();
 
@@ -1009,7 +1700,11 @@
     );
 
 
-    /* ---------------- START ---------------- */
+    /* =========================================================
+       START
+       ========================================================= */
+
+    startDirectorCascade();
 
     loadMovies();
 
