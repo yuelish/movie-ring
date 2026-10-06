@@ -119,21 +119,22 @@
 
       border: 10px solid var(--black);
 
-      background:
-        conic-gradient(
-          var(--sea-1) 0deg 45deg,
-          var(--sea-2) 45deg 90deg,
-          var(--sea-3) 90deg 135deg,
-          var(--sea-4) 135deg 180deg,
-          var(--sea-5) 180deg 225deg,
-          var(--sea-6) 225deg 270deg,
-          var(--sea-7) 270deg 315deg,
-          var(--sea-8) 315deg 360deg
-        );
-
       display: flex;
       align-items: center;
       justify-content: center;
+
+      background:
+        conic-gradient(
+          var(--sea-1),
+          var(--sea-2),
+          var(--sea-3),
+          var(--sea-4),
+          var(--sea-5),
+          var(--sea-6),
+          var(--sea-7),
+          var(--sea-8),
+          var(--sea-1)
+        );
 
       box-shadow:
         0 15px 35px rgba(0, 0, 0, 0.16);
@@ -518,6 +519,76 @@
     let rotation = 0;
 
 
+    /* ---------------- WHEEL GENERATOR ---------------- */
+
+    function updateWheel() {
+
+      const count = movies.length;
+
+      if (count === 0) {
+
+        wheel.style.background =
+          "var(--sea-1)";
+
+        return;
+      }
+
+
+      /*
+        The wheel is divided into exactly
+        one visual segment for every movie.
+
+        Each segment is 1 / count of the
+        total 360 degrees.
+      */
+
+      const colors = [
+        "#a8e6d4",
+        "#8edbd5",
+        "#82cfe0",
+        "#91c9e8",
+        "#a8c8e8",
+        "#9dd9dc",
+        "#8dd8c9",
+        "#b1e2d3"
+      ];
+
+
+      const segmentSize =
+        360 / count;
+
+
+      const stops = [];
+
+
+      for (let i = 0; i < count; i++) {
+
+        const start =
+          i * segmentSize;
+
+        const end =
+          (i + 1) * segmentSize;
+
+
+        const color =
+          colors[i % colors.length];
+
+
+        stops.push(
+          `${color} ${start}deg ${end}deg`
+        );
+
+      }
+
+
+      wheel.style.background =
+        `conic-gradient(${stops.join(",")})`;
+
+    }
+
+
+    /* ---------------- LOAD MOVIES ---------------- */
+
     async function loadMovies() {
 
       remaining.textContent =
@@ -553,10 +624,14 @@
       movies = data || [];
 
 
+      updateWheel();
+
       updateRemaining();
 
     }
 
+
+    /* ---------------- UPDATE COUNTER ---------------- */
 
     function updateRemaining() {
 
@@ -568,6 +643,8 @@
 
     }
 
+
+    /* ---------------- SPIN ---------------- */
 
     spinButton.addEventListener(
       "click",
@@ -622,6 +699,11 @@
             );
 
 
+            /*
+              Mark the selected movie as chosen
+              in Supabase.
+            */
+
             const { error } =
               await client
                 .from("Movies")
@@ -654,10 +736,23 @@
             }
 
 
+            /*
+              Remove the selected movie from
+              the local array.
+            */
+
             movies =
               movies.filter(
                 m => m.id !== movie.id
               );
+
+
+            /*
+              Rebuild the wheel so it now
+              contains one fewer segment.
+            */
+
+            updateWheel();
 
 
             updateRemaining();
@@ -669,6 +764,8 @@
       }
     );
 
+
+    /* ---------------- START ---------------- */
 
     loadMovies();
 
