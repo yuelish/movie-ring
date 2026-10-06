@@ -98,372 +98,64 @@
     }
 
     /*
-      The wheel container is larger than the wheel itself.
-      This gives the glitch fragments room to extend
-      into the white space.
+      Red refracted depth around the wheel.
+      The effect fades into the white background
+      rather than forming another visible ring.
     */
 
-    .wheel-container::before,
+    .wheel-container::before {
+      content: "";
+
+      position: absolute;
+
+      inset: -3px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 68%,
+          rgba(214, 40, 57, 0.28) 69%,
+          rgba(214, 40, 57, 0.18) 71%,
+          rgba(214, 40, 57, 0.07) 74%,
+          rgba(214, 40, 57, 0.02) 78%,
+          transparent 83%
+        );
+
+      filter: blur(1.5px);
+
+      pointer-events: none;
+    }
+
     .wheel-container::after {
       content: "";
 
       position: absolute;
 
+      inset: -11px;
+
       border-radius: 50%;
 
-      pointer-events: none;
-
-      z-index: 1;
-    }
-
-    /*
-      Large fragmented/refracted red layer.
-      The repeating conic gradient creates irregular
-      pieces around the circumference.
-    */
-
-    .wheel-container::before {
-      inset: -24px;
-
       background:
-        conic-gradient(
-          from 7deg,
-
-          transparent 0deg 8deg,
-          rgba(214, 40, 57, 0.55) 8deg 9deg,
-          transparent 9deg 18deg,
-
-          rgba(214, 40, 57, 0.18) 18deg 20deg,
-          transparent 20deg 31deg,
-
-          rgba(214, 40, 57, 0.40) 31deg 32deg,
-          transparent 32deg 46deg,
-
-          rgba(214, 40, 57, 0.12) 46deg 50deg,
-          transparent 50deg 63deg,
-
-          rgba(214, 40, 57, 0.48) 63deg 64deg,
-          transparent 64deg 79deg,
-
-          rgba(214, 40, 57, 0.20) 79deg 82deg,
-          transparent 82deg 96deg,
-
-          rgba(214, 40, 57, 0.55) 96deg 97deg,
-          transparent 97deg 111deg,
-
-          rgba(214, 40, 57, 0.14) 111deg 115deg,
-          transparent 115deg 129deg,
-
-          rgba(214, 40, 57, 0.42) 129deg 130deg,
-          transparent 130deg 145deg,
-
-          rgba(214, 40, 57, 0.20) 145deg 148deg,
-          transparent 148deg 164deg,
-
-          rgba(214, 40, 57, 0.50) 164deg 165deg,
-          transparent 165deg 181deg,
-
-          rgba(214, 40, 57, 0.16) 181deg 185deg,
-          transparent 185deg 201deg,
-
-          rgba(214, 40, 57, 0.44) 201deg 202deg,
-          transparent 202deg 217deg,
-
-          rgba(214, 40, 57, 0.20) 217deg 220deg,
-          transparent 220deg 236deg,
-
-          rgba(214, 40, 57, 0.55) 236deg 237deg,
-          transparent 237deg 253deg,
-
-          rgba(214, 40, 57, 0.15) 253deg 257deg,
-          transparent 257deg 272deg,
-
-          rgba(214, 40, 57, 0.48) 272deg 273deg,
-          transparent 273deg 289deg,
-
-          rgba(214, 40, 57, 0.20) 289deg 293deg,
-          transparent 293deg 309deg,
-
-          rgba(214, 40, 57, 0.55) 309deg 310deg,
-          transparent 310deg 327deg,
-
-          rgba(214, 40, 57, 0.16) 327deg 331deg,
-          transparent 331deg 344deg,
-
-          rgba(214, 40, 57, 0.42) 344deg 345deg,
-          transparent 345deg 360deg
-        );
-
-      /*
-        Cut out the center so the effect exists
-        only around the outer circumference.
-      */
-
-      -webkit-mask:
         radial-gradient(
           circle,
-          transparent 0 77%,
-          black 78% 91%,
-          transparent 92%
+          transparent 69%,
+          rgba(214, 40, 57, 0.12) 71%,
+          rgba(214, 40, 57, 0.06) 74%,
+          rgba(214, 40, 57, 0.018) 79%,
+          transparent 85%
         );
 
-      mask:
-        radial-gradient(
-          circle,
-          transparent 0 77%,
-          black 78% 91%,
-          transparent 92%
-        );
-
-      transform:
-        rotate(-2deg)
-        scaleX(1.03);
-
-      filter: blur(0.2px);
-    }
-
-    /*
-      Secondary refracted layer.
-      This is deliberately offset from the first layer
-      to create the "glitch" feeling.
-    */
-
-    .wheel-container::after {
-      inset: -17px;
-
-      background:
-        repeating-conic-gradient(
-          from 22deg,
-
-          transparent 0deg 5deg,
-
-          rgba(214, 40, 57, 0.22) 5deg 5.7deg,
-
-          transparent 5.7deg 13deg,
-
-          rgba(214, 40, 57, 0.10) 13deg 15deg,
-
-          transparent 15deg 23deg
-        );
-
-      -webkit-mask:
-        radial-gradient(
-          circle,
-          transparent 0 78%,
-          black 79% 89%,
-          transparent 90%
-        );
-
-      mask:
-        radial-gradient(
-          circle,
-          transparent 0 78%,
-          black 79% 89%,
-          transparent 90%
-        );
-
-      transform:
-        translate(4px, -2px)
-        rotate(3deg)
-        scaleX(1.02);
-
-      filter: blur(0.5px);
-    }
-
-    /* ---------------- EXTRA GLITCH FRAGMENTS ---------------- */
-
-    .glitch {
-      position: absolute;
-
-      z-index: 3;
+      filter: blur(3px);
 
       pointer-events: none;
-
-      background: var(--red);
-
-      opacity: 0.7;
-
-      transform-origin: center;
     }
-
-    /*
-      Individual fragments positioned around the wheel.
-      Their slightly different sizes and angles make the
-      border feel like it is physically breaking apart.
-    */
-
-    .glitch-1 {
-      width: 24px;
-      height: 2px;
-
-      top: 7%;
-      right: -8px;
-
-      transform: rotate(18deg);
-    }
-
-    .glitch-2 {
-      width: 8px;
-      height: 2px;
-
-      top: 15%;
-      right: -17px;
-
-      opacity: 0.35;
-
-      transform: rotate(-8deg);
-    }
-
-    .glitch-3 {
-      width: 31px;
-      height: 1px;
-
-      top: 29%;
-      right: -22px;
-
-      opacity: 0.45;
-
-      transform: rotate(11deg);
-    }
-
-    .glitch-4 {
-      width: 13px;
-      height: 3px;
-
-      top: 44%;
-      right: -14px;
-
-      opacity: 0.65;
-
-      transform: rotate(-5deg);
-    }
-
-    .glitch-5 {
-      width: 28px;
-      height: 1px;
-
-      bottom: 27%;
-      right: -18px;
-
-      opacity: 0.3;
-
-      transform: rotate(-16deg);
-    }
-
-    .glitch-6 {
-      width: 18px;
-      height: 2px;
-
-      bottom: 12%;
-      right: -10px;
-
-      opacity: 0.55;
-
-      transform: rotate(21deg);
-    }
-
-    .glitch-7 {
-      width: 21px;
-      height: 2px;
-
-      bottom: 4%;
-      left: 23%;
-
-      opacity: 0.45;
-
-      transform: rotate(-12deg);
-    }
-
-    .glitch-8 {
-      width: 34px;
-      height: 1px;
-
-      bottom: -12px;
-      left: 43%;
-
-      opacity: 0.3;
-
-      transform: rotate(5deg);
-    }
-
-    .glitch-9 {
-      width: 12px;
-      height: 3px;
-
-      bottom: 8%;
-      left: 12%;
-
-      opacity: 0.65;
-
-      transform: rotate(17deg);
-    }
-
-    .glitch-10 {
-      width: 27px;
-      height: 1px;
-
-      bottom: 24%;
-      left: -17px;
-
-      opacity: 0.4;
-
-      transform: rotate(-13deg);
-    }
-
-    .glitch-11 {
-      width: 9px;
-      height: 2px;
-
-      top: 43%;
-      left: -15px;
-
-      opacity: 0.7;
-
-      transform: rotate(8deg);
-    }
-
-    .glitch-12 {
-      width: 30px;
-      height: 1px;
-
-      top: 27%;
-      left: -20px;
-
-      opacity: 0.35;
-
-      transform: rotate(-17deg);
-    }
-
-    .glitch-13 {
-      width: 16px;
-      height: 3px;
-
-      top: 13%;
-      left: -10px;
-
-      opacity: 0.55;
-
-      transform: rotate(12deg);
-    }
-
-    .glitch-14 {
-      width: 25px;
-      height: 1px;
-
-      top: 4%;
-      left: 29%;
-
-      opacity: 0.3;
-
-      transform: rotate(-6deg);
-    }
-
-    /* ---------------- WHEEL ---------------- */
 
     .wheel {
       position: relative;
 
-      z-index: 4;
+      z-index: 2;
 
       width: 100%;
       height: 100%;
@@ -769,27 +461,12 @@
         letter-spacing: -2px;
       }
 
-      /*
-        Reduce the outer fragments slightly on
-        smaller screens so they don't dominate
-        the layout.
-      */
-
       .wheel-container::before {
-        inset: -17px;
+        inset: -2px;
       }
 
       .wheel-container::after {
-        inset: -13px;
-      }
-
-      .glitch-1,
-      .glitch-3,
-      .glitch-5,
-      .glitch-8,
-      .glitch-10,
-      .glitch-12 {
-        opacity: 0.25;
+        inset: -8px;
       }
     }
   </style>
@@ -810,28 +487,9 @@
 
     <div class="wheel-container">
 
-      <!-- Glitch/refracting fragments -->
-
-      <span class="glitch glitch-1"></span>
-      <span class="glitch glitch-2"></span>
-      <span class="glitch glitch-3"></span>
-      <span class="glitch glitch-4"></span>
-      <span class="glitch glitch-5"></span>
-      <span class="glitch glitch-6"></span>
-      <span class="glitch glitch-7"></span>
-      <span class="glitch glitch-8"></span>
-      <span class="glitch glitch-9"></span>
-      <span class="glitch glitch-10"></span>
-      <span class="glitch glitch-11"></span>
-      <span class="glitch glitch-12"></span>
-      <span class="glitch glitch-13"></span>
-      <span class="glitch glitch-14"></span>
-
-
       <div class="pointer">
         ▼
       </div>
-
 
       <div id="wheel" class="wheel">
 
@@ -920,7 +578,6 @@
     function updateWheel() {
 
       const count = movies.length;
-
 
       if (count === 0) {
 
