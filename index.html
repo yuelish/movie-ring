@@ -35,7 +35,6 @@
     body {
       margin: 0;
       min-height: 100vh;
-
       background: var(--white);
       color: var(--black);
 
@@ -117,7 +116,8 @@
 
       border-radius: 50%;
 
-      border: 10px solid var(--black);
+      /* RED, THIN OUTER BORDER */
+      border: 3px solid var(--red);
 
       display: flex;
       align-items: center;
@@ -386,7 +386,7 @@
       }
 
       .wheel {
-        border-width: 8px;
+        border-width: 3px;
       }
 
       .wheel-center {
@@ -533,14 +533,6 @@
         return;
       }
 
-
-      /*
-        The wheel is divided into exactly
-        one visual segment for every movie.
-
-        Each segment is 1 / count of the
-        total 360 degrees.
-      */
 
       const colors = [
         "#a8e6d4",
@@ -699,11 +691,6 @@
             );
 
 
-            /*
-              Mark the selected movie as chosen
-              in Supabase.
-            */
-
             const { error } =
               await client
                 .from("Movies")
@@ -736,24 +723,13 @@
             }
 
 
-            /*
-              Remove the selected movie from
-              the local array.
-            */
-
             movies =
               movies.filter(
                 m => m.id !== movie.id
               );
 
 
-            /*
-              Rebuild the wheel so it now
-              contains one fewer segment.
-            */
-
             updateWheel();
-
 
             updateRemaining();
 
@@ -764,8 +740,6 @@
       }
     );
 
-
-    /* ---------------- START ---------------- */
 
     loadMovies();
 
