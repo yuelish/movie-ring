@@ -225,9 +225,9 @@
 
       border-radius: 50%;
 
-      background: var(--red);
+      background: var(--white);
 
-      color: white;
+      color: var(--black);
 
       display: flex;
       align-items: center;
@@ -235,13 +235,12 @@
 
       font-size: 36px;
 
-      /* White border around the red center */
-      border: 4px solid var(--white);
+      /* ONLY the inner border is red */
+      border: 4px solid var(--red);
 
-      /* Red shadow/depth */
+      /* Subtle red depth */
       box-shadow:
-        0 0 12px rgba(214, 40, 57, 0.45),
-        0 8px 20px rgba(214, 40, 57, 0.30);
+        0 8px 20px rgba(214, 40, 57, 0.18);
     }
 
     /* ---------------- POINTER ---------------- */
