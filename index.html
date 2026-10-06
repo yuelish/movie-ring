@@ -70,6 +70,8 @@
       padding-bottom: 12px;
 
       overflow: hidden;
+
+      position: relative;
     }
 
     .header-text {
@@ -88,12 +90,13 @@
       text-align-last: justify;
 
       transition:
-        transform 0.5s ease,
-        opacity 0.5s ease;
+        transform 0.65s ease,
+        opacity 0.65s ease;
     }
 
     /*
-      Original header leaves toward the left.
+      The original header text keeps its
+      original full-width formatting.
     */
 
     .header-text.slide-out {
@@ -102,15 +105,27 @@
     }
 
     /*
-      Selected film enters from the right.
+      Film result gets its own formatting.
+      It is centered independently from the
+      original header formatting.
+    */
+
+    .header-text.movie-result {
+      text-align: center;
+      text-align-last: center;
+    }
+
+    /*
+      Film enters more slowly from the right.
     */
 
     .header-text.slide-in {
       animation:
-        headerSlideIn 0.5s ease forwards;
+        headerSlideIn 1s ease forwards;
     }
 
     @keyframes headerSlideIn {
+
       from {
         transform: translateX(100%);
         opacity: 0;
@@ -120,6 +135,7 @@
         transform: translateX(0);
         opacity: 1;
       }
+
     }
 
     /* ---------------- WHEEL ---------------- */
@@ -435,6 +451,7 @@
     }
 
     @keyframes reveal {
+
       from {
         opacity: 0;
         transform: translateY(15px);
@@ -444,6 +461,7 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
 
     /* ---------------- MOBILE ---------------- */
@@ -854,16 +872,21 @@
           `rotate(${rotation}deg)`;
 
 
+        /*
+          Begin the header transition 300ms
+          before the wheel finishes.
+        */
+
         setTimeout(
-          async () => {
+          () => {
 
             /*
-              Slide the ORIGINAL header
-              out toward the left.
+              Original text slides left.
             */
 
             headerText.classList.remove(
-              "slide-in"
+              "slide-in",
+              "movie-result"
             );
 
             headerText.classList.add(
@@ -872,9 +895,9 @@
 
 
             /*
-              After the original text
-              has left, replace it with
-              the chosen film.
+              Replace the original text after
+              it has begun leaving, then bring
+              the movie in from the right.
             */
 
             setTimeout(
@@ -890,6 +913,16 @@
                   `${movie.title}${year}`;
 
 
+                /*
+                  Only the movie result receives
+                  centered formatting.
+                */
+
+                headerText.classList.add(
+                  "movie-result"
+                );
+
+
                 headerText.classList.remove(
                   "slide-out"
                 );
@@ -898,24 +931,25 @@
                 void headerText.offsetWidth;
 
 
-                /*
-                  Film title enters from
-                  the right.
-                */
-
                 headerText.classList.add(
                   "slide-in"
                 );
 
               },
-              500
+              300
             );
 
+          },
+          3700
+        );
 
-            /*
-              Mark the movie as chosen
-              in Supabase.
-            */
+
+        /*
+          Mark the movie as chosen in Supabase.
+        */
+
+        setTimeout(
+          async () => {
 
             const { error } =
               await client
