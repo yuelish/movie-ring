@@ -84,7 +84,8 @@
 
       white-space: nowrap;
 
-      text-align: center;
+      text-align: justify;
+      text-align-last: justify;
 
       transition:
         transform 0.5s ease,
@@ -92,7 +93,7 @@
     }
 
     /*
-      Original sentence leaves toward the left.
+      Original header leaves toward the left.
     */
 
     .header-text.slide-out {
@@ -101,7 +102,7 @@
     }
 
     /*
-      Chosen film enters from the right.
+      Selected film enters from the right.
     */
 
     .header-text.slide-in {
@@ -110,7 +111,6 @@
     }
 
     @keyframes headerSlideIn {
-
       from {
         transform: translateX(100%);
         opacity: 0;
@@ -120,7 +120,6 @@
         transform: translateX(0);
         opacity: 1;
       }
-
     }
 
     /* ---------------- WHEEL ---------------- */
@@ -436,7 +435,6 @@
     }
 
     @keyframes reveal {
-
       from {
         opacity: 0;
         transform: translateY(15px);
@@ -446,7 +444,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-
     }
 
     /* ---------------- MOBILE ---------------- */
@@ -503,7 +500,6 @@
         inset: -8px;
       }
     }
-
   </style>
 </head>
 
@@ -862,7 +858,7 @@
           async () => {
 
             /*
-              Slide the original text
+              Slide the ORIGINAL header
               out toward the left.
             */
 
@@ -876,8 +872,9 @@
 
 
             /*
-              Once it has left,
-              replace it with the movie.
+              After the original text
+              has left, replace it with
+              the chosen film.
             */
 
             setTimeout(
@@ -902,8 +899,8 @@
 
 
                 /*
-                  Movie title enters
-                  from the right.
+                  Film title enters from
+                  the right.
                 */
 
                 headerText.classList.add(
@@ -916,7 +913,8 @@
 
 
             /*
-              Mark movie as chosen.
+              Mark the movie as chosen
+              in Supabase.
             */
 
             const { error } =
