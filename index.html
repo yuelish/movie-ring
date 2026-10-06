@@ -95,8 +95,8 @@
     }
 
     /*
-      The original header text keeps its
-      original full-width formatting.
+      Original header keeps its original
+      full-width formatting.
     */
 
     .header-text.slide-out {
@@ -105,14 +105,15 @@
     }
 
     /*
-      Film result gets its own formatting.
-      It is centered independently from the
-      original header formatting.
+      Only the incoming film result gets
+      the more centered/spread-out treatment.
     */
 
     .header-text.movie-result {
       text-align: center;
       text-align-last: center;
+
+      letter-spacing: 0.7px;
     }
 
     /*
@@ -479,6 +480,10 @@
       .header-text {
         font-size: 7.5px;
         letter-spacing: -0.3px;
+      }
+
+      .header-text.movie-result {
+        letter-spacing: 0.5px;
       }
 
       .wheel-container {
@@ -873,7 +878,7 @@
 
 
         /*
-          Begin the header transition 300ms
+          Start the header transition 700ms
           before the wheel finishes.
         */
 
@@ -895,9 +900,8 @@
 
 
             /*
-              Replace the original text after
-              it has begun leaving, then bring
-              the movie in from the right.
+              Replace the original text while
+              the outgoing animation is underway.
             */
 
             setTimeout(
@@ -931,6 +935,11 @@
                 void headerText.offsetWidth;
 
 
+                /*
+                  Film title enters slowly
+                  from the right.
+                */
+
                 headerText.classList.add(
                   "slide-in"
                 );
@@ -940,12 +949,13 @@
             );
 
           },
-          3700
+          3300
         );
 
 
         /*
-          Mark the movie as chosen in Supabase.
+          Mark the movie as chosen in Supabase
+          when the wheel finishes.
         */
 
         setTimeout(
