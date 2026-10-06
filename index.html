@@ -84,33 +84,43 @@
 
       white-space: nowrap;
 
-      text-align: justify;
-      text-align-last: justify;
+      text-align: center;
 
       transition:
         transform 0.5s ease,
         opacity 0.5s ease;
     }
 
+    /*
+      Original sentence leaves toward the left.
+    */
+
     .header-text.slide-out {
-      transform: translateY(-100%);
+      transform: translateX(-100%);
       opacity: 0;
     }
 
+    /*
+      Chosen film enters from the right.
+    */
+
     .header-text.slide-in {
-      animation: headerSlideIn 0.5s ease forwards;
+      animation:
+        headerSlideIn 0.5s ease forwards;
     }
 
     @keyframes headerSlideIn {
+
       from {
-        transform: translateY(100%);
+        transform: translateX(100%);
         opacity: 0;
       }
 
       to {
-        transform: translateY(0);
+        transform: translateX(0);
         opacity: 1;
       }
+
     }
 
     /* ---------------- WHEEL ---------------- */
@@ -426,6 +436,7 @@
     }
 
     @keyframes reveal {
+
       from {
         opacity: 0;
         transform: translateY(15px);
@@ -435,6 +446,7 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
 
     /* ---------------- MOBILE ---------------- */
@@ -491,6 +503,7 @@
         inset: -8px;
       }
     }
+
   </style>
 </head>
 
@@ -600,6 +613,7 @@
 
 
     let movies = [];
+
     let rotation = 0;
 
 
@@ -848,7 +862,8 @@
           async () => {
 
             /*
-              Slide the original sentence out.
+              Slide the original text
+              out toward the left.
             */
 
             headerText.classList.remove(
@@ -861,8 +876,8 @@
 
 
             /*
-              Wait for the outgoing text
-              to leave before replacing it.
+              Once it has left,
+              replace it with the movie.
             */
 
             setTimeout(
@@ -882,7 +897,14 @@
                   "slide-out"
                 );
 
+
                 void headerText.offsetWidth;
+
+
+                /*
+                  Movie title enters
+                  from the right.
+                */
 
                 headerText.classList.add(
                   "slide-in"
@@ -894,8 +916,7 @@
 
 
             /*
-              Mark the movie as chosen
-              in Supabase.
+              Mark movie as chosen.
             */
 
             const { error } =
@@ -920,6 +941,7 @@
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
+
               spinButton.disabled =
                 false;
 
@@ -934,6 +956,7 @@
 
 
             updateWheel();
+
             updateRemaining();
 
           },
