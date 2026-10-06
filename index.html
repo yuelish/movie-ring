@@ -182,10 +182,17 @@
       pointer-events: none;
     }
 
+    /*
+      This is now the rotating layer only.
+      The center button is outside of it.
+    */
+
     .wheel {
-      position: relative;
+      position: absolute;
 
       z-index: 2;
+
+      inset: 0;
 
       width: 100%;
       height: 100%;
@@ -193,10 +200,6 @@
       border-radius: 50%;
 
       border: 3px solid var(--red);
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
       background:
         conic-gradient(
@@ -216,6 +219,12 @@
 
       transition:
         transform 4s cubic-bezier(.12, .72, .12, 1);
+
+      transform-origin: center center;
+
+      will-change: transform;
+
+      overflow: hidden;
     }
 
     .wheel::before {
@@ -245,10 +254,20 @@
 
     /* ---------------- CENTER ---------------- */
 
-    .wheel-center {
-      position: relative;
+    /*
+      The center is now completely independent
+      of the rotating wheel.
+    */
 
-      z-index: 2;
+    .wheel-center {
+      position: absolute;
+
+      z-index: 5;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
 
       width: 105px;
       height: 105px;
@@ -278,7 +297,9 @@
     }
 
     .wheel-center:hover {
-      transform: scale(1.06);
+      transform:
+        translate(-50%, -50%)
+        scale(1.06);
     }
 
     /* ---------------- POINTER ---------------- */
@@ -531,18 +552,25 @@
         ▼
       </div>
 
-      <div id="wheel" class="wheel">
 
-        <button
-          id="historyButton"
-          class="wheel-center"
-          type="button"
-          aria-label="View previously chosen films"
-        >
-          🌐
-        </button>
+      <!-- Rotating wheel layer -->
 
-      </div>
+      <div
+        id="wheel"
+        class="wheel"
+      ></div>
+
+
+      <!-- Stationary center -->
+
+      <button
+        id="historyButton"
+        class="wheel-center"
+        type="button"
+        aria-label="View previously chosen films"
+      >
+        🌐
+      </button>
 
     </div>
 
@@ -849,6 +877,14 @@
           movies[randomIndex];
 
 
+        /*
+          Add several full rotations plus
+          a random amount.
+
+          The wheel itself remains the same
+          DOM element throughout the spin.
+        */
+
         rotation +=
           1800 +
           Math.floor(
@@ -918,8 +954,11 @@
 
 
         /*
-          Mark the movie as chosen in Supabase
-          when the wheel finishes.
+          Wait until the wheel's actual
+          transition has finished before
+          changing its segments.
+
+          The rotation itself is never reset.
         */
 
         setTimeout(
@@ -955,6 +994,14 @@
             }
 
 
+            /*
+              Remove the selected movie from
+              the local list.
+
+              The wheel remains at exactly the
+              rotation where the spin ended.
+            */
+
             movies =
               movies.filter(
                 m => m.id !== movie.id
@@ -966,7 +1013,7 @@
             updateRemaining();
 
           },
-          4000
+          4050
         );
 
       }
