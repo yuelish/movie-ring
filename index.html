@@ -229,16 +229,20 @@
 
       font-size: 36px;
 
-      /* Red inner border */
       border: 4px solid var(--red);
 
-      /*
-        Shading/depth goes inward,
-        toward the white center.
-      */
       box-shadow:
         inset 0 4px 8px rgba(214, 40, 57, 0.28),
         inset 0 -2px 5px rgba(214, 40, 57, 0.12);
+
+      cursor: pointer;
+
+      transition:
+        transform 0.15s ease;
+    }
+
+    .wheel-center:hover {
+      transform: scale(1.06);
     }
 
     /* ---------------- POINTER ---------------- */
@@ -396,6 +400,56 @@
       display: none;
     }
 
+    /* ---------------- HISTORY ---------------- */
+
+    #history {
+      width: min(800px, 100%);
+
+      margin-top: 40px;
+
+      padding-top: 25px;
+
+      border-top: 2px solid var(--black);
+
+      animation:
+        reveal 0.4s ease both;
+    }
+
+    .history-label {
+      color: var(--red);
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      margin-bottom: 20px;
+    }
+
+    #historyList {
+      margin: 0;
+      padding: 0;
+
+      list-style: none;
+    }
+
+    #historyList li {
+      padding: 10px 0;
+
+      border-bottom: 1px solid #d5d5d0;
+
+      font-size: 16px;
+
+      color: var(--black);
+    }
+
+    #historyList li:last-child {
+      border-bottom: none;
+    }
+
     /* ---------------- MESSAGE ---------------- */
 
     #message {
@@ -494,9 +548,14 @@
 
       <div id="wheel" class="wheel">
 
-        <div class="wheel-center">
+        <button
+          id="historyButton"
+          class="wheel-center"
+          type="button"
+          aria-label="View previously chosen films"
+        >
           🌐
-        </div>
+        </button>
 
       </div>
 
@@ -526,6 +585,17 @@
     </div>
 
 
+    <div id="history" class="hidden">
+
+      <div class="history-label">
+        Previously Chosen
+      </div>
+
+      <ul id="historyList"></ul>
+
+    </div>
+
+
     <div id="message"></div>
 
   </main>
@@ -549,6 +619,15 @@
 
     const wheel =
       document.getElementById("wheel");
+
+    const historyButton =
+      document.getElementById("historyButton");
+
+    const history =
+      document.getElementById("history");
+
+    const historyList =
+      document.getElementById("historyList");
 
     const spinButton =
       document.getElementById("spinButton");
@@ -689,6 +768,96 @@
         movies.length === 0;
 
     }
+
+
+    /* ---------------- LOAD HISTORY ---------------- */
+
+    async function loadHistory() {
+
+      historyList.innerHTML =
+        "<li>Loading...</li>";
+
+
+      const { data, error } =
+        await client
+          .from("Movies")
+          .select("title")
+          .eq("chosen", true)
+          .order("chosen_at", {
+            ascending: false
+          });
+
+
+      if (error) {
+
+        console.error(
+          "History error:",
+          error
+        );
+
+        historyList.innerHTML =
+          "<li>Unable to load previously chosen films.</li>";
+
+        return;
+      }
+
+
+      historyList.innerHTML = "";
+
+
+      if (!data || data.length === 0) {
+
+        historyList.innerHTML =
+          "<li>No films have been chosen yet.</li>";
+
+        return;
+      }
+
+
+      data.forEach(movie => {
+
+        const li =
+          document.createElement("li");
+
+        li.textContent =
+          movie.title;
+
+        historyList.appendChild(li);
+
+      });
+
+    }
+
+
+    /* ---------------- HISTORY BUTTON ---------------- */
+
+    historyButton.addEventListener(
+      "click",
+      async () => {
+
+        const isHidden =
+          history.classList.contains("hidden");
+
+
+        if (isHidden) {
+
+          history.classList.remove("hidden");
+
+          await loadHistory();
+
+          history.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+        } else {
+
+          history.classList.add("hidden");
+
+        }
+
+      }
+    );
 
 
     /* ---------------- SPIN ---------------- */
