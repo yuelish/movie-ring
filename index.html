@@ -68,6 +68,8 @@
       border-bottom: 2px solid var(--black);
 
       padding-bottom: 12px;
+
+      overflow: hidden;
     }
 
     .header-text {
@@ -84,6 +86,31 @@
 
       text-align: justify;
       text-align-last: justify;
+
+      transition:
+        transform 0.5s ease,
+        opacity 0.5s ease;
+    }
+
+    .header-text.slide-out {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .header-text.slide-in {
+      animation: headerSlideIn 0.5s ease forwards;
+    }
+
+    @keyframes headerSlideIn {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     /* ---------------- WHEEL ---------------- */
@@ -332,74 +359,6 @@
       color: #555;
     }
 
-    /* ---------------- RESULT ---------------- */
-
-    .result {
-      width: min(800px, 100%);
-
-      margin-top: 55px;
-
-      padding: 30px 20px;
-
-      border-top: 2px solid var(--black);
-      border-bottom: 2px solid var(--black);
-
-      animation:
-        reveal 0.6s ease both;
-    }
-
-    @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .result-label {
-      margin-bottom: 12px;
-
-      color: var(--red);
-
-      font-size: 11px;
-
-      font-weight: 700;
-
-      letter-spacing: 3px;
-
-      text-transform: uppercase;
-    }
-
-    #movieTitle {
-      margin: 0;
-
-      font-size: clamp(36px, 7vw, 70px);
-
-      line-height: 0.95;
-
-      font-weight: 700;
-
-      letter-spacing: -3px;
-    }
-
-    #movieYear {
-      margin: 15px 0 0;
-
-      font-size: 15px;
-
-      color: #555;
-
-      font-weight: 400;
-    }
-
-    .hidden {
-      display: none;
-    }
-
     /* ---------------- HISTORY ---------------- */
 
     #history {
@@ -462,6 +421,22 @@
       font-size: 12px;
     }
 
+    .hidden {
+      display: none;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* ---------------- MOBILE ---------------- */
 
     @media (max-width: 600px) {
@@ -508,14 +483,6 @@
         padding: 16px 30px;
       }
 
-      .result {
-        margin-top: 45px;
-      }
-
-      #movieTitle {
-        letter-spacing: -2px;
-      }
-
       .wheel-container::before {
         inset: -2px;
       }
@@ -533,7 +500,10 @@
 
     <header>
 
-      <div class="header-text">
+      <div
+        id="headerText"
+        class="header-text"
+      >
         i hate movies more than i hate the second thing on the list of the things i hate
       </div>
 
@@ -569,19 +539,6 @@
 
     <div id="remaining" class="remaining">
       Loading movies...
-    </div>
-
-
-    <div id="result" class="result hidden">
-
-      <div class="result-label">
-        Your Film
-      </div>
-
-      <h2 id="movieTitle"></h2>
-
-      <p id="movieYear"></p>
-
     </div>
 
 
@@ -635,21 +592,14 @@
     const remaining =
       document.getElementById("remaining");
 
-    const result =
-      document.getElementById("result");
-
-    const movieTitle =
-      document.getElementById("movieTitle");
-
-    const movieYear =
-      document.getElementById("movieYear");
+    const headerText =
+      document.getElementById("headerText");
 
     const message =
       document.getElementById("message");
 
 
     let movies = [];
-
     let rotation = 0;
 
 
@@ -683,7 +633,6 @@
       const segmentSize =
         360 / count;
 
-
       const stops = [];
 
 
@@ -694,7 +643,6 @@
 
         const end =
           (i + 1) * segmentSize;
-
 
         const color =
           colors[i % colors.length];
@@ -751,7 +699,6 @@
 
 
       updateWheel();
-
       updateRemaining();
 
     }
@@ -875,8 +822,6 @@
 
         message.textContent = "";
 
-        result.classList.add("hidden");
-
 
         const randomIndex =
           Math.floor(
@@ -902,18 +847,56 @@
         setTimeout(
           async () => {
 
-            movieTitle.textContent =
-              movie.title;
+            /*
+              Slide the original sentence out.
+            */
 
-
-            movieYear.textContent =
-              movie.year || "";
-
-
-            result.classList.remove(
-              "hidden"
+            headerText.classList.remove(
+              "slide-in"
             );
 
+            headerText.classList.add(
+              "slide-out"
+            );
+
+
+            /*
+              Wait for the outgoing text
+              to leave before replacing it.
+            */
+
+            setTimeout(
+              () => {
+
+                const year =
+                  movie.year
+                    ? ` — ${movie.year}`
+                    : "";
+
+
+                headerText.textContent =
+                  `${movie.title}${year}`;
+
+
+                headerText.classList.remove(
+                  "slide-out"
+                );
+
+                void headerText.offsetWidth;
+
+                headerText.classList.add(
+                  "slide-in"
+                );
+
+              },
+              500
+            );
+
+
+            /*
+              Mark the movie as chosen
+              in Supabase.
+            */
 
             const { error } =
               await client
@@ -937,13 +920,10 @@
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
-
               spinButton.disabled =
                 false;
 
-
               return;
-
             }
 
 
@@ -954,7 +934,6 @@
 
 
             updateWheel();
-
             updateRemaining();
 
           },
