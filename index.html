@@ -260,8 +260,8 @@
       transform:
         translate(-50%, -50%);
 
-      width: 105px;
-      height: 105px;
+      width: 92px;
+      height: 92px;
 
       border-radius: 50%;
 
@@ -273,7 +273,7 @@
       align-items: center;
       justify-content: center;
 
-      font-size: 36px;
+      font-size: 32px;
 
       border: 4px solid var(--red);
 
@@ -494,10 +494,10 @@
       }
 
       .wheel-center {
-        width: 82px;
-        height: 82px;
+        width: 74px;
+        height: 74px;
 
-        font-size: 29px;
+        font-size: 26px;
       }
 
       .pointer {
@@ -863,12 +863,8 @@
 
 
         /*
-          The wheel is updated HERE, before
-          the new spin begins.
-
-          This prevents the segment layout
-          from changing after the previous
-          spin has already stopped.
+          Update the segments BEFORE the new
+          spin begins, never after it ends.
         */
 
         updateWheel();
@@ -884,11 +880,6 @@
           movies[randomIndex];
 
 
-        /*
-          Add several complete rotations
-          plus a random amount.
-        */
-
         rotation +=
           1800 +
           Math.floor(
@@ -896,17 +887,13 @@
           );
 
 
-        /*
-          Start the spin.
-        */
-
         wheel.style.transform =
           `rotate(${rotation}deg)`;
 
 
         /*
-          Start the header transition 700ms
-          before the wheel finishes.
+          Start the header transition before
+          the wheel finishes.
         */
 
         setTimeout(
@@ -962,17 +949,13 @@
 
 
         /*
-          Wait for the spin to completely
-          finish before changing any state
-          that could visually affect the wheel.
+          IMPORTANT:
+          Nothing visual on the wheel is
+          changed here after the spin ends.
         */
 
         setTimeout(
           async () => {
-
-            /*
-              Mark the selected movie as chosen.
-            */
 
             const { error } =
               await client
@@ -996,7 +979,6 @@
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
-
               isSpinning = false;
 
               updateRemaining();
@@ -1004,19 +986,6 @@
               return;
             }
 
-
-            /*
-              Remove the selected movie from
-              the local movie list.
-
-              IMPORTANT:
-              We do NOT call updateWheel()
-              here.
-
-              This is what prevents the wheel
-              from visually moving after the
-              spin has ended.
-            */
 
             movies =
               movies.filter(
