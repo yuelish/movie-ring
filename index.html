@@ -182,11 +182,6 @@
       pointer-events: none;
     }
 
-    /*
-      This is now the rotating layer only.
-      The center button is outside of it.
-    */
-
     .wheel {
       position: absolute;
 
@@ -254,11 +249,6 @@
 
     /* ---------------- CENTER ---------------- */
 
-    /*
-      The center is now completely independent
-      of the rotating wheel.
-    */
-
     .wheel-center {
       position: absolute;
 
@@ -267,7 +257,8 @@
       top: 50%;
       left: 50%;
 
-      transform: translate(-50%, -50%);
+      transform:
+        translate(-50%, -50%);
 
       width: 105px;
       height: 105px;
@@ -312,7 +303,8 @@
       top: -24px;
       left: 50%;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
       color: var(--red);
 
@@ -553,15 +545,11 @@
       </div>
 
 
-      <!-- Rotating wheel layer -->
-
       <div
         id="wheel"
         class="wheel"
       ></div>
 
-
-      <!-- Stationary center -->
 
       <button
         id="historyButton"
@@ -645,6 +633,8 @@
     let movies = [];
 
     let rotation = 0;
+
+    let isSpinning = false;
 
 
     /* ---------------- WHEEL GENERATOR ---------------- */
@@ -756,7 +746,7 @@
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
       spinButton.disabled =
-        movies.length === 0;
+        movies.length === 0 || isSpinning;
 
     }
 
@@ -857,14 +847,31 @@
       "click",
       async () => {
 
-        if (movies.length === 0) {
+        if (
+          movies.length === 0 ||
+          isSpinning
+        ) {
           return;
         }
 
 
+        isSpinning = true;
+
         spinButton.disabled = true;
 
         message.textContent = "";
+
+
+        /*
+          The wheel is updated HERE, before
+          the new spin begins.
+
+          This prevents the segment layout
+          from changing after the previous
+          spin has already stopped.
+        */
+
+        updateWheel();
 
 
         const randomIndex =
@@ -878,11 +885,8 @@
 
 
         /*
-          Add several full rotations plus
-          a random amount.
-
-          The wheel itself remains the same
-          DOM element throughout the spin.
+          Add several complete rotations
+          plus a random amount.
         */
 
         rotation +=
@@ -891,6 +895,10 @@
             Math.random() * 720
           );
 
+
+        /*
+          Start the spin.
+        */
 
         wheel.style.transform =
           `rotate(${rotation}deg)`;
@@ -954,15 +962,17 @@
 
 
         /*
-          Wait until the wheel's actual
-          transition has finished before
-          changing its segments.
-
-          The rotation itself is never reset.
+          Wait for the spin to completely
+          finish before changing any state
+          that could visually affect the wheel.
         */
 
         setTimeout(
           async () => {
+
+            /*
+              Mark the selected movie as chosen.
+            */
 
             const { error } =
               await client
@@ -987,8 +997,9 @@
                 "The movie was selected, but it could not be marked as chosen.";
 
 
-              spinButton.disabled =
-                false;
+              isSpinning = false;
+
+              updateRemaining();
 
               return;
             }
@@ -996,10 +1007,15 @@
 
             /*
               Remove the selected movie from
-              the local list.
+              the local movie list.
 
-              The wheel remains at exactly the
-              rotation where the spin ended.
+              IMPORTANT:
+              We do NOT call updateWheel()
+              here.
+
+              This is what prevents the wheel
+              from visually moving after the
+              spin has ended.
             */
 
             movies =
@@ -1008,12 +1024,16 @@
               );
 
 
-            updateWheel();
+            remaining.textContent =
+              `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
+
+
+            isSpinning = false;
 
             updateRemaining();
 
           },
-          4050
+          4100
         );
 
       }
