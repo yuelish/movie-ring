@@ -39,24 +39,35 @@
 
 
     /* =========================================================
-       GLOBAL
+       PAGE
        ========================================================= */
 
-    html,
-    body {
+    html {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
 
       margin: 0;
       padding: 0;
 
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
 
       background: #005eff;
+
+      scroll-behavior: smooth;
     }
 
 
     body {
+      width: 100%;
+      min-height: 100vh;
+
+      margin: 0;
+      padding: 0;
+
+      overflow-x: hidden;
+      overflow-y: auto;
+
       color: var(--white);
 
       font-family:
@@ -65,10 +76,6 @@
         sans-serif;
 
       position: relative;
-
-      /*
-        Extremely saturated blue CRT background.
-      */
 
       background:
         radial-gradient(
@@ -87,7 +94,7 @@
 
 
     /* =========================================================
-       VIBRANT BLUE LIGHT
+       BLUE LIGHT
        ========================================================= */
 
     body::before {
@@ -96,6 +103,9 @@
       position: fixed;
 
       inset: 0;
+
+      width: 100vw;
+      height: 100vh;
 
       z-index: 1;
 
@@ -109,8 +119,7 @@
           transparent 70%
         );
 
-      mix-blend-mode:
-        screen;
+      mix-blend-mode: screen;
 
       animation:
         bluePulse 3s
@@ -124,24 +133,18 @@
       0%,
       100% {
         opacity: 0.65;
-
-        transform:
-          scale(1);
+        transform: scale(1);
       }
 
       50% {
         opacity: 1;
-
-        transform:
-          scale(1.07);
+        transform: scale(1.07);
       }
     }
 
 
     /* =========================================================
-       DIRECTOR CONTAINER
-       IMPORTANT:
-       It cannot create page height.
+       DIRECTOR CASCADE
        ========================================================= */
 
     #directorLayer {
@@ -289,33 +292,27 @@
     @keyframes noiseMove {
 
       0% {
-        transform:
-          translate(0,0);
+        transform: translate(0,0);
       }
 
       20% {
-        transform:
-          translate(-4%,2%);
+        transform: translate(-4%,2%);
       }
 
       40% {
-        transform:
-          translate(3%,-4%);
+        transform: translate(3%,-4%);
       }
 
       60% {
-        transform:
-          translate(5%,3%);
+        transform: translate(5%,3%);
       }
 
       80% {
-        transform:
-          translate(-3%,-2%);
+        transform: translate(-3%,-2%);
       }
 
       100% {
-        transform:
-          translate(2%,4%);
+        transform: translate(2%,4%);
       }
     }
 
@@ -361,13 +358,11 @@
     @keyframes scanMove {
 
       from {
-        transform:
-          translateY(0);
+        transform: translateY(0);
       }
 
       to {
-        transform:
-          translateY(7px);
+        transform: translateY(7px);
       }
     }
 
@@ -409,13 +404,11 @@
     @keyframes scanSweep {
 
       from {
-        transform:
-          translateY(-40px);
+        transform: translateY(-40px);
       }
 
       to {
-        transform:
-          translateY(40px);
+        transform: translateY(40px);
       }
     }
 
@@ -708,15 +701,16 @@
         center;
 
       padding:
-        30px 20px 50px;
+        30px 20px 100px;
 
       /*
-        Prevent the content from becoming a
-        scrolling document.
+        IMPORTANT:
+        The app is allowed to become taller
+        than the viewport so the page can scroll.
       */
 
       overflow:
-        hidden;
+        visible;
 
       animation:
         subtleJitter
@@ -1314,6 +1308,9 @@
       padding-top:
         25px;
 
+      padding-bottom:
+        60px;
+
       border-top:
         2px solid var(--white);
 
@@ -1321,13 +1318,11 @@
         reveal
         0.4s ease both;
 
-      /*
-        History remains usable without
-        creating horizontal overflow.
-      */
-
       overflow:
-        hidden;
+        visible;
+
+      scroll-margin-top:
+        30px;
     }
 
 
@@ -1602,6 +1597,15 @@
       .app {
         padding-top:
           20px;
+
+        padding-left:
+          15px;
+
+        padding-right:
+          15px;
+
+        padding-bottom:
+          80px;
       }
 
 
@@ -1612,6 +1616,7 @@
 
 
       .header-text {
+
         font-size:
           7.5px;
 
@@ -1621,6 +1626,7 @@
 
 
       .header-text.movie-result {
+
         letter-spacing:
           0.5px;
       }
@@ -1640,6 +1646,7 @@
 
 
       .wheel {
+
         border-width:
           3px;
       }
@@ -1683,6 +1690,17 @@
         font-size:
           11px;
       }
+
+
+      #historyList li {
+
+        font-size:
+          14px;
+
+        padding:
+          9px 0;
+      }
+
     }
 
   </style>
@@ -1985,10 +2003,10 @@
        DIRECTOR GENERATOR
        ========================================================= */
 
-    function randomBetween(min,max) {
+    function randomBetween(min, max) {
 
       return Math.random() *
-        (max-min) +
+        (max - min) +
         min;
 
     }
@@ -2107,7 +2125,7 @@
 
 
     /* =========================================================
-       WHEEL
+       WHEEL GENERATOR
        ========================================================= */
 
     function updateWheel() {
@@ -2155,7 +2173,7 @@
           i * segmentSize;
 
         const end =
-          (i+1) * segmentSize;
+          (i + 1) * segmentSize;
 
         const color =
           colors[
@@ -2193,7 +2211,7 @@
         await client
           .from("Movies")
           .select("id, title, year")
-          .eq("chosen",false);
+          .eq("chosen", false);
 
 
       if (error) {
@@ -2234,7 +2252,7 @@
 
 
     /* =========================================================
-       COUNTER
+       UPDATE COUNTER
        ========================================================= */
 
     function updateRemaining() {
@@ -2251,7 +2269,7 @@
 
 
     /* =========================================================
-       HISTORY
+       LOAD HISTORY
        ========================================================= */
 
     async function loadHistory() {
@@ -2267,11 +2285,11 @@
         await client
           .from("Movies")
           .select("title")
-          .eq("chosen",true)
+          .eq("chosen", true)
           .order(
             "chosen_at",
             {
-              ascending:false
+              ascending: false
             }
           );
 
@@ -2353,13 +2371,19 @@
 
 
           /*
-            We deliberately do NOT call
-            scrollIntoView anymore.
-
-            This prevents the VHS screen from
-            appearing to fight with browser
-            scrolling.
+            Wait until the newly revealed
+            history has been laid out before
+            scrolling to it.
           */
+
+          requestAnimationFrame(() => {
+
+            history.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+          });
 
         } else {
 
@@ -2406,6 +2430,11 @@
           "";
 
 
+        /*
+          Update segments BEFORE
+          the new spin begins.
+        */
+
         updateWheel();
 
 
@@ -2432,7 +2461,10 @@
           `rotate(${rotation}deg)`;
 
 
-        /* HEADER */
+        /*
+          Start header transition
+          before wheel finishes.
+        */
 
         setTimeout(
           () => {
@@ -2487,7 +2519,9 @@
         );
 
 
-        /* DATABASE */
+        /*
+          Mark selected movie as chosen.
+        */
 
         setTimeout(
           async () => {
@@ -2498,7 +2532,7 @@
               await client
                 .from("Movies")
                 .update({
-                  chosen:true,
+                  chosen: true,
                   chosen_at:
                     new Date().toISOString()
                 })
