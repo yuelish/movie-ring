@@ -9,7 +9,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -18,14 +17,6 @@
       --black: #02050c;
       --white: #f2fcff;
       --red: #ff304d;
-
-      --blue-1: #008cff;
-      --blue-2: #006eff;
-      --blue-3: #0055ff;
-      --blue-4: #003bd4;
-
-      --cyan: #00eaff;
-      --magenta: #ff174f;
 
       --sea-1: #a8e6d4;
       --sea-2: #8edbd5;
@@ -37,34 +28,20 @@
       --sea-8: #b1e2d3;
     }
 
-
-    /* =========================================================
-       PAGE
-       ========================================================= */
-
     html {
       width: 100%;
       min-height: 100%;
-
       margin: 0;
       padding: 0;
-
       overflow-x: hidden;
       overflow-y: auto;
-
       background: #005eff;
-
-      scroll-behavior: smooth;
     }
-
 
     body {
       width: 100%;
       min-height: 100vh;
-
       margin: 0;
-      padding: 0;
-
       overflow-x: hidden;
       overflow-y: auto;
 
@@ -74,8 +51,6 @@
         Helvetica,
         Arial,
         sans-serif;
-
-      position: relative;
 
       background:
         radial-gradient(
@@ -88,20 +63,17 @@
         );
 
       animation:
-        screenFlicker 4.5s
-        infinite steps(1);
+        screenFlicker 4.5s steps(1) infinite;
     }
 
-
     /* =========================================================
-       BLUE LIGHT
+       VHS BACKGROUND
        ========================================================= */
 
     body::before {
       content: "";
 
       position: fixed;
-
       inset: 0;
 
       width: 100vw;
@@ -122,16 +94,11 @@
       mix-blend-mode: screen;
 
       animation:
-        bluePulse 3s
-        ease-in-out
-        infinite;
+        bluePulse 3s ease-in-out infinite;
     }
 
-
     @keyframes bluePulse {
-
-      0%,
-      100% {
+      0%, 100% {
         opacity: 0.65;
         transform: scale(1);
       }
@@ -142,13 +109,11 @@
       }
     }
 
-
     /* =========================================================
-       DIRECTOR CASCADE
+       DIRECTORS
        ========================================================= */
 
     #directorLayer {
-
       position: fixed;
 
       top: 0;
@@ -164,29 +129,22 @@
       pointer-events: none;
     }
 
-
     .director {
-
       position: absolute;
 
       top: -15vh;
 
       white-space: nowrap;
 
-      color:
-        rgba(230,250,255,0.56);
+      color: rgba(230,250,255,0.56);
 
-      font-size:
-        clamp(12px, 1.35vw, 20px);
+      font-size: clamp(12px, 1.35vw, 20px);
 
-      font-weight:
-        700;
+      font-weight: 700;
 
-      letter-spacing:
-        -0.4px;
+      letter-spacing: -0.4px;
 
-      opacity:
-        0;
+      opacity: 0;
 
       text-shadow:
         2px 0 rgba(255,0,50,0.4),
@@ -205,24 +163,17 @@
         forwards;
     }
 
-
     @keyframes directorFall {
-
       0% {
         opacity: 0;
 
         transform:
-          translate3d(
-            0,
-            -18vh,
-            0
-          )
+          translate3d(0,-18vh,0)
           skewX(var(--skew));
       }
 
       6% {
-        opacity:
-          var(--opacity);
+        opacity: var(--opacity);
       }
 
       45% {
@@ -236,8 +187,7 @@
       }
 
       90% {
-        opacity:
-          var(--opacity);
+        opacity: var(--opacity);
       }
 
       100% {
@@ -253,13 +203,11 @@
       }
     }
 
-
     /* =========================================================
        VHS NOISE
        ========================================================= */
 
     #vhsNoise {
-
       position: fixed;
 
       top: -50%;
@@ -275,11 +223,9 @@
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 
-      opacity:
-        0.18;
+      opacity: 0.18;
 
-      mix-blend-mode:
-        screen;
+      mix-blend-mode: screen;
 
       animation:
         noiseMove
@@ -288,9 +234,7 @@
         infinite;
     }
 
-
     @keyframes noiseMove {
-
       0% {
         transform: translate(0,0);
       }
@@ -316,13 +260,11 @@
       }
     }
 
-
     /* =========================================================
        SCANLINES
        ========================================================= */
 
     #scanlines {
-
       position: fixed;
 
       inset: 0;
@@ -344,8 +286,7 @@
           rgba(0,0,20,0.04) 6px
         );
 
-      background-size:
-        100% 7px;
+      background-size: 100% 7px;
 
       animation:
         scanMove
@@ -354,9 +295,7 @@
         infinite;
     }
 
-
     @keyframes scanMove {
-
       from {
         transform: translateY(0);
       }
@@ -366,13 +305,7 @@
       }
     }
 
-
-    /* =========================================================
-       SECOND SCANLINE LAYER
-       ========================================================= */
-
     #scanlines2 {
-
       position: fixed;
 
       inset: 0;
@@ -400,9 +333,7 @@
         infinite;
     }
 
-
     @keyframes scanSweep {
-
       from {
         transform: translateY(-40px);
       }
@@ -412,13 +343,11 @@
       }
     }
 
-
     /* =========================================================
        RGB BLEED
        ========================================================= */
 
     #colorBleed {
-
       position: fixed;
 
       inset: 0;
@@ -430,8 +359,7 @@
 
       pointer-events: none;
 
-      opacity:
-        0.35;
+      opacity: 0.35;
 
       background:
         linear-gradient(
@@ -442,8 +370,7 @@
           rgba(0,240,255,0.18)
         );
 
-      mix-blend-mode:
-        screen;
+      mix-blend-mode: screen;
 
       animation:
         colorShift
@@ -452,50 +379,38 @@
         infinite;
     }
 
-
     @keyframes colorShift {
-
-      0%,
-      72%,
-      100% {
-        transform:
-          translateX(0);
+      0%, 72%, 100% {
+        transform: translateX(0);
       }
 
       73% {
-        transform:
-          translateX(-5px);
+        transform: translateX(-5px);
       }
 
       74% {
-        transform:
-          translateX(7px);
+        transform: translateX(7px);
       }
 
       75% {
-        transform:
-          translateX(-3px);
+        transform: translateX(-3px);
       }
 
       76% {
-        transform:
-          translateX(0);
+        transform: translateX(0);
       }
     }
 
-
     /* =========================================================
-       TRACKING GLITCH
+       TRACKING
        ========================================================= */
 
     #tracking {
-
       position: fixed;
 
       left: -10%;
 
       width: 120%;
-
       height: 38px;
 
       top: 35%;
@@ -516,8 +431,7 @@
           transparent
         );
 
-      filter:
-        blur(1px);
+      filter: blur(1px);
 
       animation:
         trackingGlitch
@@ -526,14 +440,9 @@
         infinite;
     }
 
-
     @keyframes trackingGlitch {
-
-      0%,
-      67%,
-      100% {
+      0%, 67%, 100% {
         opacity: 0;
-
         transform:
           translateY(0)
           translateX(0);
@@ -541,7 +450,6 @@
 
       68% {
         opacity: 0.9;
-
         transform:
           translateY(-8vh)
           translateX(-12px);
@@ -549,7 +457,6 @@
 
       69% {
         opacity: 0.5;
-
         transform:
           translateY(4vh)
           translateX(22px);
@@ -557,7 +464,6 @@
 
       70% {
         opacity: 0.8;
-
         transform:
           translateY(12vh)
           translateX(-30px);
@@ -565,26 +471,22 @@
 
       71% {
         opacity: 0;
-
         transform:
           translateY(0)
           translateX(0);
       }
     }
 
-
     /* =========================================================
        GLITCH BAR
        ========================================================= */
 
     #glitchBar {
-
       position: fixed;
 
       left: 0;
 
       width: 100vw;
-
       height: 5px;
 
       top: 62%;
@@ -608,12 +510,8 @@
         infinite;
     }
 
-
     @keyframes glitchBar {
-
-      0%,
-      80%,
-      100% {
+      0%, 80%, 100% {
         opacity: 0;
       }
 
@@ -638,13 +536,11 @@
       }
     }
 
-
     /* =========================================================
-       CRT VIGNETTE
+       CRT
        ========================================================= */
 
     #crt {
-
       position: fixed;
 
       inset: 0;
@@ -669,48 +565,28 @@
         inset 0 0 130px rgba(0,0,0,0.65);
     }
 
-
     /* =========================================================
-       APPLICATION
+       APP
        ========================================================= */
 
     .app {
+      position: relative;
 
-      position:
-        relative;
+      z-index: 10;
 
-      z-index:
-        10;
+      width: 100%;
+      min-height: 100vh;
 
-      width:
-        100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      min-height:
-        100vh;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      align-items:
-        center;
-
-      text-align:
-        center;
+      text-align: center;
 
       padding:
-        30px 20px 100px;
+        30px 20px 80px;
 
-      /*
-        IMPORTANT:
-        The app is allowed to become taller
-        than the viewport so the page can scroll.
-      */
-
-      overflow:
-        visible;
+      overflow: visible;
 
       animation:
         subtleJitter
@@ -719,12 +595,8 @@
         infinite;
     }
 
-
     @keyframes subtleJitter {
-
-      0%,
-      93%,
-      100% {
+      0%, 93%, 100% {
         transform:
           translate(0,0);
       }
@@ -750,18 +622,13 @@
       }
     }
 
-
     /* =========================================================
        HEADER
        ========================================================= */
 
     header {
-
-      width:
-        100%;
-
-      max-width:
-        1000px;
+      width: 100%;
+      max-width: 1000px;
 
       border-bottom:
         2px solid var(--white);
@@ -769,45 +636,33 @@
       padding-bottom:
         12px;
 
-      overflow:
-        hidden;
+      overflow: hidden;
 
-      position:
-        relative;
+      position: relative;
 
       box-shadow:
         0 4px 0 rgba(0,238,255,0.2);
     }
 
-
     .header-text {
-
-      width:
-        100%;
+      width: 100%;
 
       font-size:
         clamp(8px,1.55vw,15px);
 
-      font-weight:
-        700;
+      font-weight: 700;
 
       letter-spacing:
         -0.15px;
 
-      line-height:
-        1;
+      line-height: 1;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
-      text-align:
-        justify;
+      text-align: justify;
+      text-align-last: justify;
 
-      text-align-last:
-        justify;
-
-      color:
-        var(--white);
+      color: var(--white);
 
       text-shadow:
         2px 0 rgba(255,0,55,0.5),
@@ -818,66 +673,49 @@
         opacity 0.65s ease;
     }
 
-
     .header-text.slide-out {
-
       transform:
         translateX(-100%);
 
-      opacity:
-        0;
+      opacity: 0;
     }
 
-
     .header-text.movie-result {
-
-      text-align:
-        center;
-
-      text-align-last:
-        center;
+      text-align: center;
+      text-align-last: center;
 
       letter-spacing:
         0.7px;
     }
 
-
     .header-text.slide-in {
-
       animation:
         headerSlideIn
         1s ease forwards;
     }
 
-
     @keyframes headerSlideIn {
-
       from {
         transform:
           translateX(100%);
 
-        opacity:
-          0;
+        opacity: 0;
       }
 
       to {
         transform:
           translateX(0);
 
-        opacity:
-          1;
+        opacity: 1;
       }
     }
-
 
     /* =========================================================
        WHEEL
        ========================================================= */
 
     .wheel-container {
-
-      position:
-        relative;
+      position: relative;
 
       width:
         min(78vw,470px);
@@ -889,20 +727,14 @@
         55px 0 35px;
     }
 
-
     .wheel-container::before {
+      content: "";
 
-      content:
-        "";
+      position: absolute;
 
-      position:
-        absolute;
+      inset: -8px;
 
-      inset:
-        -8px;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       background:
         radial-gradient(
@@ -921,20 +753,14 @@
         none;
     }
 
-
     .wheel-container::after {
+      content: "";
 
-      content:
-        "";
+      position: absolute;
 
-      position:
-        absolute;
+      inset: -18px;
 
-      inset:
-        -18px;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       background:
         radial-gradient(
@@ -958,41 +784,27 @@
         infinite;
     }
 
-
     @keyframes wheelGlow {
-
-      0%,
-      100% {
-        opacity:
-          0.65;
+      0%, 100% {
+        opacity: 0.65;
       }
 
       50% {
-        opacity:
-          1;
+        opacity: 1;
       }
     }
 
-
     .wheel {
+      position: absolute;
 
-      position:
-        absolute;
+      z-index: 2;
 
-      z-index:
-        2;
+      inset: 0;
 
-      inset:
-        0;
+      width: 100%;
+      height: 100%;
 
-      width:
-        100%;
-
-      height:
-        100%;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       border:
         3px solid var(--red);
@@ -1028,29 +840,18 @@
         hidden;
     }
 
-
     .wheel::before {
+      content: "";
 
-      content:
-        "";
+      position: absolute;
 
-      position:
-        absolute;
+      width: 70%;
+      height: 32%;
 
-      width:
-        70%;
+      top: 7%;
+      left: 15%;
 
-      height:
-        32%;
-
-      top:
-        7%;
-
-      left:
-        15%;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       background:
         linear-gradient(
@@ -1066,36 +867,25 @@
         none;
     }
 
-
     /* =========================================================
-       CENTER
+       CENTER / HISTORY LINK
        ========================================================= */
 
     .wheel-center {
+      position: absolute;
 
-      position:
-        absolute;
+      z-index: 5;
 
-      z-index:
-        5;
-
-      top:
-        50%;
-
-      left:
-        50%;
+      top: 50%;
+      left: 50%;
 
       transform:
         translate(-50%,-50%);
 
-      width:
-        92px;
+      width: 92px;
+      height: 92px;
 
-      height:
-        92px;
-
-      border-radius:
-        50%;
+      border-radius: 50%;
 
       background:
         #031d3d;
@@ -1103,14 +893,9 @@
       color:
         var(--white);
 
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       font-size:
         32px;
@@ -1126,36 +911,30 @@
       cursor:
         pointer;
 
+      text-decoration:
+        none;
+
       transition:
         transform 0.15s ease;
     }
 
-
     .wheel-center:hover {
-
       transform:
         translate(-50%,-50%)
         scale(1.08);
     }
-
 
     /* =========================================================
        POINTER
        ========================================================= */
 
     .pointer {
+      position: absolute;
 
-      position:
-        absolute;
+      z-index: 10;
 
-      z-index:
-        10;
-
-      top:
-        -24px;
-
-      left:
-        50%;
+      top: -24px;
+      left: 50%;
 
       transform:
         translateX(-50%);
@@ -1174,13 +953,11 @@
         0 0 15px rgba(0,230,255,0.5);
     }
 
-
     /* =========================================================
        BUTTON
        ========================================================= */
 
     #spinButton {
-
       border:
         2px solid var(--white);
 
@@ -1223,9 +1000,7 @@
         -4px -4px 0 rgba(0,235,255,0.4);
     }
 
-
     #spinButton:hover {
-
       background:
         #fff200;
 
@@ -1239,16 +1014,12 @@
         translateY(-2px);
     }
 
-
     #spinButton:active {
-
       transform:
         translateY(1px);
     }
 
-
     #spinButton:disabled {
-
       opacity:
         0.35;
 
@@ -1259,13 +1030,11 @@
         none;
     }
 
-
     /* =========================================================
        REMAINING
        ========================================================= */
 
     .remaining {
-
       margin-top:
         20px;
 
@@ -1292,112 +1061,7 @@
         -2px 0 rgba(0,220,255,0.45);
     }
 
-
-    /* =========================================================
-       HISTORY
-       ========================================================= */
-
-    #history {
-
-      width:
-        min(800px,100%);
-
-      margin-top:
-        40px;
-
-      padding-top:
-        25px;
-
-      padding-bottom:
-        60px;
-
-      border-top:
-        2px solid var(--white);
-
-      animation:
-        reveal
-        0.4s ease both;
-
-      overflow:
-        visible;
-
-      scroll-margin-top:
-        30px;
-    }
-
-
-    .history-label {
-
-      color:
-        var(--red);
-
-      font-size:
-        11px;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        3px;
-
-      text-transform:
-        uppercase;
-
-      margin-bottom:
-        20px;
-
-      text-shadow:
-        2px 0 rgba(255,0,60,0.45),
-        -2px 0 rgba(0,220,255,0.4);
-    }
-
-
-    #historyList {
-
-      margin:
-        0;
-
-      padding:
-        0;
-
-      list-style:
-        none;
-    }
-
-
-    #historyList li {
-
-      padding:
-        10px 0;
-
-      border-bottom:
-        1px solid rgba(220,245,255,0.25);
-
-      font-size:
-        16px;
-
-      color:
-        var(--white);
-
-      text-shadow:
-        1px 0 rgba(255,0,50,0.3),
-        -1px 0 rgba(0,220,255,0.3);
-    }
-
-
-    #historyList li:last-child {
-
-      border-bottom:
-        none;
-    }
-
-
-    /* =========================================================
-       MESSAGE
-       ========================================================= */
-
     #message {
-
       margin-top:
         20px;
 
@@ -1411,39 +1075,11 @@
         12px;
     }
 
-
-    .hidden {
-      display:
-        none;
-    }
-
-
-    @keyframes reveal {
-
-      from {
-        opacity:
-          0;
-
-        transform:
-          translateY(15px);
-      }
-
-      to {
-        opacity:
-          1;
-
-        transform:
-          translateY(0);
-      }
-    }
-
-
     /* =========================================================
-       SPINNING EFFECT
+       SPINNING
        ========================================================= */
 
     body.spinning .app {
-
       animation:
         spinJitter
         0.13s
@@ -1451,9 +1087,7 @@
         infinite;
     }
 
-
     body.spinning #colorBleed {
-
       opacity:
         0.65;
 
@@ -1464,16 +1098,12 @@
         infinite;
     }
 
-
     body.spinning #vhsNoise {
-
       opacity:
         0.32;
     }
 
-
     @keyframes spinJitter {
-
       0% {
         transform:
           translateX(0)
@@ -1505,9 +1135,7 @@
       }
     }
 
-
     @keyframes spinColorShift {
-
       0% {
         transform:
           translateX(-8px);
@@ -1524,19 +1152,8 @@
       }
     }
 
-
-    /* =========================================================
-       SCREEN FLICKER
-       ========================================================= */
-
     @keyframes screenFlicker {
-
-      0%,
-      20%,
-      40%,
-      60%,
-      80%,
-      100% {
+      0%, 20%, 40%, 60%, 80%, 100% {
         filter:
           brightness(1);
       }
@@ -1571,11 +1188,6 @@
           brightness(1);
       }
 
-      91% {
-        filter:
-          brightness(1);
-      }
-
       91.3% {
         filter:
           brightness(0.76);
@@ -1587,7 +1199,6 @@
       }
     }
 
-
     /* =========================================================
        MOBILE
        ========================================================= */
@@ -1595,28 +1206,16 @@
     @media (max-width: 600px) {
 
       .app {
-        padding-top:
-          20px;
-
-        padding-left:
-          15px;
-
-        padding-right:
-          15px;
-
-        padding-bottom:
-          80px;
+        padding:
+          20px 15px 80px;
       }
-
 
       header {
         padding-bottom:
           10px;
       }
 
-
       .header-text {
-
         font-size:
           7.5px;
 
@@ -1624,16 +1223,12 @@
           -0.3px;
       }
 
-
       .header-text.movie-result {
-
         letter-spacing:
           0.5px;
       }
 
-
       .wheel-container {
-
         width:
           82vw;
 
@@ -1644,16 +1239,7 @@
           48px;
       }
 
-
-      .wheel {
-
-        border-width:
-          3px;
-      }
-
-
       .wheel-center {
-
         width:
           74px;
 
@@ -1664,9 +1250,7 @@
           26px;
       }
 
-
       .pointer {
-
         font-size:
           32px;
 
@@ -1674,9 +1258,7 @@
           -21px;
       }
 
-
       #spinButton {
-
         width:
           min(80vw,330px);
 
@@ -1684,67 +1266,35 @@
           16px 30px;
       }
 
-
       .director {
-
         font-size:
           11px;
       }
-
-
-      #historyList li {
-
-        font-size:
-          14px;
-
-        padding:
-          9px 0;
-      }
-
     }
-
   </style>
 </head>
 
-
 <body>
 
+  <!-- DIRECTOR CASCADE -->
 
-  <!-- =======================================================
-       DIRECTOR CASCADE
-       ======================================================= -->
-
-  <div
-    id="directorLayer"
-    aria-hidden="true"
-  ></div>
+  <div id="directorLayer" aria-hidden="true"></div>
 
 
-  <!-- =======================================================
-       VHS SCREEN EFFECTS
-       ======================================================= -->
+  <!-- VHS EFFECT -->
 
   <div id="vhsNoise"></div>
-
   <div id="scanlines"></div>
-
   <div id="scanlines2"></div>
-
   <div id="colorBleed"></div>
-
   <div id="tracking"></div>
-
   <div id="glitchBar"></div>
-
   <div id="crt"></div>
 
 
-  <!-- =======================================================
-       APPLICATION
-       ======================================================= -->
+  <!-- APPLICATION -->
 
   <main class="app">
-
 
     <header>
 
@@ -1760,7 +1310,6 @@
 
     <div class="wheel-container">
 
-
       <div class="pointer">
         ▼
       </div>
@@ -1772,15 +1321,14 @@
       ></div>
 
 
-      <button
-        id="historyButton"
+      <a
+        href="history.html"
         class="wheel-center"
-        type="button"
         aria-label="View previously chosen films"
+        title="Previously Chosen"
       >
         🌐
-      </button>
-
+      </a>
 
     </div>
 
@@ -1798,29 +1346,12 @@
     </div>
 
 
-    <div
-      id="history"
-      class="hidden"
-    >
-
-      <div class="history-label">
-        Previously Chosen
-      </div>
-
-
-      <ul id="historyList"></ul>
-
-    </div>
-
-
     <div id="message"></div>
-
 
   </main>
 
 
   <script>
-
 
     /* =========================================================
        SUPABASE
@@ -1829,10 +1360,8 @@
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 
-
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
-
 
     const client =
       window.supabase.createClient(
@@ -1847,15 +1376,6 @@
 
     const wheel =
       document.getElementById("wheel");
-
-    const historyButton =
-      document.getElementById("historyButton");
-
-    const history =
-      document.getElementById("history");
-
-    const historyList =
-      document.getElementById("historyList");
 
     const spinButton =
       document.getElementById("spinButton");
@@ -2000,15 +1520,11 @@
 
 
     /* =========================================================
-       DIRECTOR GENERATOR
+       DIRECTOR CASCADE
        ========================================================= */
 
     function randomBetween(min, max) {
-
-      return Math.random() *
-        (max - min) +
-        min;
-
+      return Math.random() * (max - min) + min;
     }
 
 
@@ -2017,10 +1533,8 @@
       const element =
         document.createElement("div");
 
-
       element.className =
         "director";
-
 
       element.textContent =
         directors[
@@ -2030,66 +1544,53 @@
           )
         ];
 
-
       element.style.left =
         `${randomBetween(-8,96)}vw`;
-
 
       element.style.setProperty(
         "--duration",
         `${randomBetween(4.2,8.5)}s`
       );
 
-
       element.style.setProperty(
         "--delay",
         `${randomBetween(0,0.25)}s`
       );
-
 
       element.style.setProperty(
         "--opacity",
         randomBetween(0.22,0.50)
       );
 
-
       element.style.setProperty(
         "--drift",
         `${randomBetween(-130,130)}px`
       );
-
 
       element.style.setProperty(
         "--mid-drift",
         `${randomBetween(-60,60)}px`
       );
 
-
       element.style.setProperty(
         "--skew",
         `${randomBetween(-3,3)}deg`
       );
 
-
       element.style.fontSize =
         `${randomBetween(11,20)}px`;
-
 
       directorLayer.appendChild(
         element
       );
 
-
       element.addEventListener(
         "animationend",
-        () => {
-          element.remove();
-        },
+        () => element.remove(),
         {
           once: true
         }
       );
-
     }
 
 
@@ -2100,32 +1601,25 @@
         i < 32;
         i++
       ) {
-
         createDirector();
-
       }
-
 
       function nextDirector() {
 
         createDirector();
 
-
         setTimeout(
           nextDirector,
           randomBetween(130,420)
         );
-
       }
 
-
       nextDirector();
-
     }
 
 
     /* =========================================================
-       WHEEL GENERATOR
+       WHEEL
        ========================================================= */
 
     function updateWheel() {
@@ -2133,16 +1627,13 @@
       const count =
         movies.length;
 
-
       if (count === 0) {
 
         wheel.style.background =
           "var(--sea-1)";
 
         return;
-
       }
-
 
       const colors = [
         "#a8e6d4",
@@ -2155,13 +1646,10 @@
         "#b1e2d3"
       ];
 
-
       const segmentSize =
         360 / count;
 
-
       const stops = [];
-
 
       for (
         let i = 0;
@@ -2180,17 +1668,13 @@
             i % colors.length
           ];
 
-
         stops.push(
           `${color} ${start}deg ${end}deg`
         );
-
       }
-
 
       wheel.style.background =
         `conic-gradient(${stops.join(",")})`;
-
     }
 
 
@@ -2203,7 +1687,6 @@
       remaining.textContent =
         "Loading movies...";
 
-
       const {
         data,
         error
@@ -2213,7 +1696,6 @@
           .select("id, title, year")
           .eq("chosen", false);
 
-
       if (error) {
 
         console.error(
@@ -2221,38 +1703,29 @@
           error
         );
 
-
         remaining.textContent =
           "";
-
 
         message.textContent =
           "Supabase error: " +
           error.message;
 
-
         spinButton.disabled =
           true;
 
-
         return;
-
       }
-
 
       movies =
         data || [];
 
-
       updateWheel();
-
       updateRemaining();
-
     }
 
 
     /* =========================================================
-       UPDATE COUNTER
+       COUNTER
        ========================================================= */
 
     function updateRemaining() {
@@ -2260,141 +1733,10 @@
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
-
       spinButton.disabled =
         movies.length === 0 ||
         isSpinning;
-
     }
-
-
-    /* =========================================================
-       LOAD HISTORY
-       ========================================================= */
-
-    async function loadHistory() {
-
-      historyList.innerHTML =
-        "<li>Loading...</li>";
-
-
-      const {
-        data,
-        error
-      } =
-        await client
-          .from("Movies")
-          .select("title")
-          .eq("chosen", true)
-          .order(
-            "chosen_at",
-            {
-              ascending: false
-            }
-          );
-
-
-      if (error) {
-
-        console.error(
-          "History error:",
-          error
-        );
-
-
-        historyList.innerHTML =
-          "<li>Unable to load previously chosen films.</li>";
-
-
-        return;
-
-      }
-
-
-      historyList.innerHTML =
-        "";
-
-
-      if (
-        !data ||
-        data.length === 0
-      ) {
-
-        historyList.innerHTML =
-          "<li>No films have been chosen yet.</li>";
-
-
-        return;
-
-      }
-
-
-      data.forEach(movie => {
-
-        const li =
-          document.createElement("li");
-
-
-        li.textContent =
-          movie.title;
-
-
-        historyList.appendChild(li);
-
-      });
-
-    }
-
-
-    /* =========================================================
-       HISTORY BUTTON
-       ========================================================= */
-
-    historyButton.addEventListener(
-      "click",
-      async () => {
-
-        const isHidden =
-          history.classList.contains(
-            "hidden"
-          );
-
-
-        if (isHidden) {
-
-          history.classList.remove(
-            "hidden"
-          );
-
-
-          await loadHistory();
-
-
-          /*
-            Wait until the newly revealed
-            history has been laid out before
-            scrolling to it.
-          */
-
-          requestAnimationFrame(() => {
-
-            history.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-          });
-
-        } else {
-
-          history.classList.add(
-            "hidden"
-          );
-
-        }
-
-      }
-    );
 
 
     /* =========================================================
@@ -2412,28 +1754,18 @@
           return;
         }
 
-
         isSpinning =
           true;
-
 
         document.body.classList.add(
           "spinning"
         );
 
-
         spinButton.disabled =
           true;
 
-
         message.textContent =
           "";
-
-
-        /*
-          Update segments BEFORE
-          the new spin begins.
-        */
 
         updateWheel();
 
@@ -2461,10 +1793,7 @@
           `rotate(${rotation}deg)`;
 
 
-        /*
-          Start header transition
-          before wheel finishes.
-        */
+        /* HEADER */
 
         setTimeout(
           () => {
@@ -2473,7 +1802,6 @@
               "slide-in",
               "movie-result"
             );
-
 
             headerText.classList.add(
               "slide-out"
@@ -2488,23 +1816,18 @@
                     ? ` — ${movie.year}`
                     : "";
 
-
                 headerText.textContent =
                   `${movie.title}${year}`;
-
 
                 headerText.classList.add(
                   "movie-result"
                 );
 
-
                 headerText.classList.remove(
                   "slide-out"
                 );
 
-
                 void headerText.offsetWidth;
-
 
                 headerText.classList.add(
                   "slide-in"
@@ -2519,9 +1842,7 @@
         );
 
 
-        /*
-          Mark selected movie as chosen.
-        */
+        /* DATABASE */
 
         setTimeout(
           async () => {
@@ -2549,25 +1870,19 @@
                 error
               );
 
-
               message.textContent =
                 "The movie was selected, but it could not be marked as chosen.";
 
-
               isSpinning =
                 false;
-
 
               document.body.classList.remove(
                 "spinning"
               );
 
-
               updateRemaining();
 
-
               return;
-
             }
 
 
@@ -2578,18 +1893,12 @@
               );
 
 
-            remaining.textContent =
-              `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
-
-
             isSpinning =
               false;
-
 
             document.body.classList.remove(
               "spinning"
             );
-
 
             updateRemaining();
 
@@ -2608,7 +1917,6 @@
     startDirectorCascade();
 
     loadMovies();
-
 
   </script>
 
