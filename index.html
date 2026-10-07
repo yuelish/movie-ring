@@ -15,13 +15,14 @@
     }
 
     :root {
-      --black: #020914;
-      --blue: #063b78;
-      --blue-dark: #021b3d;
-      --blue-bright: #0878c9;
-
-      --white: #eefaff;
+      --black: #02050c;
+      --white: #f2fcff;
       --red: #ff304d;
+
+      --blue-1: #008cff;
+      --blue-2: #006eff;
+      --blue-3: #0055ff;
+      --blue-4: #003bd4;
 
       --cyan: #00eaff;
       --magenta: #ff174f;
@@ -38,20 +39,24 @@
 
 
     /* =========================================================
-       BLUE CRT SCREEN
+       GLOBAL
        ========================================================= */
 
-    html {
-      min-height: 100%;
-      background: #031d46;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+
+      margin: 0;
+      padding: 0;
+
+      overflow: hidden;
+
+      background: #005eff;
     }
 
 
     body {
-      margin: 0;
-
-      min-height: 100vh;
-
       color: var(--white);
 
       font-family:
@@ -59,18 +64,20 @@
         Arial,
         sans-serif;
 
-      overflow-x: hidden;
-
       position: relative;
+
+      /*
+        Extremely saturated blue CRT background.
+      */
 
       background:
         radial-gradient(
-          ellipse at center,
-          #0874c7 0%,
-          #07579f 22%,
-          #043d79 48%,
-          #02234b 73%,
-          #010d25 100%
+          ellipse at 50% 45%,
+          #18a5ff 0%,
+          #087cff 22%,
+          #0059ff 48%,
+          #003ed1 72%,
+          #00248a 100%
         );
 
       animation:
@@ -80,7 +87,7 @@
 
 
     /* =========================================================
-       BLUE LIGHT PULSE
+       VIBRANT BLUE LIGHT
        ========================================================= */
 
     body::before {
@@ -88,25 +95,25 @@
 
       position: fixed;
 
-      inset: -20%;
+      inset: 0;
 
-      z-index: 40;
+      z-index: 1;
 
       pointer-events: none;
 
       background:
         radial-gradient(
           ellipse at center,
-          rgba(0, 221, 255, 0.25),
-          rgba(0, 70, 180, 0.10) 42%,
-          transparent 72%
+          rgba(80,230,255,0.38) 0%,
+          rgba(0,150,255,0.18) 35%,
+          transparent 70%
         );
 
       mix-blend-mode:
         screen;
 
       animation:
-        bluePulse 3.2s
+        bluePulse 3s
         ease-in-out
         infinite;
     }
@@ -116,448 +123,55 @@
 
       0%,
       100% {
-        opacity: 0.55;
-        transform: scale(1);
+        opacity: 0.65;
+
+        transform:
+          scale(1);
       }
 
       50% {
-        opacity: 0.95;
-        transform: scale(1.08);
+        opacity: 1;
+
+        transform:
+          scale(1.07);
       }
     }
 
 
     /* =========================================================
-       HEAVY VHS NOISE
-       ========================================================= */
-
-    #vhsNoise {
-      position: fixed;
-
-      inset: -50%;
-
-      z-index: 50;
-
-      pointer-events: none;
-
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-
-      opacity:
-        0.19;
-
-      mix-blend-mode:
-        screen;
-
-      animation:
-        noiseMove
-        0.11s
-        steps(2)
-        infinite;
-    }
-
-
-    @keyframes noiseMove {
-
-      0% {
-        transform:
-          translate(0, 0);
-      }
-
-      20% {
-        transform:
-          translate(-4%, 2%);
-      }
-
-      40% {
-        transform:
-          translate(3%, -4%);
-      }
-
-      60% {
-        transform:
-          translate(5%, 3%);
-      }
-
-      80% {
-        transform:
-          translate(-3%, -2%);
-      }
-
-      100% {
-        transform:
-          translate(2%, 4%);
-      }
-    }
-
-
-    /* =========================================================
-       HEAVY SCANLINES
-       ========================================================= */
-
-    #scanlines {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 51;
-
-      pointer-events: none;
-
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.15) 0px,
-          rgba(255,255,255,0.15) 1px,
-          rgba(0,0,20,0.28) 2px,
-          rgba(0,0,20,0.38) 4px,
-          rgba(0,0,20,0.05) 6px
-        );
-
-      background-size:
-        100% 7px;
-
-      animation:
-        scanMove
-        0.14s
-        linear
-        infinite;
-    }
-
-
-    @keyframes scanMove {
-
-      from {
-        transform:
-          translateY(0);
-      }
-
-      to {
-        transform:
-          translateY(7px);
-      }
-    }
-
-
-    /* =========================================================
-       SECOND SCANLINE LAYER
-       ========================================================= */
-
-    #scanlines2 {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 52;
-
-      pointer-events: none;
-
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          transparent 0px,
-          transparent 17px,
-          rgba(0, 238, 255, 0.12) 18px,
-          transparent 20px
-        );
-
-      animation:
-        scanSweep
-        2.8s
-        linear
-        infinite;
-    }
-
-
-    @keyframes scanSweep {
-
-      from {
-        transform:
-          translateY(-40px);
-      }
-
-      to {
-        transform:
-          translateY(40px);
-      }
-    }
-
-
-    /* =========================================================
-       CRT VIGNETTE
-       ========================================================= */
-
-    #crt {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 60;
-
-      pointer-events: none;
-
-      background:
-        radial-gradient(
-          ellipse at center,
-          transparent 38%,
-          rgba(0,10,30,0.18) 58%,
-          rgba(0,8,25,0.55) 78%,
-          rgba(0,3,15,0.92) 100%
-        );
-
-      box-shadow:
-        inset 0 0 130px rgba(0,0,0,0.8);
-    }
-
-
-    /* =========================================================
-       RGB COLOR SEPARATION
-       ========================================================= */
-
-    #colorBleed {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 61;
-
-      pointer-events: none;
-
-      opacity:
-        0.34;
-
-      background:
-        linear-gradient(
-          90deg,
-          rgba(255,0,40,0.12),
-          transparent 16%,
-          transparent 84%,
-          rgba(0,240,255,0.16)
-        );
-
-      mix-blend-mode:
-        screen;
-
-      animation:
-        colorShift
-        2.1s
-        steps(1)
-        infinite;
-    }
-
-
-    @keyframes colorShift {
-
-      0%,
-      72%,
-      100% {
-        transform:
-          translateX(0);
-      }
-
-      73% {
-        transform:
-          translateX(-5px);
-      }
-
-      74% {
-        transform:
-          translateX(7px);
-      }
-
-      75% {
-        transform:
-          translateX(-3px);
-      }
-
-      76% {
-        transform:
-          translateX(0);
-      }
-    }
-
-
-    /* =========================================================
-       HORIZONTAL VHS TRACKING
-       ========================================================= */
-
-    #tracking {
-      position: fixed;
-
-      left: -10%;
-
-      width: 120%;
-
-      height: 38px;
-
-      top: 35%;
-
-      z-index: 62;
-
-      pointer-events: none;
-
-      opacity: 0;
-
-      background:
-        linear-gradient(
-          to bottom,
-          transparent,
-          rgba(255,255,255,0.32),
-          rgba(0,238,255,0.35),
-          rgba(255,0,70,0.22),
-          transparent
-        );
-
-      filter:
-        blur(1px);
-
-      animation:
-        trackingGlitch
-        5.8s
-        steps(1)
-        infinite;
-    }
-
-
-    @keyframes trackingGlitch {
-
-      0%,
-      67%,
-      100% {
-        opacity: 0;
-
-        transform:
-          translateY(0)
-          translateX(0);
-      }
-
-      68% {
-        opacity: 0.85;
-
-        transform:
-          translateY(-8vh)
-          translateX(-12px);
-      }
-
-      69% {
-        opacity: 0.45;
-
-        transform:
-          translateY(4vh)
-          translateX(22px);
-      }
-
-      70% {
-        opacity: 0.75;
-
-        transform:
-          translateY(12vh)
-          translateX(-30px);
-      }
-
-      71% {
-        opacity: 0;
-
-        transform:
-          translateY(0)
-          translateX(0);
-      }
-    }
-
-
-    /* =========================================================
-       RANDOM GLITCH BAR
-       ========================================================= */
-
-    #glitchBar {
-      position: fixed;
-
-      left: 0;
-
-      width: 100%;
-
-      height: 5px;
-
-      top: 62%;
-
-      z-index: 63;
-
-      pointer-events: none;
-
-      background:
-        rgba(255,255,255,0.6);
-
-      box-shadow:
-        0 0 18px rgba(0,240,255,0.8);
-
-      opacity: 0;
-
-      animation:
-        glitchBar
-        7s
-        steps(1)
-        infinite;
-    }
-
-
-    @keyframes glitchBar {
-
-      0%,
-      80%,
-      100% {
-        opacity: 0;
-      }
-
-      81% {
-        opacity: 0.7;
-
-        transform:
-          scaleX(0.35)
-          translateX(-30%);
-      }
-
-      81.2% {
-        opacity: 0.3;
-
-        transform:
-          scaleX(1.4)
-          translateX(10%);
-      }
-
-      81.4% {
-        opacity: 0;
-      }
-    }
-
-
-    /* =========================================================
-       DIRECTOR CASCADE
+       DIRECTOR CONTAINER
+       IMPORTANT:
+       It cannot create page height.
        ========================================================= */
 
     #directorLayer {
+
       position: fixed;
 
-      inset: 0;
+      top: 0;
+      left: 0;
 
-      z-index: 2;
+      width: 100vw;
+      height: 100vh;
 
       overflow: hidden;
+
+      z-index: 2;
 
       pointer-events: none;
     }
 
 
     .director {
+
       position: absolute;
 
-      top:
-        -15vh;
+      top: -15vh;
 
-      white-space:
-        nowrap;
+      white-space: nowrap;
 
       color:
-        rgba(225,248,255,0.48);
+        rgba(230,250,255,0.56);
 
       font-size:
         clamp(12px, 1.35vw, 20px);
@@ -572,9 +186,9 @@
         0;
 
       text-shadow:
-        2px 0 rgba(255,0,50,0.35),
-        -2px 0 rgba(0,240,255,0.45),
-        0 0 8px rgba(0,210,255,0.3);
+        2px 0 rgba(255,0,50,0.4),
+        -2px 0 rgba(0,240,255,0.55),
+        0 0 9px rgba(0,220,255,0.45);
 
       will-change:
         transform,
@@ -638,15 +252,445 @@
 
 
     /* =========================================================
+       VHS NOISE
+       ========================================================= */
+
+    #vhsNoise {
+
+      position: fixed;
+
+      top: -50%;
+      left: -50%;
+
+      width: 200%;
+      height: 200%;
+
+      z-index: 50;
+
+      pointer-events: none;
+
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+
+      opacity:
+        0.18;
+
+      mix-blend-mode:
+        screen;
+
+      animation:
+        noiseMove
+        0.11s
+        steps(2)
+        infinite;
+    }
+
+
+    @keyframes noiseMove {
+
+      0% {
+        transform:
+          translate(0,0);
+      }
+
+      20% {
+        transform:
+          translate(-4%,2%);
+      }
+
+      40% {
+        transform:
+          translate(3%,-4%);
+      }
+
+      60% {
+        transform:
+          translate(5%,3%);
+      }
+
+      80% {
+        transform:
+          translate(-3%,-2%);
+      }
+
+      100% {
+        transform:
+          translate(2%,4%);
+      }
+    }
+
+
+    /* =========================================================
+       SCANLINES
+       ========================================================= */
+
+    #scanlines {
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100vw;
+      height: 100vh;
+
+      z-index: 51;
+
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.16) 0px,
+          rgba(255,255,255,0.16) 1px,
+          rgba(0,0,20,0.25) 2px,
+          rgba(0,0,20,0.34) 4px,
+          rgba(0,0,20,0.04) 6px
+        );
+
+      background-size:
+        100% 7px;
+
+      animation:
+        scanMove
+        0.14s
+        linear
+        infinite;
+    }
+
+
+    @keyframes scanMove {
+
+      from {
+        transform:
+          translateY(0);
+      }
+
+      to {
+        transform:
+          translateY(7px);
+      }
+    }
+
+
+    /* =========================================================
+       SECOND SCANLINE LAYER
+       ========================================================= */
+
+    #scanlines2 {
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100vw;
+      height: 100vh;
+
+      z-index: 52;
+
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 17px,
+          rgba(0,238,255,0.14) 18px,
+          transparent 20px
+        );
+
+      animation:
+        scanSweep
+        2.8s
+        linear
+        infinite;
+    }
+
+
+    @keyframes scanSweep {
+
+      from {
+        transform:
+          translateY(-40px);
+      }
+
+      to {
+        transform:
+          translateY(40px);
+      }
+    }
+
+
+    /* =========================================================
+       RGB BLEED
+       ========================================================= */
+
+    #colorBleed {
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100vw;
+      height: 100vh;
+
+      z-index: 53;
+
+      pointer-events: none;
+
+      opacity:
+        0.35;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,0,40,0.12),
+          transparent 16%,
+          transparent 84%,
+          rgba(0,240,255,0.18)
+        );
+
+      mix-blend-mode:
+        screen;
+
+      animation:
+        colorShift
+        2.1s
+        steps(1)
+        infinite;
+    }
+
+
+    @keyframes colorShift {
+
+      0%,
+      72%,
+      100% {
+        transform:
+          translateX(0);
+      }
+
+      73% {
+        transform:
+          translateX(-5px);
+      }
+
+      74% {
+        transform:
+          translateX(7px);
+      }
+
+      75% {
+        transform:
+          translateX(-3px);
+      }
+
+      76% {
+        transform:
+          translateX(0);
+      }
+    }
+
+
+    /* =========================================================
+       TRACKING GLITCH
+       ========================================================= */
+
+    #tracking {
+
+      position: fixed;
+
+      left: -10%;
+
+      width: 120%;
+
+      height: 38px;
+
+      top: 35%;
+
+      z-index: 62;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      background:
+        linear-gradient(
+          to bottom,
+          transparent,
+          rgba(255,255,255,0.35),
+          rgba(0,238,255,0.4),
+          rgba(255,0,70,0.25),
+          transparent
+        );
+
+      filter:
+        blur(1px);
+
+      animation:
+        trackingGlitch
+        5.8s
+        steps(1)
+        infinite;
+    }
+
+
+    @keyframes trackingGlitch {
+
+      0%,
+      67%,
+      100% {
+        opacity: 0;
+
+        transform:
+          translateY(0)
+          translateX(0);
+      }
+
+      68% {
+        opacity: 0.9;
+
+        transform:
+          translateY(-8vh)
+          translateX(-12px);
+      }
+
+      69% {
+        opacity: 0.5;
+
+        transform:
+          translateY(4vh)
+          translateX(22px);
+      }
+
+      70% {
+        opacity: 0.8;
+
+        transform:
+          translateY(12vh)
+          translateX(-30px);
+      }
+
+      71% {
+        opacity: 0;
+
+        transform:
+          translateY(0)
+          translateX(0);
+      }
+    }
+
+
+    /* =========================================================
+       GLITCH BAR
+       ========================================================= */
+
+    #glitchBar {
+
+      position: fixed;
+
+      left: 0;
+
+      width: 100vw;
+
+      height: 5px;
+
+      top: 62%;
+
+      z-index: 63;
+
+      pointer-events: none;
+
+      background:
+        rgba(255,255,255,0.65);
+
+      box-shadow:
+        0 0 18px rgba(0,240,255,0.9);
+
+      opacity: 0;
+
+      animation:
+        glitchBar
+        7s
+        steps(1)
+        infinite;
+    }
+
+
+    @keyframes glitchBar {
+
+      0%,
+      80%,
+      100% {
+        opacity: 0;
+      }
+
+      81% {
+        opacity: 0.7;
+
+        transform:
+          scaleX(0.35)
+          translateX(-30%);
+      }
+
+      81.2% {
+        opacity: 0.3;
+
+        transform:
+          scaleX(1.4)
+          translateX(10%);
+      }
+
+      81.4% {
+        opacity: 0;
+      }
+    }
+
+
+    /* =========================================================
+       CRT VIGNETTE
+       ========================================================= */
+
+    #crt {
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100vw;
+      height: 100vh;
+
+      z-index: 64;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          transparent 35%,
+          rgba(0,10,30,0.12) 55%,
+          rgba(0,8,25,0.42) 78%,
+          rgba(0,3,15,0.72) 100%
+        );
+
+      box-shadow:
+        inset 0 0 130px rgba(0,0,0,0.65);
+    }
+
+
+    /* =========================================================
        APPLICATION
        ========================================================= */
 
     .app {
+
       position:
         relative;
 
       z-index:
         10;
+
+      width:
+        100%;
 
       min-height:
         100vh;
@@ -665,6 +709,14 @@
 
       padding:
         30px 20px 50px;
+
+      /*
+        Prevent the content from becoming a
+        scrolling document.
+      */
+
+      overflow:
+        hidden;
 
       animation:
         subtleJitter
@@ -706,10 +758,697 @@
 
 
     /* =========================================================
-       SPINNING VHS CHAOS
+       HEADER
+       ========================================================= */
+
+    header {
+
+      width:
+        100%;
+
+      max-width:
+        1000px;
+
+      border-bottom:
+        2px solid var(--white);
+
+      padding-bottom:
+        12px;
+
+      overflow:
+        hidden;
+
+      position:
+        relative;
+
+      box-shadow:
+        0 4px 0 rgba(0,238,255,0.2);
+    }
+
+
+    .header-text {
+
+      width:
+        100%;
+
+      font-size:
+        clamp(8px,1.55vw,15px);
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        -0.15px;
+
+      line-height:
+        1;
+
+      white-space:
+        nowrap;
+
+      text-align:
+        justify;
+
+      text-align-last:
+        justify;
+
+      color:
+        var(--white);
+
+      text-shadow:
+        2px 0 rgba(255,0,55,0.5),
+        -2px 0 rgba(0,240,255,0.55);
+
+      transition:
+        transform 0.65s ease,
+        opacity 0.65s ease;
+    }
+
+
+    .header-text.slide-out {
+
+      transform:
+        translateX(-100%);
+
+      opacity:
+        0;
+    }
+
+
+    .header-text.movie-result {
+
+      text-align:
+        center;
+
+      text-align-last:
+        center;
+
+      letter-spacing:
+        0.7px;
+    }
+
+
+    .header-text.slide-in {
+
+      animation:
+        headerSlideIn
+        1s ease forwards;
+    }
+
+
+    @keyframes headerSlideIn {
+
+      from {
+        transform:
+          translateX(100%);
+
+        opacity:
+          0;
+      }
+
+      to {
+        transform:
+          translateX(0);
+
+        opacity:
+          1;
+      }
+    }
+
+
+    /* =========================================================
+       WHEEL
+       ========================================================= */
+
+    .wheel-container {
+
+      position:
+        relative;
+
+      width:
+        min(78vw,470px);
+
+      height:
+        min(78vw,470px);
+
+      margin:
+        55px 0 35px;
+    }
+
+
+    .wheel-container::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        -8px;
+
+      border-radius:
+        50%;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 65%,
+          rgba(255,48,77,0.6) 68%,
+          rgba(255,48,77,0.25) 72%,
+          rgba(0,235,255,0.2) 76%,
+          transparent 84%
+        );
+
+      filter:
+        blur(3px);
+
+      pointer-events:
+        none;
+    }
+
+
+    .wheel-container::after {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        -18px;
+
+      border-radius:
+        50%;
+
+      background:
+        radial-gradient(
+          circle,
+          transparent 68%,
+          rgba(255,30,70,0.25) 71%,
+          rgba(0,220,255,0.16) 76%,
+          transparent 88%
+        );
+
+      filter:
+        blur(8px);
+
+      pointer-events:
+        none;
+
+      animation:
+        wheelGlow
+        1.8s
+        ease-in-out
+        infinite;
+    }
+
+
+    @keyframes wheelGlow {
+
+      0%,
+      100% {
+        opacity:
+          0.65;
+      }
+
+      50% {
+        opacity:
+          1;
+      }
+    }
+
+
+    .wheel {
+
+      position:
+        absolute;
+
+      z-index:
+        2;
+
+      inset:
+        0;
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      border-radius:
+        50%;
+
+      border:
+        3px solid var(--red);
+
+      background:
+        conic-gradient(
+          var(--sea-1),
+          var(--sea-2),
+          var(--sea-3),
+          var(--sea-4),
+          var(--sea-5),
+          var(--sea-6),
+          var(--sea-7),
+          var(--sea-8),
+          var(--sea-1)
+        );
+
+      box-shadow:
+        0 15px 35px rgba(0,0,0,0.65),
+        0 0 35px rgba(255,48,77,0.3);
+
+      transition:
+        transform 4s
+        cubic-bezier(.12,.72,.12,1);
+
+      transform-origin:
+        center center;
+
+      will-change:
+        transform;
+
+      overflow:
+        hidden;
+    }
+
+
+    .wheel::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      width:
+        70%;
+
+      height:
+        32%;
+
+      top:
+        7%;
+
+      left:
+        15%;
+
+      border-radius:
+        50%;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.55),
+          rgba(255,255,255,0)
+        );
+
+      transform:
+        rotate(-18deg);
+
+      pointer-events:
+        none;
+    }
+
+
+    /* =========================================================
+       CENTER
+       ========================================================= */
+
+    .wheel-center {
+
+      position:
+        absolute;
+
+      z-index:
+        5;
+
+      top:
+        50%;
+
+      left:
+        50%;
+
+      transform:
+        translate(-50%,-50%);
+
+      width:
+        92px;
+
+      height:
+        92px;
+
+      border-radius:
+        50%;
+
+      background:
+        #031d3d;
+
+      color:
+        var(--white);
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        32px;
+
+      border:
+        4px solid var(--red);
+
+      box-shadow:
+        inset 0 4px 8px rgba(255,48,77,0.32),
+        inset 0 -2px 5px rgba(255,48,77,0.15),
+        0 0 20px rgba(0,240,255,0.4);
+
+      cursor:
+        pointer;
+
+      transition:
+        transform 0.15s ease;
+    }
+
+
+    .wheel-center:hover {
+
+      transform:
+        translate(-50%,-50%)
+        scale(1.08);
+    }
+
+
+    /* =========================================================
+       POINTER
+       ========================================================= */
+
+    .pointer {
+
+      position:
+        absolute;
+
+      z-index:
+        10;
+
+      top:
+        -24px;
+
+      left:
+        50%;
+
+      transform:
+        translateX(-50%);
+
+      color:
+        var(--red);
+
+      font-size:
+        38px;
+
+      line-height:
+        1;
+
+      text-shadow:
+        0 0 8px rgba(255,48,77,0.8),
+        0 0 15px rgba(0,230,255,0.5);
+    }
+
+
+    /* =========================================================
+       BUTTON
+       ========================================================= */
+
+    #spinButton {
+
+      border:
+        2px solid var(--white);
+
+      background:
+        var(--white);
+
+      color:
+        #031326;
+
+      padding:
+        17px 65px;
+
+      border-radius:
+        0;
+
+      font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      font-size:
+        15px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        2px;
+
+      cursor:
+        pointer;
+
+      transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+
+      box-shadow:
+        4px 4px 0 rgba(255,48,77,0.75),
+        -4px -4px 0 rgba(0,235,255,0.4);
+    }
+
+
+    #spinButton:hover {
+
+      background:
+        #fff200;
+
+      border-color:
+        #fff200;
+
+      color:
+        #020914;
+
+      transform:
+        translateY(-2px);
+    }
+
+
+    #spinButton:active {
+
+      transform:
+        translateY(1px);
+    }
+
+
+    #spinButton:disabled {
+
+      opacity:
+        0.35;
+
+      cursor:
+        not-allowed;
+
+      transform:
+        none;
+    }
+
+
+    /* =========================================================
+       REMAINING
+       ========================================================= */
+
+    .remaining {
+
+      margin-top:
+        20px;
+
+      font-size:
+        12px;
+
+      font-weight:
+        600;
+
+      font-style:
+        italic;
+
+      letter-spacing:
+        1px;
+
+      text-transform:
+        uppercase;
+
+      color:
+        #c9f5ff;
+
+      text-shadow:
+        2px 0 rgba(255,0,60,0.35),
+        -2px 0 rgba(0,220,255,0.45);
+    }
+
+
+    /* =========================================================
+       HISTORY
+       ========================================================= */
+
+    #history {
+
+      width:
+        min(800px,100%);
+
+      margin-top:
+        40px;
+
+      padding-top:
+        25px;
+
+      border-top:
+        2px solid var(--white);
+
+      animation:
+        reveal
+        0.4s ease both;
+
+      /*
+        History remains usable without
+        creating horizontal overflow.
+      */
+
+      overflow:
+        hidden;
+    }
+
+
+    .history-label {
+
+      color:
+        var(--red);
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        3px;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
+        20px;
+
+      text-shadow:
+        2px 0 rgba(255,0,60,0.45),
+        -2px 0 rgba(0,220,255,0.4);
+    }
+
+
+    #historyList {
+
+      margin:
+        0;
+
+      padding:
+        0;
+
+      list-style:
+        none;
+    }
+
+
+    #historyList li {
+
+      padding:
+        10px 0;
+
+      border-bottom:
+        1px solid rgba(220,245,255,0.25);
+
+      font-size:
+        16px;
+
+      color:
+        var(--white);
+
+      text-shadow:
+        1px 0 rgba(255,0,50,0.3),
+        -1px 0 rgba(0,220,255,0.3);
+    }
+
+
+    #historyList li:last-child {
+
+      border-bottom:
+        none;
+    }
+
+
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
+
+    #message {
+
+      margin-top:
+        20px;
+
+      max-width:
+        600px;
+
+      color:
+        #ff6680;
+
+      font-size:
+        12px;
+    }
+
+
+    .hidden {
+      display:
+        none;
+    }
+
+
+    @keyframes reveal {
+
+      from {
+        opacity:
+          0;
+
+        transform:
+          translateY(15px);
+      }
+
+      to {
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    /* =========================================================
+       SPINNING EFFECT
        ========================================================= */
 
     body.spinning .app {
+
       animation:
         spinJitter
         0.13s
@@ -719,6 +1458,7 @@
 
 
     body.spinning #colorBleed {
+
       opacity:
         0.65;
 
@@ -730,23 +1470,10 @@
     }
 
 
-    body.spinning #scanlines {
-      opacity:
-        1.4;
-    }
-
-
     body.spinning #vhsNoise {
+
       opacity:
         0.32;
-    }
-
-
-    body.spinning .director {
-      text-shadow:
-        4px 0 rgba(255,0,50,0.55),
-        -4px 0 rgba(0,240,255,0.65),
-        0 0 12px rgba(0,210,255,0.4);
     }
 
 
@@ -804,661 +1531,7 @@
 
 
     /* =========================================================
-       HEADER
-       ========================================================= */
-
-    header {
-      width:
-        100%;
-
-      max-width:
-        1000px;
-
-      border-bottom:
-        2px solid var(--white);
-
-      padding-bottom:
-        12px;
-
-      overflow:
-        hidden;
-
-      position:
-        relative;
-
-      box-shadow:
-        0 4px 0 rgba(0,238,255,0.16);
-    }
-
-
-    .header-text {
-      width:
-        100%;
-
-      font-size:
-        clamp(8px, 1.55vw, 15px);
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        -0.15px;
-
-      line-height:
-        1;
-
-      white-space:
-        nowrap;
-
-      text-align:
-        justify;
-
-      text-align-last:
-        justify;
-
-      color:
-        var(--white);
-
-      text-shadow:
-        2px 0 rgba(255,0,55,0.5),
-        -2px 0 rgba(0,240,255,0.5);
-
-      transition:
-        transform 0.65s ease,
-        opacity 0.65s ease;
-    }
-
-
-    .header-text.slide-out {
-      transform:
-        translateX(-100%);
-
-      opacity:
-        0;
-    }
-
-
-    .header-text.movie-result {
-      text-align:
-        center;
-
-      text-align-last:
-        center;
-
-      letter-spacing:
-        0.7px;
-    }
-
-
-    .header-text.slide-in {
-      animation:
-        headerSlideIn
-        1s ease forwards;
-    }
-
-
-    @keyframes headerSlideIn {
-
-      from {
-        transform:
-          translateX(100%);
-
-        opacity:
-          0;
-      }
-
-      to {
-        transform:
-          translateX(0);
-
-        opacity:
-          1;
-      }
-    }
-
-
-    /* =========================================================
-       WHEEL
-       ========================================================= */
-
-    .wheel-container {
-      position:
-        relative;
-
-      width:
-        min(78vw,470px);
-
-      height:
-        min(78vw,470px);
-
-      margin:
-        55px 0 35px;
-    }
-
-
-    .wheel-container::before {
-      content:
-        "";
-
-      position:
-        absolute;
-
-      inset:
-        -8px;
-
-      border-radius:
-        50%;
-
-      background:
-        radial-gradient(
-          circle,
-          transparent 65%,
-          rgba(255,48,77,0.55) 68%,
-          rgba(255,48,77,0.25) 72%,
-          rgba(0,235,255,0.16) 76%,
-          transparent 84%
-        );
-
-      filter:
-        blur(3px);
-
-      pointer-events:
-        none;
-    }
-
-
-    .wheel-container::after {
-      content:
-        "";
-
-      position:
-        absolute;
-
-      inset:
-        -18px;
-
-      border-radius:
-        50%;
-
-      background:
-        radial-gradient(
-          circle,
-          transparent 68%,
-          rgba(255,30,70,0.24) 71%,
-          rgba(0,220,255,0.12) 76%,
-          transparent 88%
-        );
-
-      filter:
-        blur(8px);
-
-      pointer-events:
-        none;
-
-      animation:
-        wheelGlow
-        1.8s
-        ease-in-out
-        infinite;
-    }
-
-
-    @keyframes wheelGlow {
-
-      0%,
-      100% {
-        opacity:
-          0.65;
-      }
-
-      50% {
-        opacity:
-          1;
-      }
-    }
-
-
-    .wheel {
-      position:
-        absolute;
-
-      z-index:
-        2;
-
-      inset:
-        0;
-
-      width:
-        100%;
-
-      height:
-        100%;
-
-      border-radius:
-        50%;
-
-      border:
-        3px solid var(--red);
-
-      background:
-        conic-gradient(
-          var(--sea-1),
-          var(--sea-2),
-          var(--sea-3),
-          var(--sea-4),
-          var(--sea-5),
-          var(--sea-6),
-          var(--sea-7),
-          var(--sea-8),
-          var(--sea-1)
-        );
-
-      box-shadow:
-        0 15px 35px rgba(0,0,0,0.65),
-        0 0 30px rgba(255,48,77,0.25);
-
-      transition:
-        transform 4s
-        cubic-bezier(.12,.72,.12,1);
-
-      transform-origin:
-        center center;
-
-      will-change:
-        transform;
-
-      overflow:
-        hidden;
-    }
-
-
-    .wheel::before {
-      content:
-        "";
-
-      position:
-        absolute;
-
-      width:
-        70%;
-
-      height:
-        32%;
-
-      top:
-        7%;
-
-      left:
-        15%;
-
-      border-radius:
-        50%;
-
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.55),
-          rgba(255,255,255,0)
-        );
-
-      transform:
-        rotate(-18deg);
-
-      pointer-events:
-        none;
-    }
-
-
-    /* =========================================================
-       CENTER BUTTON
-       ========================================================= */
-
-    .wheel-center {
-      position:
-        absolute;
-
-      z-index:
-        5;
-
-      top:
-        50%;
-
-      left:
-        50%;
-
-      transform:
-        translate(-50%,-50%);
-
-      width:
-        92px;
-
-      height:
-        92px;
-
-      border-radius:
-        50%;
-
-      background:
-        #031b35;
-
-      color:
-        var(--white);
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      font-size:
-        32px;
-
-      border:
-        4px solid var(--red);
-
-      box-shadow:
-        inset 0 4px 8px rgba(255,48,77,0.32),
-        inset 0 -2px 5px rgba(255,48,77,0.15),
-        0 0 20px rgba(0,240,255,0.35);
-
-      cursor:
-        pointer;
-
-      transition:
-        transform 0.15s ease;
-    }
-
-
-    .wheel-center:hover {
-      transform:
-        translate(-50%,-50%)
-        scale(1.08);
-    }
-
-
-    /* =========================================================
-       POINTER
-       ========================================================= */
-
-    .pointer {
-      position:
-        absolute;
-
-      z-index:
-        10;
-
-      top:
-        -24px;
-
-      left:
-        50%;
-
-      transform:
-        translateX(-50%);
-
-      color:
-        var(--red);
-
-      font-size:
-        38px;
-
-      line-height:
-        1;
-
-      text-shadow:
-        0 0 8px rgba(255,48,77,0.7),
-        0 0 15px rgba(0,230,255,0.4);
-    }
-
-
-    /* =========================================================
-       SPIN BUTTON
-       ========================================================= */
-
-    #spinButton {
-      border:
-        2px solid var(--white);
-
-      background:
-        var(--white);
-
-      color:
-        #031326;
-
-      padding:
-        17px 65px;
-
-      border-radius:
-        0;
-
-      font-family:
-        Helvetica,
-        Arial,
-        sans-serif;
-
-      font-size:
-        15px;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        2px;
-
-      cursor:
-        pointer;
-
-      transition:
-        background 0.15s ease,
-        color 0.15s ease,
-        transform 0.15s ease;
-
-      box-shadow:
-        4px 4px 0 rgba(255,48,77,0.7),
-        -4px -4px 0 rgba(0,235,255,0.35);
-    }
-
-
-    #spinButton:hover {
-      background:
-        #fff200;
-
-      border-color:
-        #fff200;
-
-      color:
-        #020914;
-
-      transform:
-        translateY(-2px);
-    }
-
-
-    #spinButton:active {
-      transform:
-        translateY(1px);
-    }
-
-
-    #spinButton:disabled {
-      opacity:
-        0.35;
-
-      cursor:
-        not-allowed;
-
-      transform:
-        none;
-    }
-
-
-    /* =========================================================
-       REMAINING
-       ========================================================= */
-
-    .remaining {
-      margin-top:
-        20px;
-
-      font-size:
-        12px;
-
-      font-weight:
-        600;
-
-      font-style:
-        italic;
-
-      letter-spacing:
-        1px;
-
-      text-transform:
-        uppercase;
-
-      color:
-        #b9ecff;
-
-      text-shadow:
-        2px 0 rgba(255,0,60,0.35),
-        -2px 0 rgba(0,220,255,0.35);
-    }
-
-
-    /* =========================================================
-       HISTORY
-       ========================================================= */
-
-    #history {
-      width:
-        min(800px,100%);
-
-      margin-top:
-        40px;
-
-      padding-top:
-        25px;
-
-      border-top:
-        2px solid var(--white);
-
-      animation:
-        reveal
-        0.4s ease both;
-    }
-
-
-    .history-label {
-      color:
-        var(--red);
-
-      font-size:
-        11px;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        3px;
-
-      text-transform:
-        uppercase;
-
-      margin-bottom:
-        20px;
-
-      text-shadow:
-        2px 0 rgba(255,0,60,0.45),
-        -2px 0 rgba(0,220,255,0.4);
-    }
-
-
-    #historyList {
-      margin:
-        0;
-
-      padding:
-        0;
-
-      list-style:
-        none;
-    }
-
-
-    #historyList li {
-      padding:
-        10px 0;
-
-      border-bottom:
-        1px solid rgba(220,245,255,0.25);
-
-      font-size:
-        16px;
-
-      color:
-        var(--white);
-
-      text-shadow:
-        1px 0 rgba(255,0,50,0.3),
-        -1px 0 rgba(0,220,255,0.3);
-    }
-
-
-    #historyList li:last-child {
-      border-bottom:
-        none;
-    }
-
-
-    /* =========================================================
-       MESSAGE
-       ========================================================= */
-
-    #message {
-      margin-top:
-        20px;
-
-      max-width:
-        600px;
-
-      color:
-        #ff6680;
-
-      font-size:
-        12px;
-    }
-
-
-    .hidden {
-      display:
-        none;
-    }
-
-
-    @keyframes reveal {
-
-      from {
-        opacity:
-          0;
-
-        transform:
-          translateY(15px);
-      }
-
-      to {
-        opacity:
-          1;
-
-        transform:
-          translateY(0);
-      }
-    }
-
-
-    /* =========================================================
-       FLICKER
+       SCREEN FLICKER
        ========================================================= */
 
     @keyframes screenFlicker {
@@ -1554,6 +1627,7 @@
 
 
       .wheel-container {
+
         width:
           82vw;
 
@@ -1572,6 +1646,7 @@
 
 
       .wheel-center {
+
         width:
           74px;
 
@@ -1584,6 +1659,7 @@
 
 
       .pointer {
+
         font-size:
           32px;
 
@@ -1593,6 +1669,7 @@
 
 
       #spinButton {
+
         width:
           min(80vw,330px);
 
@@ -1602,6 +1679,7 @@
 
 
       .director {
+
         font-size:
           11px;
       }
@@ -1614,7 +1692,19 @@
 <body>
 
 
-  <!-- VHS SCREEN LAYERS -->
+  <!-- =======================================================
+       DIRECTOR CASCADE
+       ======================================================= -->
+
+  <div
+    id="directorLayer"
+    aria-hidden="true"
+  ></div>
+
+
+  <!-- =======================================================
+       VHS SCREEN EFFECTS
+       ======================================================= -->
 
   <div id="vhsNoise"></div>
 
@@ -1631,15 +1721,9 @@
   <div id="crt"></div>
 
 
-  <!-- FALLING DIRECTORS -->
-
-  <div
-    id="directorLayer"
-    aria-hidden="true"
-  ></div>
-
-
-  <!-- APPLICATION -->
+  <!-- =======================================================
+       APPLICATION
+       ======================================================= -->
 
   <main class="app">
 
@@ -1898,21 +1982,17 @@
 
 
     /* =========================================================
-       RANDOM HELPERS
+       DIRECTOR GENERATOR
        ========================================================= */
 
-    function randomBetween(min, max) {
+    function randomBetween(min,max) {
 
       return Math.random() *
-        (max - min) +
+        (max-min) +
         min;
 
     }
 
-
-    /* =========================================================
-       DIRECTOR CASCADE
-       ========================================================= */
 
     function createDirector() {
 
@@ -1987,7 +2067,9 @@
         () => {
           element.remove();
         },
-        { once: true }
+        {
+          once: true
+        }
       );
 
     }
@@ -2000,7 +2082,9 @@
         i < 32;
         i++
       ) {
+
         createDirector();
+
       }
 
 
@@ -2071,7 +2155,7 @@
           i * segmentSize;
 
         const end =
-          (i + 1) * segmentSize;
+          (i+1) * segmentSize;
 
         const color =
           colors[
@@ -2109,7 +2193,7 @@
         await client
           .from("Movies")
           .select("id, title, year")
-          .eq("chosen", false);
+          .eq("chosen",false);
 
 
       if (error) {
@@ -2183,11 +2267,11 @@
         await client
           .from("Movies")
           .select("title")
-          .eq("chosen", true)
+          .eq("chosen",true)
           .order(
             "chosen_at",
             {
-              ascending: false
+              ascending:false
             }
           );
 
@@ -2253,7 +2337,9 @@
       async () => {
 
         const isHidden =
-          history.classList.contains("hidden");
+          history.classList.contains(
+            "hidden"
+          );
 
 
         if (isHidden) {
@@ -2266,10 +2352,14 @@
           await loadHistory();
 
 
-          history.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+          /*
+            We deliberately do NOT call
+            scrollIntoView anymore.
+
+            This prevents the VHS screen from
+            appearing to fight with browser
+            scrolling.
+          */
 
         } else {
 
@@ -2408,7 +2498,7 @@
               await client
                 .from("Movies")
                 .update({
-                  chosen: true,
+                  chosen:true,
                   chosen_at:
                     new Date().toISOString()
                 })
@@ -2484,6 +2574,7 @@
     startDirectorCascade();
 
     loadMovies();
+
 
   </script>
 
