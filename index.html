@@ -15,10 +15,12 @@
     }
 
     :root {
-      --black: #111111;
+      --black: #090909;
+      --white: #eeeeeb;
       --red: #d62839;
 
-      --paper: #eeeae0;
+      --cyan: #00e5ff;
+      --magenta: #ff1744;
 
       --sea-1: #a8e6d4;
       --sea-2: #8edbd5;
@@ -32,12 +34,12 @@
 
 
     /* =========================================================
-       PAGE
+       CRT / VHS SCREEN
        ========================================================= */
 
     html {
       min-height: 100%;
-      background: var(--paper);
+      background: #080808;
     }
 
 
@@ -46,23 +48,32 @@
 
       min-height: 100vh;
 
-      background-color: var(--paper);
+      background:
+        #080808;
 
-      color: var(--black);
+      color:
+        var(--white);
 
       font-family:
         Helvetica,
         Arial,
         sans-serif;
 
-      overflow-x: hidden;
+      overflow-x:
+        hidden;
 
-      position: relative;
+      position:
+        relative;
+
+      animation:
+        screenFlicker
+        6s
+        infinite;
     }
 
 
     /* =========================================================
-       LARGE GRAIN
+       MOVING VHS NOISE
        ========================================================= */
 
     body::before {
@@ -70,26 +81,60 @@
 
       position: fixed;
 
-      inset: 0;
+      inset: -50%;
 
-      z-index: 1;
+      z-index: 50;
 
       pointer-events: none;
 
       background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='3' seed='18' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.32'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.32'/%3E%3C/svg%3E");
 
-      background-size:
-        300px 300px;
+      opacity:
+        0.075;
 
-      opacity: 0.55;
+      mix-blend-mode:
+        screen;
 
-      mix-blend-mode: multiply;
+      animation:
+        noiseMove
+        0.16s
+        steps(2)
+        infinite;
+    }
+
+
+    @keyframes noiseMove {
+
+      0% {
+        transform:
+          translate3d(0, 0, 0);
+      }
+
+      25% {
+        transform:
+          translate3d(-3%, 2%, 0);
+      }
+
+      50% {
+        transform:
+          translate3d(2%, -3%, 0);
+      }
+
+      75% {
+        transform:
+          translate3d(4%, 2%, 0);
+      }
+
+      100% {
+        transform:
+          translate3d(-2%, -2%, 0);
+      }
     }
 
 
     /* =========================================================
-       VERY SUBTLE LIGHT VARIATION
+       SCANLINES
        ========================================================= */
 
     body::after {
@@ -99,18 +144,192 @@
 
       inset: 0;
 
-      z-index: 1;
+      z-index: 51;
+
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.035) 0px,
+          rgba(255,255,255,0.035) 1px,
+          rgba(0,0,0,0.08) 2px,
+          rgba(0,0,0,0.08) 4px
+        );
+
+      background-size:
+        100% 5px;
+
+      animation:
+        scanMove
+        0.12s
+        linear
+        infinite;
+    }
+
+
+    @keyframes scanMove {
+
+      from {
+        transform:
+          translateY(0);
+      }
+
+      to {
+        transform:
+          translateY(5px);
+      }
+    }
+
+
+    /* =========================================================
+       CRT VIGNETTE
+       ========================================================= */
+
+    #crt {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 52;
 
       pointer-events: none;
 
       background:
         radial-gradient(
           ellipse at center,
-          rgba(255,255,255,0.18),
-          rgba(0,0,0,0.025)
+          transparent 48%,
+          rgba(0,0,0,0.18) 72%,
+          rgba(0,0,0,0.72) 100%
         );
 
-      opacity: 0.8;
+      box-shadow:
+        inset 0 0 100px rgba(0,0,0,0.65);
+    }
+
+
+    /* =========================================================
+       CRT COLOR FRINGE
+       ========================================================= */
+
+    #colorBleed {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 53;
+
+      pointer-events: none;
+
+      opacity: 0.12;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,0,0,0.07),
+          transparent 22%,
+          transparent 78%,
+          rgba(0,220,255,0.07)
+        );
+
+      mix-blend-mode:
+        screen;
+
+      animation:
+        colorShift
+        7s
+        steps(2)
+        infinite;
+    }
+
+
+    @keyframes colorShift {
+
+      0%,
+      92%,
+      100% {
+        transform:
+          translateX(0);
+      }
+
+      93% {
+        transform:
+          translateX(-2px);
+      }
+
+      94% {
+        transform:
+          translateX(2px);
+      }
+
+      95% {
+        transform:
+          translateX(-1px);
+      }
+    }
+
+
+    /* =========================================================
+       VHS TRACKING GLITCH
+       ========================================================= */
+
+    #tracking {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+
+      top: 43%;
+
+      height: 2px;
+
+      z-index: 54;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      background:
+        rgba(255,255,255,0.35);
+
+      box-shadow:
+        0 0 12px rgba(255,255,255,0.2);
+
+      animation:
+        trackingGlitch
+        8s
+        steps(1)
+        infinite;
+    }
+
+
+    @keyframes trackingGlitch {
+
+      0%,
+      72%,
+      100% {
+        opacity: 0;
+        transform:
+          translateX(0);
+      }
+
+      73% {
+        opacity: 0.7;
+        transform:
+          translateX(-8px);
+      }
+
+      73.5% {
+        opacity: 0.3;
+        transform:
+          translateX(15px);
+      }
+
+      74% {
+        opacity: 0;
+        transform:
+          translateX(0);
+      }
     }
 
 
@@ -134,22 +353,30 @@
     .director {
       position: absolute;
 
-      top: -12vh;
+      top:
+        -12vh;
 
-      white-space: nowrap;
+      white-space:
+        nowrap;
 
       color:
-        rgba(20,20,18,0.24);
+        rgba(235,235,230,0.30);
 
       font-size:
         clamp(12px, 1.35vw, 19px);
 
-      font-weight: 600;
+      font-weight:
+        600;
 
       letter-spacing:
         -0.35px;
 
-      opacity: 0;
+      opacity:
+        0;
+
+      text-shadow:
+        1px 0 rgba(255,0,50,0.20),
+        -1px 0 rgba(0,220,255,0.20);
 
       will-change:
         transform,
@@ -179,11 +406,13 @@
       }
 
       7% {
-        opacity: var(--opacity);
+        opacity:
+          var(--opacity);
       }
 
       88% {
-        opacity: var(--opacity);
+        opacity:
+          var(--opacity);
       }
 
       100% {
@@ -205,22 +434,114 @@
        ========================================================= */
 
     .app {
-      position: relative;
+      position:
+        relative;
 
-      z-index: 3;
+      z-index:
+        10;
 
-      min-height: 100vh;
+      min-height:
+        100vh;
 
-      display: flex;
+      display:
+        flex;
 
-      flex-direction: column;
+      flex-direction:
+        column;
 
-      align-items: center;
+      align-items:
+        center;
 
-      text-align: center;
+      text-align:
+        center;
 
       padding:
         30px 20px 50px;
+
+      transition:
+        filter 0.2s ease;
+    }
+
+
+    /* =========================================================
+       SPINNING VHS DISTORTION
+       ========================================================= */
+
+    body.spinning .app {
+      animation:
+        spinDistortion
+        0.18s
+        steps(2)
+        infinite;
+    }
+
+
+    body.spinning #colorBleed {
+      opacity:
+        0.30;
+
+      animation:
+        spinColorShift
+        0.12s
+        steps(2)
+        infinite;
+    }
+
+
+    body.spinning .director {
+      text-shadow:
+        3px 0 rgba(255,0,50,0.35),
+        -3px 0 rgba(0,220,255,0.35);
+    }
+
+
+    @keyframes spinDistortion {
+
+      0% {
+        transform:
+          translateX(0);
+      }
+
+      25% {
+        transform:
+          translateX(-2px)
+          skewX(0.2deg);
+      }
+
+      50% {
+        transform:
+          translateX(2px)
+          skewX(-0.2deg);
+      }
+
+      75% {
+        transform:
+          translateX(-1px);
+      }
+
+      100% {
+        transform:
+          translateX(0);
+      }
+    }
+
+
+    @keyframes spinColorShift {
+
+      0% {
+        transform:
+          translateX(-3px);
+      }
+
+      50% {
+        transform:
+          translateX(4px);
+      }
+
+      100% {
+        transform:
+          translateX(-2px);
+      }
     }
 
 
@@ -229,40 +550,57 @@
        ========================================================= */
 
     header {
-      width: 100%;
+      width:
+        100%;
 
-      max-width: 1000px;
+      max-width:
+        1000px;
 
       border-bottom:
-        2px solid var(--black);
+        2px solid var(--white);
 
       padding-bottom:
         12px;
 
-      overflow: hidden;
+      overflow:
+        hidden;
 
-      position: relative;
+      position:
+        relative;
     }
 
 
     .header-text {
-      width: 100%;
+      width:
+        100%;
 
       font-size:
         clamp(8px, 1.55vw, 15px);
 
-      font-weight: 600;
+      font-weight:
+        600;
 
       letter-spacing:
         -0.15px;
 
-      line-height: 1;
+      line-height:
+        1;
 
-      white-space: nowrap;
+      white-space:
+        nowrap;
 
-      text-align: justify;
+      text-align:
+        justify;
 
-      text-align-last: justify;
+      text-align-last:
+        justify;
+
+      color:
+        var(--white);
+
+      text-shadow:
+        1px 0 rgba(255,0,60,0.35),
+        -1px 0 rgba(0,220,255,0.35);
 
       transition:
         transform 0.65s ease,
@@ -274,14 +612,17 @@
       transform:
         translateX(-100%);
 
-      opacity: 0;
+      opacity:
+        0;
     }
 
 
     .header-text.movie-result {
-      text-align: center;
+      text-align:
+        center;
 
-      text-align-last: center;
+      text-align-last:
+        center;
 
       letter-spacing:
         0.7px;
@@ -301,14 +642,16 @@
         transform:
           translateX(100%);
 
-        opacity: 0;
+        opacity:
+          0;
       }
 
       to {
         transform:
           translateX(0);
 
-        opacity: 1;
+        opacity:
+          1;
       }
     }
 
@@ -318,7 +661,8 @@
        ========================================================= */
 
     .wheel-container {
-      position: relative;
+      position:
+        relative;
 
       width:
         min(78vw, 470px);
@@ -332,69 +676,84 @@
 
 
     .wheel-container::before {
-      content: "";
+      content:
+        "";
 
-      position: absolute;
+      position:
+        absolute;
 
-      inset: -3px;
+      inset:
+        -3px;
 
-      border-radius: 50%;
+      border-radius:
+        50%;
 
       background:
         radial-gradient(
           circle,
           transparent 68%,
-          rgba(214,40,57,0.28) 69%,
-          rgba(214,40,57,0.18) 71%,
-          rgba(214,40,57,0.07) 74%,
-          rgba(214,40,57,0.02) 78%,
+          rgba(214,40,57,0.38) 69%,
+          rgba(214,40,57,0.20) 71%,
+          rgba(214,40,57,0.08) 74%,
           transparent 83%
         );
 
       filter:
-        blur(1.5px);
+        blur(2px);
 
-      pointer-events: none;
+      pointer-events:
+        none;
     }
 
 
     .wheel-container::after {
-      content: "";
+      content:
+        "";
 
-      position: absolute;
+      position:
+        absolute;
 
-      inset: -11px;
+      inset:
+        -11px;
 
-      border-radius: 50%;
+      border-radius:
+        50%;
 
       background:
         radial-gradient(
           circle,
           transparent 69%,
-          rgba(214,40,57,0.12) 71%,
-          rgba(214,40,57,0.06) 74%,
-          rgba(214,40,57,0.018) 79%,
+          rgba(214,40,57,0.15) 71%,
+          rgba(214,40,57,0.07) 74%,
           transparent 85%
         );
 
       filter:
-        blur(3px);
+        blur(4px);
 
-      pointer-events: none;
+      pointer-events:
+        none;
     }
 
 
     .wheel {
-      position: absolute;
+      position:
+        absolute;
 
-      z-index: 2;
+      z-index:
+        2;
 
-      inset: 0;
+      inset:
+        0;
 
-      width: 100%;
-      height: 100%;
+      width:
+        100%;
 
-      border-radius: 50%;
+      height:
+        100%;
+
+      border-radius:
+        50%;
 
       border:
         3px solid var(--red);
@@ -413,17 +772,12 @@
         );
 
       box-shadow:
-        0 15px 35px
-        rgba(0,0,0,0.16);
+        0 15px 35px rgba(0,0,0,0.5),
+        0 0 20px rgba(214,40,57,0.18);
 
       transition:
         transform 4s
-        cubic-bezier(
-          .12,
-          .72,
-          .12,
-          1
-        );
+        cubic-bezier(.12,.72,.12,1);
 
       transform-origin:
         center center;
@@ -431,36 +785,45 @@
       will-change:
         transform;
 
-      overflow: hidden;
+      overflow:
+        hidden;
     }
 
 
     .wheel::before {
-      content: "";
+      content:
+        "";
 
-      position: absolute;
+      position:
+        absolute;
 
-      width: 70%;
+      width:
+        70%;
 
-      height: 32%;
+      height:
+        32%;
 
-      top: 7%;
+      top:
+        7%;
 
-      left: 15%;
+      left:
+        15%;
 
-      border-radius: 50%;
+      border-radius:
+        50%;
 
       background:
         linear-gradient(
           to bottom,
-          rgba(255,255,255,0.5),
+          rgba(255,255,255,0.48),
           rgba(255,255,255,0)
         );
 
       transform:
         rotate(-18deg);
 
-      pointer-events: none;
+      pointer-events:
+        none;
     }
 
 
@@ -469,34 +832,44 @@
        ========================================================= */
 
     .wheel-center {
-      position: absolute;
+      position:
+        absolute;
 
-      z-index: 5;
+      z-index:
+        5;
 
-      top: 50%;
+      top:
+        50%;
 
-      left: 50%;
+      left:
+        50%;
 
       transform:
-        translate(-50%, -50%);
+        translate(-50%,-50%);
 
-      width: 92px;
+      width:
+        92px;
 
-      height: 92px;
+      height:
+        92px;
 
-      border-radius: 50%;
+      border-radius:
+        50%;
 
       background:
-        var(--paper);
+        #111;
 
       color:
-        var(--black);
+        var(--white);
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      justify-content: center;
+      justify-content:
+        center;
 
       font-size:
         32px;
@@ -505,11 +878,9 @@
         4px solid var(--red);
 
       box-shadow:
-        inset 0 4px 8px
-        rgba(214,40,57,0.28),
-
-        inset 0 -2px 5px
-        rgba(214,40,57,0.12);
+        inset 0 4px 8px rgba(214,40,57,0.28),
+        inset 0 -2px 5px rgba(214,40,57,0.12),
+        0 0 18px rgba(214,40,57,0.2);
 
       cursor:
         pointer;
@@ -521,7 +892,7 @@
 
     .wheel-center:hover {
       transform:
-        translate(-50%, -50%)
+        translate(-50%,-50%)
         scale(1.06);
     }
 
@@ -531,9 +902,11 @@
        ========================================================= */
 
     .pointer {
-      position: absolute;
+      position:
+        absolute;
 
-      z-index: 10;
+      z-index:
+        10;
 
       top:
         -24px;
@@ -552,22 +925,25 @@
 
       line-height:
         1;
+
+      text-shadow:
+        0 0 8px rgba(214,40,57,0.5);
     }
 
 
     /* =========================================================
-       BUTTON
+       SPIN BUTTON
        ========================================================= */
 
     #spinButton {
       border:
-        2px solid var(--black);
+        2px solid var(--white);
 
       background:
-        var(--black);
+        var(--white);
 
       color:
-        white;
+        #080808;
 
       padding:
         17px 65px;
@@ -596,6 +972,9 @@
         background 0.15s ease,
         color 0.15s ease,
         transform 0.15s ease;
+
+      box-shadow:
+        0 0 15px rgba(255,255,255,0.08);
     }
 
 
@@ -656,7 +1035,11 @@
         uppercase;
 
       color:
-        #555;
+        #aaa;
+
+      text-shadow:
+        1px 0 rgba(255,0,60,0.2),
+        -1px 0 rgba(0,220,255,0.2);
     }
 
 
@@ -666,7 +1049,7 @@
 
     #history {
       width:
-        min(800px, 100%);
+        min(800px,100%);
 
       margin-top:
         40px;
@@ -675,7 +1058,7 @@
         25px;
 
       border-top:
-        2px solid var(--black);
+        2px solid var(--white);
 
       animation:
         reveal
@@ -701,6 +1084,10 @@
 
       margin-bottom:
         20px;
+
+      text-shadow:
+        1px 0 rgba(255,0,60,0.4),
+        -1px 0 rgba(0,220,255,0.3);
     }
 
 
@@ -721,13 +1108,13 @@
         10px 0;
 
       border-bottom:
-        1px solid #d5d0c5;
+        1px solid #333;
 
       font-size:
         16px;
 
       color:
-        var(--black);
+        var(--white);
     }
 
 
@@ -778,6 +1165,46 @@
 
         transform:
           translateY(0);
+      }
+    }
+
+
+    @keyframes screenFlicker {
+
+      0%,
+      100% {
+        filter:
+          brightness(1);
+      }
+
+      48% {
+        filter:
+          brightness(1);
+      }
+
+      48.5% {
+        filter:
+          brightness(0.96);
+      }
+
+      49% {
+        filter:
+          brightness(1.02);
+      }
+
+      79% {
+        filter:
+          brightness(1);
+      }
+
+      79.4% {
+        filter:
+          brightness(0.97);
+      }
+
+      79.8% {
+        filter:
+          brightness(1);
       }
     }
 
@@ -856,7 +1283,7 @@
 
       #spinButton {
         width:
-          min(80vw, 330px);
+          min(80vw,330px);
 
         padding:
           16px 30px;
@@ -876,9 +1303,16 @@
 <body>
 
 
-  <!-- =======================================================
-       FALLING DIRECTORS
-       ======================================================= -->
+  <!-- CRT OVERLAYS -->
+
+  <div id="crt"></div>
+
+  <div id="colorBleed"></div>
+
+  <div id="tracking"></div>
+
+
+  <!-- FALLING DIRECTORS -->
 
   <div
     id="directorLayer"
@@ -886,9 +1320,7 @@
   ></div>
 
 
-  <!-- =======================================================
-       APPLICATION
-       ======================================================= -->
+  <!-- APPLICATION -->
 
   <main class="app">
 
@@ -961,13 +1393,10 @@
         id="historyList"
       ></ul>
 
-
     </div>
 
 
-    <div
-      id="message"
-    ></div>
+    <div id="message"></div>
 
 
   </main>
@@ -1055,9 +1484,7 @@
 
     let movies = [];
 
-
     let rotation = 0;
-
 
     let isSpinning = false;
 
@@ -1182,7 +1609,7 @@
 
 
     /* =========================================================
-       UTILITY
+       RANDOM
        ========================================================= */
 
     function randomBetween(
@@ -1198,7 +1625,7 @@
 
 
     /* =========================================================
-       DIRECTOR CASCADE
+       DIRECTOR GENERATOR
        ========================================================= */
 
     function createDirector() {
@@ -1233,7 +1660,7 @@
         "--duration",
         `${randomBetween(
           5,
-          11
+          10
         )}s`
       );
 
@@ -1250,8 +1677,8 @@
       element.style.setProperty(
         "--opacity",
         randomBetween(
-          0.12,
-          0.28
+          0.14,
+          0.30
         )
       );
 
@@ -1294,7 +1721,8 @@
 
         },
         {
-          once: true
+          once:
+            true
         }
       );
 
@@ -1302,11 +1730,6 @@
 
 
     function startDirectorCascade() {
-
-
-      /*
-        Initial field of directors.
-      */
 
       for (
         let i = 0;
@@ -1319,11 +1742,6 @@
       }
 
 
-      /*
-        Continue generating them
-        at random intervals.
-      */
-
       function nextDirector() {
 
         createDirector();
@@ -1333,7 +1751,7 @@
           nextDirector,
           randomBetween(
             220,
-            700
+            650
           )
         );
 
@@ -1395,7 +1813,8 @@
       ) {
 
         const start =
-          i * segmentSize;
+          i *
+          segmentSize;
 
 
         const end =
@@ -1405,7 +1824,8 @@
 
         const color =
           colors[
-            i % colors.length
+            i %
+            colors.length
           ];
 
 
@@ -1485,7 +1905,7 @@
 
 
     /* =========================================================
-       UPDATE COUNTER
+       COUNTER
        ========================================================= */
 
     function updateRemaining() {
@@ -1502,7 +1922,7 @@
 
 
     /* =========================================================
-       LOAD HISTORY
+       HISTORY
        ========================================================= */
 
     async function loadHistory() {
@@ -1657,6 +2077,11 @@
           true;
 
 
+        document.body.classList.add(
+          "spinning"
+        );
+
+
         spinButton.disabled =
           true;
 
@@ -1664,11 +2089,6 @@
         message.textContent =
           "";
 
-
-        /*
-          Update the segments before
-          the new spin begins.
-        */
 
         updateWheel();
 
@@ -1698,10 +2118,7 @@
           `rotate(${rotation}deg)`;
 
 
-        /*
-          Start header transition
-          before the wheel finishes.
-        */
+        /* HEADER */
 
         setTimeout(
           () => {
@@ -1756,9 +2173,7 @@
         );
 
 
-        /*
-          Mark selected movie as chosen.
-        */
+        /* DATABASE */
 
         setTimeout(
           async () => {
@@ -1798,6 +2213,11 @@
                 false;
 
 
+              document.body.classList.remove(
+                "spinning"
+              );
+
+
               updateRemaining();
 
 
@@ -1822,6 +2242,11 @@
               false;
 
 
+            document.body.classList.remove(
+              "spinning"
+            );
+
+
             updateRemaining();
 
           },
@@ -1840,7 +2265,9 @@
 
     loadMovies();
 
+
   </script>
+
 
 </body>
 </html>
