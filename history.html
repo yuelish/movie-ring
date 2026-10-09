@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Previously Chosen — Movie Ring</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     :root {
       --white: #f2fcff;
@@ -16,15 +19,16 @@
     html {
       min-height: 100%;
       background: #005eff;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
+      overflow-x: clip;
+      scroll-behavior: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     body {
       min-height: 100vh;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      overflow-x: clip;
       color: var(--white);
       font-family: Helvetica, Arial, sans-serif;
       background: radial-gradient(
@@ -35,7 +39,6 @@
         #003ed1 72%,
         #00248a 100%
       );
-      animation: screenFlicker 4.5s steps(1) infinite;
     }
 
     body::before {
@@ -51,37 +54,59 @@
         transparent 70%
       );
       mix-blend-mode: screen;
-      animation: bluePulse 3s ease-in-out infinite;
+      animation: bluePulse 5s ease-in-out infinite;
     }
 
     @keyframes bluePulse {
-      0%,100% { opacity: .65; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.07); }
+      0%, 100% {
+        opacity: .65;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .9;
+        transform: scale(1.03);
+      }
     }
 
     #vhsNoise {
       position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
+      inset: 0;
       z-index: 50;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: .18;
+      opacity: .12;
       mix-blend-mode: screen;
-      animation: noiseMove .11s steps(2) infinite;
+      animation: noiseMove .35s steps(2) infinite;
+      will-change: transform;
     }
 
     @keyframes noiseMove {
-      0% { transform: translate3d(0,0,0); }
-      25% { transform: translate3d(-4%,2%,0); }
-      50% { transform: translate3d(3%,-4%,0); }
-      75% { transform: translate3d(5%,3%,0); }
-      100% { transform: translate3d(2%,4%,0); }
+      0% {
+        transform: translate3d(0,0,0);
+      }
+
+      25% {
+        transform: translate3d(-2%,1%,0);
+      }
+
+      50% {
+        transform: translate3d(1.5%,-2%,0);
+      }
+
+      75% {
+        transform: translate3d(2.5%,1.5%,0);
+      }
+
+      100% {
+        transform: translate3d(1%,2%,0);
+      }
     }
 
-    #scanlines, #scanlines2, #colorBleed, #crt {
+    #scanlines,
+    #scanlines2,
+    #colorBleed,
+    #crt {
       position: fixed;
       inset: 0;
       pointer-events: none;
@@ -98,12 +123,17 @@
         rgba(0,0,20,.04) 6px
       );
       background-size: 100% 7px;
-      animation: scanMove .14s linear infinite;
+      animation: scanMove .25s linear infinite;
     }
 
     @keyframes scanMove {
-      from { transform: translate3d(0,0,0); }
-      to { transform: translate3d(0,7px,0); }
+      from {
+        transform: translate3d(0,0,0);
+      }
+
+      to {
+        transform: translate3d(0,7px,0);
+      }
     }
 
     #scanlines2 {
@@ -115,17 +145,22 @@
         rgba(0,238,255,.14) 18px,
         transparent 20px
       );
-      animation: scanSweep 2.8s linear infinite;
+      animation: scanSweep 4s linear infinite;
     }
 
     @keyframes scanSweep {
-      from { transform: translate3d(0,-40px,0); }
-      to { transform: translate3d(0,40px,0); }
+      from {
+        transform: translate3d(0,-40px,0);
+      }
+
+      to {
+        transform: translate3d(0,40px,0);
+      }
     }
 
     #colorBleed {
       z-index: 53;
-      opacity: .35;
+      opacity: .3;
       background: linear-gradient(
         90deg,
         rgba(255,0,40,.12),
@@ -134,15 +169,29 @@
         rgba(0,240,255,.18)
       );
       mix-blend-mode: screen;
-      animation: colorShift 2.1s steps(1) infinite;
+      animation: colorShift 3s steps(1) infinite;
     }
 
     @keyframes colorShift {
-      0%,72%,100% { transform: translate3d(0,0,0); }
-      73% { transform: translate3d(-5px,0,0); }
-      74% { transform: translate3d(7px,0,0); }
-      75% { transform: translate3d(-3px,0,0); }
-      76% { transform: translate3d(0,0,0); }
+      0%, 72%, 100% {
+        transform: translate3d(0,0,0);
+      }
+
+      73% {
+        transform: translate3d(-3px,0,0);
+      }
+
+      74% {
+        transform: translate3d(4px,0,0);
+      }
+
+      75% {
+        transform: translate3d(-2px,0,0);
+      }
+
+      76% {
+        transform: translate3d(0,0,0);
+      }
     }
 
     #crt {
@@ -154,7 +203,7 @@
         rgba(0,8,25,.42) 78%,
         rgba(0,3,15,.72) 100%
       );
-      box-shadow: inset 0 0 130px rgba(0,0,0,.65);
+      box-shadow: inset 0 0 100px rgba(0,0,0,.55);
     }
 
     #directorLayer {
@@ -174,23 +223,41 @@
       font-size: clamp(12px,1.35vw,20px);
       font-weight: 700;
       opacity: 0;
-      text-shadow: 2px 0 rgba(255,0,50,.4), -2px 0 rgba(0,240,255,.55);
+      text-shadow:
+        2px 0 rgba(255,0,50,.4),
+        -2px 0 rgba(0,240,255,.55);
       will-change: transform, opacity;
       animation: directorFall var(--duration) linear var(--delay) forwards;
     }
 
     @keyframes directorFall {
-      0% { opacity: 0; transform: translate3d(0,-18vh,0); }
-      7% { opacity: var(--opacity); }
-      50% { transform: translate3d(var(--mid-drift),50vh,0); }
-      90% { opacity: var(--opacity); }
-      100% { opacity: 0; transform: translate3d(var(--drift),120vh,0); }
+      0% {
+        opacity: 0;
+        transform: translate3d(0,-18vh,0);
+      }
+
+      7% {
+        opacity: var(--opacity);
+      }
+
+      50% {
+        transform: translate3d(var(--mid-drift),50vh,0);
+      }
+
+      90% {
+        opacity: var(--opacity);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--drift),120vh,0);
+      }
     }
 
     .page {
       position: relative;
       z-index: 10;
-      width: min(900px,calc(100% - 40px));
+      width: min(900px, calc(100% - 40px));
       margin: 0 auto;
       padding: 30px 0 100px;
     }
@@ -208,7 +275,9 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       margin-bottom: 15px;
-      text-shadow: 2px 0 rgba(255,0,60,.45), -2px 0 rgba(0,220,255,.45);
+      text-shadow:
+        2px 0 rgba(255,0,60,.45),
+        -2px 0 rgba(0,220,255,.45);
     }
 
     h1 {
@@ -218,7 +287,9 @@
       letter-spacing: -5px;
       text-transform: uppercase;
       color: var(--white);
-      text-shadow: 4px 0 rgba(255,0,60,.55), -4px 0 rgba(0,235,255,.6);
+      text-shadow:
+        4px 0 rgba(255,0,60,.55),
+        -4px 0 rgba(0,235,255,.6);
     }
 
     .back {
@@ -232,7 +303,9 @@
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
-      box-shadow: 4px 4px 0 rgba(255,48,77,.7), -4px -4px 0 rgba(0,235,255,.4);
+      box-shadow:
+        4px 4px 0 rgba(255,48,77,.7),
+        -4px -4px 0 rgba(0,235,255,.4);
       transition: background .15s ease, color .15s ease;
     }
 
@@ -252,12 +325,14 @@
       display: flex;
       align-items: baseline;
       gap: 20px;
-      padding: 22px 8px;
+      padding: 20px 8px;
       border-bottom: 1px solid rgba(230,250,255,.3);
       color: var(--white);
-      font-size: clamp(18px,3vw,30px);
+      font-size: clamp(16px,2.5vw,26px);
       font-weight: 600;
-      text-shadow: 2px 0 rgba(255,0,50,.35), -2px 0 rgba(0,220,255,.35);
+      text-shadow:
+        2px 0 rgba(255,0,50,.35),
+        -2px 0 rgba(0,220,255,.35);
       transition: color .2s ease;
     }
 
@@ -297,19 +372,21 @@
       letter-spacing: 1px;
     }
 
-    @media (max-width:600px) {
+    @media (max-width: 600px) {
       .page {
         width: calc(100% - 30px);
         padding-top: 20px;
         padding-bottom: 60px;
       }
 
-      h1 { letter-spacing: -3px; }
+      h1 {
+        letter-spacing: -3px;
+      }
 
       #historyList li {
         gap: 10px;
-        padding: 18px 4px;
-        font-size: 17px;
+        padding: 16px 4px;
+        font-size: 15px;
       }
 
       .movie-number {
@@ -317,28 +394,33 @@
         font-size: 9px;
       }
 
-      .back { margin-bottom: 35px; }
-    }
-
-    @keyframes screenFlicker {
-      0%,20%,40%,60%,80%,100% { filter: brightness(1); }
-      20.2% { filter: brightness(1.18); }
-      20.4% { filter: brightness(.82); }
-      53.1% { filter: brightness(.9); }
-      53.3% { filter: brightness(1.15); }
-      91.3% { filter: brightness(.76); }
-      91.5% { filter: brightness(1.08); }
+      .back {
+        margin-bottom: 35px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
+      html {
+        scroll-behavior: auto;
+      }
 
-      body, body::before, #vhsNoise, #scanlines,
-      #scanlines2, #colorBleed, .director {
+      body::before,
+      #vhsNoise,
+      #scanlines,
+      #scanlines2,
+      #colorBleed,
+      .director {
         animation: none !important;
       }
 
-      .director { display: none; }
+      .director {
+        display: none;
+      }
+
+      #historyList li,
+      .back {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -498,31 +580,31 @@
       element.textContent =
         directors[Math.floor(Math.random() * directors.length)];
 
-      element.style.left = `${randomBetween(-8,96)}vw`;
+      element.style.left = `${randomBetween(-8, 96)}vw`;
 
       element.style.setProperty(
         "--duration",
-        `${randomBetween(4.2,8.5)}s`
+        `${randomBetween(4.2, 8.5)}s`
       );
 
       element.style.setProperty(
         "--delay",
-        `${randomBetween(0,.25)}s`
+        `${randomBetween(0, .25)}s`
       );
 
       element.style.setProperty(
         "--opacity",
-        randomBetween(.22,.50)
+        randomBetween(.22, .50)
       );
 
       element.style.setProperty(
         "--drift",
-        `${randomBetween(-130,130)}px`
+        `${randomBetween(-130, 130)}px`
       );
 
       element.style.setProperty(
         "--mid-drift",
-        `${randomBetween(-60,60)}px`
+        `${randomBetween(-60, 60)}px`
       );
 
       directorLayer.appendChild(element);
@@ -537,7 +619,7 @@
     function startDirectorCascade() {
       if (reducedMotion) return;
 
-      for (let i = 0; i < 24; i++) {
+      for (let i = 0; i < 12; i++) {
         createDirector();
       }
 
@@ -546,7 +628,7 @@
 
         window.setTimeout(
           nextDirector,
-          randomBetween(180,450)
+          randomBetween(350, 650)
         );
       }
 
@@ -584,7 +666,7 @@
 
           const number = document.createElement("span");
           number.className = "movie-number";
-          number.textContent = String(index + 1).padStart(2,"0");
+          number.textContent = String(index + 1).padStart(2, "0");
 
           const title = document.createElement("span");
           title.className = "movie-title";
@@ -592,13 +674,13 @@
           const year = movie.year ? ` — ${movie.year}` : "";
           title.textContent = `${movie.title || "Untitled"}${year}`;
 
-          li.append(number,title);
+          li.append(number, title);
           fragment.appendChild(li);
         });
 
         historyList.replaceChildren(fragment);
       } catch (error) {
-        console.error("History error:",error);
+        console.error("History error:", error);
 
         const errorItem = document.createElement("li");
         errorItem.className = "empty";
