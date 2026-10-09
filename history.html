@@ -242,6 +242,15 @@ h1 {
 
 .movie-actions {
   flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .18s ease, visibility .18s ease;
+}
+
+#historyList li:hover .movie-actions,
+#historyList li:focus-within .movie-actions {
+  opacity: 1;
+  visibility: visible;
 }
 
 .return-button {
@@ -298,6 +307,14 @@ h1 {
   letter-spacing: 1px;
 }
 
+/* Touchscreens have no hover, so keep the button visible there. */
+@media (hover: none) {
+  .movie-actions {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 @media (max-width:600px) {
   .page {
     width: calc(100% - 30px);
@@ -333,7 +350,9 @@ h1 {
   }
 
   .director { display: none; }
-  #historyList li, .back, .return-button { transition: none; }
+  #historyList li, .back, .return-button, .movie-actions {
+    transition: none;
+  }
 }
 </style>
 </head>
@@ -466,7 +485,7 @@ async function returnMovieToPool(movieId, button) {
     console.error("Return movie error:", error);
     historyMessage.textContent = "Unable to return film. Please try again.";
     button.disabled = false;
-    button.textContent = "↩ RETURN TO POOL";
+    button.textContent = "RETURN TO POOL";
   }
 }
 
@@ -513,7 +532,7 @@ async function loadHistory() {
       const returnButton = document.createElement("button");
       returnButton.className = "return-button";
       returnButton.type = "button";
-      returnButton.textContent = "↩ RETURN TO POOL";
+      returnButton.textContent = "RETURN TO POOL";
       returnButton.setAttribute("aria-label", `Return ${movie.title || "this film"} to the pool`);
       returnButton.addEventListener("click", () => returnMovieToPool(movie.id, returnButton));
 
