@@ -2,81 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0059ff">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Previously Chosen — Movie Ring</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 :root {
   --white: #f2fcff;
   --red: #ff304d;
-  --yellow: #fff200;
-  --blue: #0059ff;
 }
 
 html {
-  width: 100%;
   min-height: 100%;
-  margin: 0;
-  padding: 0;
-  background: #003ed1;
-  overflow-x: clip;
+  background: #005eff;
+  overflow-x: hidden;
   scroll-behavior: auto;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  position: relative;
-  width: 100%;
   min-height: 100vh;
-  min-height: 100dvh;
   margin: 0;
   padding: 0;
-  overflow-x: clip;
+  overflow-x: hidden;
   color: var(--white);
   font-family: Helvetica, Arial, sans-serif;
-
-  background-color: #0059ff;
-  background-image:
-    radial-gradient(
-      ellipse at 50% 35%,
-      #18a5ff 0%,
-      #087cff 25%,
-      #0059ff 52%,
-      #003ed1 78%,
-      #00248a 100%
-    );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: scroll;
-}
-
-/* =========================================================
-   MOBILE VIEWPORT BACKGROUND FIX
-   ========================================================= */
-
-html::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse at 50% 35%,
-      #18a5ff 0%,
-      #087cff 25%,
-      #0059ff 52%,
-      #003ed1 78%,
-      #00248a 100%
-    );
+  background: radial-gradient(ellipse at 50% 45%, #18a5ff 0%, #087cff 22%, #0059ff 48%, #003ed1 72%, #00248a 100%);
 }
 
 body::before {
@@ -85,39 +37,22 @@ body::before {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(80,230,255,.3) 0%,
-      rgba(0,150,255,.12) 35%,
-      transparent 70%
-    );
-
+  background: radial-gradient(ellipse at center, rgba(80,230,255,.3), rgba(0,150,255,.12) 35%, transparent 70%);
   mix-blend-mode: screen;
   animation: bluePulse 5s ease-in-out infinite;
 }
 
 @keyframes bluePulse {
-  0%, 100% { opacity: .65; }
+  0%,100% { opacity: .65; }
   50% { opacity: .9; }
 }
 
-/* =========================================================
-   VHS NOISE
-   ========================================================= */
-
 #vhsNoise {
   position: fixed;
-  inset: -10%;
-  width: 120%;
-  height: 120%;
+  inset: 0;
   z-index: 50;
   pointer-events: none;
-
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   opacity: .1;
   mix-blend-mode: screen;
   animation: noiseMove .4s steps(2) infinite;
@@ -131,32 +66,15 @@ body::before {
   100% { transform: translate(0,0); }
 }
 
-/* =========================================================
-   SCANLINES
-   ========================================================= */
-
-#scanlines,
-#scanlines2,
-#colorBleed,
-#crt {
+#scanlines, #scanlines2, #colorBleed, #crt {
   position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
 }
 
 #scanlines {
   z-index: 51;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,.12) 0px,
-      rgba(255,255,255,.12) 1px,
-      rgba(0,0,20,.2) 2px,
-      rgba(0,0,20,.25) 4px,
-      rgba(0,0,20,.02) 6px
-    );
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,.12) 0px, rgba(255,255,255,.12) 1px, rgba(0,0,20,.2) 2px, rgba(0,0,20,.25) 4px, rgba(0,0,20,.02) 6px);
   background-size: 100% 7px;
   animation: scanMove .3s linear infinite;
 }
@@ -168,14 +86,7 @@ body::before {
 
 #scanlines2 {
   z-index: 52;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 17px,
-      rgba(0,238,255,.1) 18px,
-      transparent 20px
-    );
+  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 17px, rgba(0,238,255,.1) 18px, transparent 20px);
   animation: scanSweep 5s linear infinite;
 }
 
@@ -187,20 +98,13 @@ body::before {
 #colorBleed {
   z-index: 53;
   opacity: .25;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,0,40,.12),
-      transparent 16%,
-      transparent 84%,
-      rgba(0,240,255,.18)
-    );
+  background: linear-gradient(90deg, rgba(255,0,40,.12), transparent 16%, transparent 84%, rgba(0,240,255,.18));
   mix-blend-mode: screen;
   animation: colorShift 3s steps(1) infinite;
 }
 
 @keyframes colorShift {
-  0%, 72%, 100% { transform: translateX(0); }
+  0%,72%,100% { transform: translateX(0); }
   73% { transform: translateX(-3px); }
   74% { transform: translateX(4px); }
   75% { transform: translateX(-2px); }
@@ -209,20 +113,9 @@ body::before {
 
 #crt {
   z-index: 64;
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 35%,
-      rgba(0,10,30,.12) 55%,
-      rgba(0,8,25,.35) 78%,
-      rgba(0,3,15,.6) 100%
-    );
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,10,30,.12) 55%, rgba(0,8,25,.35) 78%, rgba(0,3,15,.6) 100%);
   box-shadow: inset 0 0 100px rgba(0,0,0,.45);
 }
-
-/* =========================================================
-   DIRECTOR CASCADE
-   ========================================================= */
 
 #directorLayer {
   position: fixed;
@@ -241,64 +134,25 @@ body::before {
   font-size: clamp(12px,1.35vw,20px);
   font-weight: 700;
   opacity: 0;
-  text-shadow:
-    2px 0 rgba(255,0,50,.4),
-    -2px 0 rgba(0,240,255,.5);
-  animation:
-    directorFall
-    var(--duration)
-    linear
-    var(--delay)
-    forwards;
+  text-shadow: 2px 0 rgba(255,0,50,.4), -2px 0 rgba(0,240,255,.5);
+  animation: directorFall var(--duration) linear var(--delay) forwards;
 }
 
 @keyframes directorFall {
-  0% {
-    opacity: 0;
-    transform: translate3d(0,-18vh,0);
-  }
-
-  7% {
-    opacity: var(--opacity);
-  }
-
-  50% {
-    transform: translate3d(var(--mid-drift),50vh,0);
-  }
-
-  90% {
-    opacity: var(--opacity);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--drift),120vh,0);
-  }
+  0% { opacity: 0; transform: translate3d(0,-18vh,0); }
+  7% { opacity: var(--opacity); }
+  50% { transform: translate3d(var(--mid-drift),50vh,0); }
+  90% { opacity: var(--opacity); }
+  100% { opacity: 0; transform: translate3d(var(--drift),120vh,0); }
 }
-
-/* =========================================================
-   PAGE LAYOUT
-   ========================================================= */
 
 .page {
   position: relative;
   z-index: 10;
-
   width: min(900px,calc(100% - 40px));
   margin: 0 auto;
-
-  padding:
-    max(30px, env(safe-area-inset-top))
-    0
-    max(100px, env(safe-area-inset-bottom));
-
-  min-height: 100vh;
-  min-height: 100dvh;
+  padding: 30px 0 100px;
 }
-
-/* =========================================================
-   HEADER
-   ========================================================= */
 
 header {
   border-bottom: 2px solid var(--white);
@@ -313,49 +167,31 @@ header {
   letter-spacing: 4px;
   text-transform: uppercase;
   margin-bottom: 15px;
-  text-shadow:
-    2px 0 rgba(255,0,60,.45),
-    -2px 0 rgba(0,220,255,.45);
+  text-shadow: 2px 0 rgba(255,0,60,.45), -2px 0 rgba(0,220,255,.45);
 }
 
 h1 {
   margin: 0;
-
   font-size: clamp(32px,8vw,82px);
-  line-height: .95;
+  line-height: .9;
   letter-spacing: -5px;
   text-transform: uppercase;
-
-  /* Match the main page's yellow SPIN button. */
-  color: var(--yellow);
-
-  text-shadow:
-    4px 0 rgba(255,0,60,.55),
-    -4px 0 rgba(0,235,255,.6);
+  color: #fff200;
+  text-shadow: 4px 0 rgba(255,0,60,.55), -4px 0 rgba(0,235,255,.6);
 }
-
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
 
 .back {
   display: inline-block;
   margin: 30px 0 45px;
   padding: 12px 20px;
-
   border: 2px solid var(--white);
   color: var(--white);
   background: rgba(0,20,70,.45);
-
   text-decoration: none;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
-
-  box-shadow:
-    4px 4px 0 rgba(255,48,77,.7),
-    -4px -4px 0 rgba(0,235,255,.4);
-
+  box-shadow: 4px 4px 0 rgba(255,48,77,.7), -4px -4px 0 rgba(0,235,255,.4);
   transition: background .15s ease,color .15s ease;
 }
 
@@ -363,10 +199,6 @@ h1 {
   background: var(--white);
   color: #00205e;
 }
-
-/* =========================================================
-   HISTORY LIST
-   ========================================================= */
 
 #historyList {
   margin: 0;
@@ -380,22 +212,16 @@ h1 {
   align-items: center;
   gap: 14px;
   padding: 17px 8px;
-
   border-bottom: 1px solid rgba(230,250,255,.3);
-
   color: var(--white);
   font-size: clamp(15px,2.3vw,24px);
   font-weight: 600;
-
-  text-shadow:
-    1px 0 rgba(255,0,50,.3),
-    -1px 0 rgba(0,220,255,.3);
-
+  text-shadow: 1px 0 rgba(255,0,50,.3), -1px 0 rgba(0,220,255,.3);
   transition: color .2s ease;
 }
 
 #historyList li:hover {
-  color: var(--yellow);
+  color: #fff200;
 }
 
 .movie-number {
@@ -427,22 +253,15 @@ h1 {
   visibility: visible;
 }
 
-/* =========================================================
-   RETURN BUTTON
-   ========================================================= */
-
 .return-button {
   padding: 7px 9px;
-
   border: 1px solid var(--red);
   background: rgba(0,20,70,.75);
   color: var(--white);
-
   font-family: inherit;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1px;
-
   cursor: pointer;
   text-shadow: none;
 }
@@ -459,13 +278,9 @@ h1 {
 
 .return-button:focus-visible,
 .back:focus-visible {
-  outline: 2px solid var(--yellow);
+  outline: 2px solid #fff200;
   outline-offset: 4px;
 }
-
-/* =========================================================
-   STATUS MESSAGES
-   ========================================================= */
 
 #historyMessage {
   min-height: 20px;
@@ -492,10 +307,7 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
+/* Touchscreens have no hover, so keep the button visible there. */
 @media (hover: none) {
   .movie-actions {
     opacity: 1;
@@ -503,32 +315,14 @@ h1 {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width:600px) {
   .page {
     width: calc(100% - 30px);
-    padding-top: max(20px, env(safe-area-inset-top));
-    padding-bottom: max(60px, env(safe-area-inset-bottom));
+    padding-top: 20px;
+    padding-bottom: 60px;
   }
 
-  .eyebrow {
-    margin-bottom: 12px;
-    letter-spacing: 3px;
-  }
-
-  h1 {
-    font-size: clamp(30px,9vw,52px);
-    line-height: 1;
-    letter-spacing: -2px;
-    overflow-wrap: anywhere;
-  }
-
-  .back {
-    margin-top: 25px;
-    margin-bottom: 35px;
-    padding: 11px 14px;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-  }
+  h1 { letter-spacing: -3px; }
 
   #historyList li {
     gap: 8px;
@@ -547,54 +341,16 @@ h1 {
     letter-spacing: 0;
   }
 
-  .empty {
-    padding: 45px 12px;
-  }
+  .back { margin-bottom: 35px; }
 }
-
-/* Short landscape screens */
-@media (max-height: 500px) and (orientation: landscape) {
-  .page {
-    padding-top: max(12px, env(safe-area-inset-top));
-    padding-bottom: 30px;
-  }
-
-  .eyebrow {
-    margin-bottom: 8px;
-  }
-
-  h1 {
-    font-size: clamp(28px,7vw,48px);
-    letter-spacing: -2px;
-  }
-
-  .back {
-    margin: 18px 0 25px;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  body::before,
-  #vhsNoise,
-  #scanlines,
-  #scanlines2,
-  #colorBleed,
-  .director {
+  body::before, #vhsNoise, #scanlines, #scanlines2, #colorBleed, .director {
     animation: none !important;
   }
 
-  .director {
-    display: none;
-  }
-
-  #historyList li,
-  .back,
-  .return-button,
-  .movie-actions {
+  .director { display: none; }
+  #historyList li, .back, .return-button, .movie-actions {
     transition: none;
   }
 }
@@ -625,25 +381,13 @@ h1 {
 </main>
 
 <script>
-/* =========================================================
-   SUPABASE
-   ========================================================= */
-
 const SUPABASE_URL = "https://kjyqhalcyrcklhgkqqtd.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-const client = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const historyList = document.getElementById("historyList");
 const directorLayer = document.getElementById("directorLayer");
 const historyMessage = document.getElementById("historyMessage");
-
-/* =========================================================
-   DIRECTORS
-   ========================================================= */
 
 const directors = [
   "Chantal Akerman","Pedro Almodóvar","Robert Altman",
@@ -676,86 +420,44 @@ const directors = [
   "Shohei Imamura","Seijun Suzuki","Aleksei German","Masanobu Hiraoka"
 ];
 
-const reducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-).matches;
-
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
+
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function createDirector() {
   if (reducedMotion) return;
 
   const element = document.createElement("div");
   element.className = "director";
-
-  element.textContent =
-    directors[Math.floor(Math.random() * directors.length)];
-
+  element.textContent = directors[Math.floor(Math.random() * directors.length)];
   element.style.left = `${randomBetween(-8,96)}vw`;
-
-  element.style.setProperty(
-    "--duration",
-    `${randomBetween(4.2,8.5)}s`
-  );
-
-  element.style.setProperty(
-    "--delay",
-    `${randomBetween(0,.25)}s`
-  );
-
-  element.style.setProperty(
-    "--opacity",
-    randomBetween(.22,.5)
-  );
-
-  element.style.setProperty(
-    "--drift",
-    `${randomBetween(-130,130)}px`
-  );
-
-  element.style.setProperty(
-    "--mid-drift",
-    `${randomBetween(-60,60)}px`
-  );
+  element.style.setProperty("--duration", `${randomBetween(4.2,8.5)}s`);
+  element.style.setProperty("--delay", `${randomBetween(0,.25)}s`);
+  element.style.setProperty("--opacity", randomBetween(.22,.5));
+  element.style.setProperty("--drift", `${randomBetween(-130,130)}px`);
+  element.style.setProperty("--mid-drift", `${randomBetween(-60,60)}px`);
 
   directorLayer.appendChild(element);
-
-  element.addEventListener(
-    "animationend",
-    () => element.remove(),
-    { once: true }
-  );
+  element.addEventListener("animationend", () => element.remove(), { once: true });
 }
 
 function startDirectorCascade() {
   if (reducedMotion) return;
 
-  for (let i = 0; i < 12; i++) {
-    createDirector();
-  }
+  for (let i = 0; i < 12; i++) createDirector();
 
   function nextDirector() {
     createDirector();
-
-    window.setTimeout(
-      nextDirector,
-      randomBetween(350,650)
-    );
+    window.setTimeout(nextDirector, randomBetween(350,650));
   }
 
   nextDirector();
 }
 
-/* =========================================================
-   RETURN FILM TO POOL
-   ========================================================= */
-
 async function returnMovieToPool(movieId, button) {
-  if (!window.confirm(
-    "Return this film to the pool? It will be eligible to be chosen again."
-  )) {
+  if (!window.confirm("Return this film to the pool? It will be eligible to be chosen again.")) {
     return;
   }
 
@@ -774,36 +476,23 @@ async function returnMovieToPool(movieId, button) {
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      throw new Error(
-        "No movie was updated. Check your permissions and movie ID."
-      );
+      throw new Error("No movie was updated. Check your permissions and movie ID.");
     }
 
     historyMessage.textContent = "FILM RETURNED TO THE POOL.";
-
     await loadHistory();
-
   } catch (error) {
     console.error("Return movie error:", error);
-
-    historyMessage.textContent =
-      "Unable to return film. Please try again.";
-
+    historyMessage.textContent = "Unable to return film. Please try again.";
     button.disabled = false;
     button.textContent = "RETURN TO POOL";
   }
 }
 
-/* =========================================================
-   LOAD HISTORY
-   ========================================================= */
-
 async function loadHistory() {
   const loadingItem = document.createElement("li");
-
   loadingItem.className = "loading";
   loadingItem.textContent = "Loading films...";
-
   historyList.replaceChildren(loadingItem);
 
   try {
@@ -819,14 +508,10 @@ async function loadHistory() {
 
     if (!data || data.length === 0) {
       const emptyItem = document.createElement("li");
-
       emptyItem.className = "empty";
-      emptyItem.textContent =
-        "No films have been chosen yet.";
-
+      emptyItem.textContent = "No films have been chosen yet.";
       fragment.appendChild(emptyItem);
       historyList.replaceChildren(fragment);
-
       return;
     }
 
@@ -835,32 +520,21 @@ async function loadHistory() {
 
       const number = document.createElement("span");
       number.className = "movie-number";
-      number.textContent = String(index + 1).padStart(2, "0");
+      number.textContent = String(index + 1).padStart(2,"0");
 
       const title = document.createElement("span");
       title.className = "movie-title";
-
-      title.textContent =
-        `${movie.title || "Untitled"}${movie.year ? ` — ${movie.year}` : ""}`;
+      title.textContent = `${movie.title || "Untitled"}${movie.year ? ` — ${movie.year}` : ""}`;
 
       const actions = document.createElement("div");
       actions.className = "movie-actions";
 
       const returnButton = document.createElement("button");
-
       returnButton.className = "return-button";
       returnButton.type = "button";
       returnButton.textContent = "RETURN TO POOL";
-
-      returnButton.setAttribute(
-        "aria-label",
-        `Return ${movie.title || "this film"} to the pool`
-      );
-
-      returnButton.addEventListener(
-        "click",
-        () => returnMovieToPool(movie.id, returnButton)
-      );
+      returnButton.setAttribute("aria-label", `Return ${movie.title || "this film"} to the pool`);
+      returnButton.addEventListener("click", () => returnMovieToPool(movie.id, returnButton));
 
       actions.appendChild(returnButton);
       li.append(number, title, actions);
@@ -868,23 +542,15 @@ async function loadHistory() {
     });
 
     historyList.replaceChildren(fragment);
-
   } catch (error) {
     console.error("History error:", error);
 
     const errorItem = document.createElement("li");
-
     errorItem.className = "empty";
-    errorItem.textContent =
-      "Unable to load previously chosen films. Please refresh and try again.";
-
+    errorItem.textContent = "Unable to load previously chosen films. Please refresh and try again.";
     historyList.replaceChildren(errorItem);
   }
 }
-
-/* =========================================================
-   START
-   ========================================================= */
 
 startDirectorCascade();
 loadHistory();
