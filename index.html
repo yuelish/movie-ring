@@ -46,10 +46,7 @@
 
       color: var(--white);
 
-      font-family:
-        Helvetica,
-        Arial,
-        sans-serif;
+      font-family: Helvetica, Arial, sans-serif;
 
       background:
         radial-gradient(
@@ -61,8 +58,7 @@
           #00248a 100%
         );
 
-      animation:
-        screenFlicker 4.5s steps(1) infinite;
+      animation: screenFlicker 4.5s steps(1) infinite;
     }
 
     /* =========================================================
@@ -71,15 +67,11 @@
 
     body::before {
       content: "";
-
       position: fixed;
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: 1;
-
       pointer-events: none;
 
       background:
@@ -91,9 +83,7 @@
         );
 
       mix-blend-mode: screen;
-
-      animation:
-        bluePulse 3s ease-in-out infinite;
+      animation: bluePulse 3s ease-in-out infinite;
     }
 
     @keyframes bluePulse {
@@ -114,35 +104,23 @@
 
     #directorLayer {
       position: fixed;
-
       top: 0;
       left: 0;
-
       width: 100%;
       height: 100%;
-
       overflow: hidden;
-
       z-index: 2;
-
       pointer-events: none;
     }
 
     .director {
       position: absolute;
-
       top: -15vh;
-
       white-space: nowrap;
-
       color: rgba(230,250,255,0.56);
-
       font-size: clamp(12px, 1.35vw, 20px);
-
       font-weight: 700;
-
       letter-spacing: -0.4px;
-
       opacity: 0;
 
       text-shadow:
@@ -150,9 +128,7 @@
         -2px 0 rgba(0,240,255,0.55),
         0 0 9px rgba(0,220,255,0.45);
 
-      will-change:
-        transform,
-        opacity;
+      will-change: transform, opacity;
 
       animation:
         directorFall
@@ -165,10 +141,7 @@
     @keyframes directorFall {
       0% {
         opacity: 0;
-
-        transform:
-          translate3d(0,-18vh,0)
-          skewX(var(--skew));
+        transform: translate3d(0,-18vh,0) skewX(var(--skew));
       }
 
       6% {
@@ -177,11 +150,7 @@
 
       45% {
         transform:
-          translate3d(
-            var(--mid-drift),
-            45vh,
-            0
-          )
+          translate3d(var(--mid-drift),45vh,0)
           skewX(var(--skew));
       }
 
@@ -191,13 +160,8 @@
 
       100% {
         opacity: 0;
-
         transform:
-          translate3d(
-            var(--drift),
-            120vh,
-            0
-          )
+          translate3d(var(--drift),120vh,0)
           skewX(var(--skew));
       }
     }
@@ -208,55 +172,28 @@
 
     #vhsNoise {
       position: fixed;
-
       top: -50%;
       left: -50%;
-
       width: 200%;
       height: 200%;
-
       z-index: 50;
-
       pointer-events: none;
 
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 
       opacity: 0.18;
-
       mix-blend-mode: screen;
-
-      animation:
-        noiseMove
-        0.11s
-        steps(2)
-        infinite;
+      animation: noiseMove 0.11s steps(2) infinite;
     }
 
     @keyframes noiseMove {
-      0% {
-        transform: translate(0,0);
-      }
-
-      20% {
-        transform: translate(-4%,2%);
-      }
-
-      40% {
-        transform: translate(3%,-4%);
-      }
-
-      60% {
-        transform: translate(5%,3%);
-      }
-
-      80% {
-        transform: translate(-3%,-2%);
-      }
-
-      100% {
-        transform: translate(2%,4%);
-      }
+      0%   { transform: translate(0,0); }
+      20%  { transform: translate(-4%,2%); }
+      40%  { transform: translate(3%,-4%); }
+      60%  { transform: translate(5%,3%); }
+      80%  { transform: translate(-3%,-2%); }
+      100% { transform: translate(2%,4%); }
     }
 
     /* =========================================================
@@ -265,14 +202,10 @@
 
     #scanlines {
       position: fixed;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: 51;
-
       pointer-events: none;
 
       background:
@@ -286,34 +219,20 @@
         );
 
       background-size: 100% 7px;
-
-      animation:
-        scanMove
-        0.14s
-        linear
-        infinite;
+      animation: scanMove 0.14s linear infinite;
     }
 
     @keyframes scanMove {
-      from {
-        transform: translateY(0);
-      }
-
-      to {
-        transform: translateY(7px);
-      }
+      from { transform: translateY(0); }
+      to   { transform: translateY(7px); }
     }
 
     #scanlines2 {
       position: fixed;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: 52;
-
       pointer-events: none;
 
       background:
@@ -325,21 +244,12 @@
           transparent 20px
         );
 
-      animation:
-        scanSweep
-        2.8s
-        linear
-        infinite;
+      animation: scanSweep 2.8s linear infinite;
     }
 
     @keyframes scanSweep {
-      from {
-        transform: translateY(-40px);
-      }
-
-      to {
-        transform: translateY(40px);
-      }
+      from { transform: translateY(-40px); }
+      to   { transform: translateY(40px); }
     }
 
     /* =========================================================
@@ -348,16 +258,11 @@
 
     #colorBleed {
       position: fixed;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: 53;
-
       pointer-events: none;
-
       opacity: 0.35;
 
       background:
@@ -370,34 +275,15 @@
         );
 
       mix-blend-mode: screen;
-
-      animation:
-        colorShift
-        2.1s
-        steps(1)
-        infinite;
+      animation: colorShift 2.1s steps(1) infinite;
     }
 
     @keyframes colorShift {
-      0%, 72%, 100% {
-        transform: translateX(0);
-      }
-
-      73% {
-        transform: translateX(-5px);
-      }
-
-      74% {
-        transform: translateX(7px);
-      }
-
-      75% {
-        transform: translateX(-3px);
-      }
-
-      76% {
-        transform: translateX(0);
-      }
+      0%, 72%, 100% { transform: translateX(0); }
+      73% { transform: translateX(-5px); }
+      74% { transform: translateX(7px); }
+      75% { transform: translateX(-3px); }
+      76% { transform: translateX(0); }
     }
 
     /* =========================================================
@@ -406,18 +292,12 @@
 
     #tracking {
       position: fixed;
-
       left: -10%;
-
       width: 120%;
       height: 38px;
-
       top: 35%;
-
       z-index: 62;
-
       pointer-events: none;
-
       opacity: 0;
 
       background:
@@ -431,48 +311,33 @@
         );
 
       filter: blur(1px);
-
-      animation:
-        trackingGlitch
-        5.8s
-        steps(1)
-        infinite;
+      animation: trackingGlitch 5.8s steps(1) infinite;
     }
 
     @keyframes trackingGlitch {
       0%, 67%, 100% {
         opacity: 0;
-        transform:
-          translateY(0)
-          translateX(0);
+        transform: translateY(0) translateX(0);
       }
 
       68% {
         opacity: 0.9;
-        transform:
-          translateY(-8vh)
-          translateX(-12px);
+        transform: translateY(-8vh) translateX(-12px);
       }
 
       69% {
         opacity: 0.5;
-        transform:
-          translateY(4vh)
-          translateX(22px);
+        transform: translateY(4vh) translateX(22px);
       }
 
       70% {
         opacity: 0.8;
-        transform:
-          translateY(12vh)
-          translateX(-30px);
+        transform: translateY(12vh) translateX(-30px);
       }
 
       71% {
         opacity: 0;
-        transform:
-          translateY(0)
-          translateX(0);
+        transform: translateY(0) translateX(0);
       }
     }
 
@@ -482,31 +347,18 @@
 
     #glitchBar {
       position: fixed;
-
       left: 0;
-
       width: 100%;
       height: 5px;
-
       top: 62%;
-
       z-index: 63;
-
       pointer-events: none;
 
-      background:
-        rgba(255,255,255,0.65);
-
-      box-shadow:
-        0 0 18px rgba(0,240,255,0.9);
-
+      background: rgba(255,255,255,0.65);
+      box-shadow: 0 0 18px rgba(0,240,255,0.9);
       opacity: 0;
 
-      animation:
-        glitchBar
-        7s
-        steps(1)
-        infinite;
+      animation: glitchBar 7s steps(1) infinite;
     }
 
     @keyframes glitchBar {
@@ -516,18 +368,12 @@
 
       81% {
         opacity: 0.7;
-
-        transform:
-          scaleX(0.35)
-          translateX(-30%);
+        transform: scaleX(0.35) translateX(-30%);
       }
 
       81.2% {
         opacity: 0.3;
-
-        transform:
-          scaleX(1.4)
-          translateX(10%);
+        transform: scaleX(1.4) translateX(10%);
       }
 
       81.4% {
@@ -541,14 +387,10 @@
 
     #crt {
       position: fixed;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       z-index: 64;
-
       pointer-events: none;
 
       background:
@@ -560,8 +402,7 @@
           rgba(0,3,15,0.72) 100%
         );
 
-      box-shadow:
-        inset 0 0 130px rgba(0,0,0,0.65);
+      box-shadow: inset 0 0 130px rgba(0,0,0,0.65);
     }
 
     /* =========================================================
@@ -570,9 +411,7 @@
 
     .app {
       position: relative;
-
       z-index: 10;
-
       width: 100%;
       height: 100%;
       min-height: 0;
@@ -583,13 +422,9 @@
       justify-content: flex-start;
 
       text-align: center;
-
-      padding:
-        30px 20px 0;
-
+      padding: 30px 20px 0;
       overflow: hidden;
 
-      /* Keep the app stationary during spins. */
       transform: none;
       animation: none;
     }
@@ -601,38 +436,24 @@
     header {
       width: 100%;
       max-width: 1000px;
-
-      border-bottom:
-        2px solid var(--white);
-
-      padding-bottom:
-        12px;
-
+      border-bottom: 2px solid var(--white);
+      padding-bottom: 12px;
       overflow: hidden;
-
       position: relative;
-
       flex-shrink: 0;
 
-      box-shadow:
-        0 4px 0 rgba(0,238,255,0.2);
+      box-shadow: 0 4px 0 rgba(0,238,255,0.2);
     }
 
     .header-text {
       width: 100%;
 
-      font-size:
-        clamp(8px,1.55vw,15px);
-
+      font-size: clamp(8px, 1.55vw, 15px);
       font-weight: 700;
-
-      letter-spacing:
-        -0.15px;
-
+      letter-spacing: -0.15px;
       line-height: 1;
 
       white-space: nowrap;
-
       text-align: justify;
       text-align-last: justify;
 
@@ -642,44 +463,43 @@
         2px 0 rgba(255,0,55,0.5),
         -2px 0 rgba(0,240,255,0.55);
 
-      transition:
-        transform 0.65s ease,
-        opacity 0.65s ease;
+      /*
+        FIX:
+        Do not transition transform and animate transform
+        simultaneously. This prevents the title from shifting
+        when the slide-in animation finishes.
+      */
+      transition: opacity 0.3s ease;
+      will-change: transform, opacity;
     }
 
     .header-text.slide-out {
-      transform:
-        translateX(-100%);
-
+      transform: translate3d(-100%, 0, 0);
       opacity: 0;
     }
 
     .header-text.movie-result {
       text-align: center;
       text-align-last: center;
+      letter-spacing: 0.7px;
+      line-height: 1.2;
 
-      letter-spacing:
-        0.7px;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
 
     .header-text.slide-in {
-      animation:
-        headerSlideIn
-        1s ease forwards;
+      animation: headerSlideIn 0.8s ease-out both;
     }
 
     @keyframes headerSlideIn {
       from {
-        transform:
-          translateX(100%);
-
+        transform: translate3d(100%, 0, 0);
         opacity: 0;
       }
 
       to {
-        transform:
-          translateX(0);
-
+        transform: translate3d(0, 0, 0);
         opacity: 1;
       }
     }
@@ -690,26 +510,16 @@
 
     .wheel-container {
       position: relative;
-
-      width:
-        min(78vw,470px);
-
-      height:
-        min(78vw,470px);
-
+      width: min(78vw, 470px);
+      height: min(78vw, 470px);
       flex-shrink: 0;
-
-      margin:
-        55px 0 35px;
+      margin: 55px 0 35px;
     }
 
     .wheel-container::before {
       content: "";
-
       position: absolute;
-
       inset: -8px;
-
       border-radius: 50%;
 
       background:
@@ -722,20 +532,14 @@
           transparent 84%
         );
 
-      filter:
-        blur(3px);
-
-      pointer-events:
-        none;
+      filter: blur(3px);
+      pointer-events: none;
     }
 
     .wheel-container::after {
       content: "";
-
       position: absolute;
-
       inset: -18px;
-
       border-radius: 50%;
 
       background:
@@ -747,43 +551,24 @@
           transparent 88%
         );
 
-      filter:
-        blur(8px);
-
-      pointer-events:
-        none;
-
-      animation:
-        wheelGlow
-        1.8s
-        ease-in-out
-        infinite;
+      filter: blur(8px);
+      pointer-events: none;
+      animation: wheelGlow 1.8s ease-in-out infinite;
     }
 
     @keyframes wheelGlow {
-      0%, 100% {
-        opacity: 0.65;
-      }
-
-      50% {
-        opacity: 1;
-      }
+      0%, 100% { opacity: 0.65; }
+      50% { opacity: 1; }
     }
 
     .wheel {
       position: absolute;
-
       z-index: 2;
-
       inset: 0;
-
       width: 100%;
       height: 100%;
-
       border-radius: 50%;
-
-      border:
-        3px solid var(--red);
+      border: 3px solid var(--red);
 
       background:
         conic-gradient(
@@ -802,21 +587,11 @@
         0 15px 35px rgba(0,0,0,0.65),
         0 0 35px rgba(255,48,77,0.3);
 
-      transition:
-        transform 4s
-        cubic-bezier(.12,.72,.12,1);
-
-      transform-origin:
-        center center;
-
-      will-change:
-        transform;
-
-      overflow:
-        hidden;
+      transition: transform 4s cubic-bezier(.12,.72,.12,1);
+      transform-origin: center center;
+      will-change: transform;
+      overflow: hidden;
     }
-
-    /* Reflection removed from the wheel itself. */
 
     .wheel::before {
       content: none;
@@ -829,55 +604,35 @@
 
     .wheel-center {
       position: absolute;
-
       z-index: 5;
-
       top: 50%;
       left: 50%;
-
-      transform:
-        translate(-50%,-50%);
-
+      transform: translate(-50%,-50%);
       width: 92px;
       height: 92px;
-
       border-radius: 50%;
-
-      background:
-        #031d3d;
-
-      color:
-        var(--white);
+      background: #031d3d;
+      color: var(--white);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size:
-        32px;
-
-      border:
-        4px solid var(--red);
+      font-size: 32px;
+      border: 4px solid var(--red);
 
       box-shadow:
         inset 0 4px 8px rgba(255,48,77,0.32),
         inset 0 -2px 5px rgba(255,48,77,0.15),
         0 0 20px rgba(0,240,255,0.4);
 
-      cursor:
-        pointer;
-
-      text-decoration:
-        none;
-
-      transition:
-        transform 0.15s ease;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease;
     }
 
     .wheel-center:hover {
-      transform:
-        translate(-50%,-50%)
-        scale(1.08);
+      transform: translate(-50%,-50%) scale(1.08);
     }
 
     /* =========================================================
@@ -886,23 +641,13 @@
 
     .pointer {
       position: absolute;
-
       z-index: 10;
-
       top: -24px;
       left: 50%;
-
-      transform:
-        translateX(-50%);
-
-      color:
-        var(--red);
-
-      font-size:
-        38px;
-
-      line-height:
-        1;
+      transform: translateX(-50%);
+      color: var(--red);
+      font-size: 38px;
+      line-height: 1;
 
       text-shadow:
         0 0 8px rgba(255,48,77,0.8),
@@ -915,38 +660,16 @@
 
     #spinButton {
       flex-shrink: 0;
-
-      border:
-        2px solid var(--white);
-
-      background:
-        var(--white);
-
-      color:
-        #031326;
-
-      padding:
-        17px 65px;
-
-      border-radius:
-        0;
-
-      font-family:
-        Helvetica,
-        Arial,
-        sans-serif;
-
-      font-size:
-        15px;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        2px;
-
-      cursor:
-        pointer;
+      border: 2px solid var(--white);
+      background: var(--white);
+      color: #031326;
+      padding: 17px 65px;
+      border-radius: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
 
       transition:
         background 0.15s ease,
@@ -959,33 +682,20 @@
     }
 
     #spinButton:hover {
-      background:
-        #fff200;
-
-      border-color:
-        #fff200;
-
-      color:
-        #020914;
-
-      transform:
-        translateY(-2px);
+      background: #fff200;
+      border-color: #fff200;
+      color: #020914;
+      transform: translateY(-2px);
     }
 
     #spinButton:active {
-      transform:
-        translateY(1px);
+      transform: translateY(1px);
     }
 
     #spinButton:disabled {
-      opacity:
-        0.35;
-
-      cursor:
-        not-allowed;
-
-      transform:
-        none;
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* =========================================================
@@ -994,27 +704,13 @@
 
     .remaining {
       flex-shrink: 0;
-
-      margin-top:
-        20px;
-
-      font-size:
-        12px;
-
-      font-weight:
-        600;
-
-      font-style:
-        italic;
-
-      letter-spacing:
-        1px;
-
-      text-transform:
-        uppercase;
-
-      color:
-        #c9f5ff;
+      margin-top: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #c9f5ff;
 
       text-shadow:
         2px 0 rgba(255,0,60,0.35),
@@ -1023,29 +719,15 @@
 
     #message {
       flex-shrink: 0;
-
-      margin-top:
-        20px;
-
-      max-width:
-        600px;
-
-      color:
-        #ff6680;
-
-      font-size:
-        12px;
+      margin-top: 20px;
+      max-width: 600px;
+      color: #ff6680;
+      font-size: 12px;
     }
 
     /* =========================================================
        SPINNING
        ========================================================= */
-
-    /*
-      The wheel rotates independently.
-      The app and header do not jitter, translate, or shake.
-      VHS effects remain active.
-    */
 
     body.spinning .app {
       animation: none;
@@ -1053,83 +735,35 @@
     }
 
     body.spinning #colorBleed {
-      opacity:
-        0.65;
-
-      animation:
-        spinColorShift
-        0.09s
-        steps(2)
-        infinite;
+      opacity: 0.65;
+      animation: spinColorShift 0.09s steps(2) infinite;
     }
 
     body.spinning #vhsNoise {
-      opacity:
-        0.32;
+      opacity: 0.32;
     }
 
     @keyframes spinColorShift {
-      0% {
-        transform:
-          translateX(-8px);
-      }
-
-      50% {
-        transform:
-          translateX(9px);
-      }
-
-      100% {
-        transform:
-          translateX(-6px);
-      }
+      0%   { transform: translateX(-8px); }
+      50%  { transform: translateX(9px); }
+      100% { transform: translateX(-6px); }
     }
 
     @keyframes screenFlicker {
       0%, 20%, 40%, 60%, 80%, 100% {
-        filter:
-          brightness(1);
+        filter: brightness(1);
       }
 
-      20.2% {
-        filter:
-          brightness(1.18);
-      }
+      20.2% { filter: brightness(1.18); }
+      20.4% { filter: brightness(0.82); }
+      20.6% { filter: brightness(1.05); }
 
-      20.4% {
-        filter:
-          brightness(0.82);
-      }
+      53.1% { filter: brightness(0.9); }
+      53.3% { filter: brightness(1.15); }
+      53.5% { filter: brightness(1); }
 
-      20.6% {
-        filter:
-          brightness(1.05);
-      }
-
-      53.1% {
-        filter:
-          brightness(0.9);
-      }
-
-      53.3% {
-        filter:
-          brightness(1.15);
-      }
-
-      53.5% {
-        filter:
-          brightness(1);
-      }
-
-      91.3% {
-        filter:
-          brightness(0.76);
-      }
-
-      91.5% {
-        filter:
-          brightness(1.08);
-      }
+      91.3% { filter: brightness(0.76); }
+      91.5% { filter: brightness(1.08); }
     }
 
     /* =========================================================
@@ -1137,84 +771,63 @@
        ========================================================= */
 
     @media (max-width: 600px) {
-
       .app {
-        padding:
-          20px 15px 0;
+        padding: 20px 15px 0;
       }
 
       header {
-        padding-bottom:
-          10px;
+        padding-bottom: 10px;
       }
 
+      /*
+        FIX: Larger original header text on mobile.
+      */
       .header-text {
-  font-size: 7.5px;
-  letter-spacing: -0.3px;
-}
+        font-size: clamp(9px, 2.5vw, 12px);
+        letter-spacing: -0.2px;
+      }
 
-.header-text.movie-result {
-  font-size: clamp(18px, 5vw, 28px);
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
+      .header-text.movie-result {
+        font-size: clamp(18px, 5vw, 28px);
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
 
       .wheel-container {
-        width:
-          min(82vw, 470px);
-
-        height:
-          min(82vw, 470px);
-
-        margin-top:
-          48px;
-
-        margin-bottom:
-          35px;
+        width: min(82vw, 470px);
+        height: min(82vw, 470px);
+        margin-top: 48px;
+        margin-bottom: 35px;
       }
 
       .wheel-center {
-        width:
-          74px;
-
-        height:
-          74px;
-
-        font-size:
-          26px;
+        width: 74px;
+        height: 74px;
+        font-size: 26px;
       }
 
       .pointer {
-        font-size:
-          32px;
-
-        top:
-          -21px;
+        font-size: 32px;
+        top: -21px;
       }
 
       #spinButton {
-        width:
-          min(80vw,330px);
-
-        padding:
-          16px 30px;
+        width: min(80vw, 330px);
+        padding: 16px 30px;
       }
 
       .director {
-        font-size:
-          11px;
+        font-size: 11px;
       }
     }
 
     /* =========================================================
        SHORT SCREENS
-       Keep the complete main page visible without scrolling.
        ========================================================= */
 
     @media (max-height: 750px) {
-
       .app {
         padding-top: 16px;
       }
@@ -1222,7 +835,6 @@
       .wheel-container {
         width: min(60vh, 400px, 78vw);
         height: min(60vh, 400px, 78vw);
-
         margin-top: 30px;
         margin-bottom: 24px;
       }
@@ -1237,7 +849,6 @@
     }
 
     @media (max-height: 600px) {
-
       .app {
         padding-top: 10px;
       }
@@ -1249,7 +860,6 @@
       .wheel-container {
         width: min(48vh, 300px, 70vw);
         height: min(48vh, 300px, 70vw);
-
         margin-top: 25px;
         margin-bottom: 20px;
       }
@@ -1283,11 +893,9 @@
 <body>
 
   <!-- DIRECTOR CASCADE -->
-
   <div id="directorLayer" aria-hidden="true"></div>
 
-  <!-- VHS EFFECT -->
-
+  <!-- VHS EFFECTS -->
   <div id="vhsNoise"></div>
   <div id="scanlines"></div>
   <div id="scanlines2"></div>
@@ -1297,28 +905,19 @@
   <div id="crt"></div>
 
   <!-- APPLICATION -->
-
   <main class="app">
 
     <header>
-      <div
-        id="headerText"
-        class="header-text"
-      >
+      <div id="headerText" class="header-text">
         i hate movies more than i hate the second thing on the list of the things i hate
       </div>
     </header>
 
     <div class="wheel-container">
 
-      <div class="pointer">
-        ▼
-      </div>
+      <div class="pointer">▼</div>
 
-      <div
-        id="wheel"
-        class="wheel"
-      ></div>
+      <div id="wheel" class="wheel"></div>
 
       <a
         href="history.html"
@@ -1335,10 +934,7 @@
       SPIN
     </button>
 
-    <div
-      id="remaining"
-      class="remaining"
-    >
+    <div id="remaining" class="remaining">
       Loading movies...
     </div>
 
@@ -1347,7 +943,6 @@
   </main>
 
   <script>
-
     /* =========================================================
        SUPABASE
        ========================================================= */
@@ -1358,38 +953,24 @@
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-    const client =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
     /* =========================================================
        ELEMENTS
        ========================================================= */
 
-    const wheel =
-      document.getElementById("wheel");
-
-    const spinButton =
-      document.getElementById("spinButton");
-
-    const remaining =
-      document.getElementById("remaining");
-
-    const headerText =
-      document.getElementById("headerText");
-
-    const message =
-      document.getElementById("message");
-
-    const directorLayer =
-      document.getElementById("directorLayer");
+    const wheel = document.getElementById("wheel");
+    const spinButton = document.getElementById("spinButton");
+    const remaining = document.getElementById("remaining");
+    const headerText = document.getElementById("headerText");
+    const message = document.getElementById("message");
+    const directorLayer = document.getElementById("directorLayer");
 
     let movies = [];
-
     let rotation = 0;
-
     let isSpinning = false;
 
     /* =========================================================
@@ -1397,7 +978,6 @@
        ========================================================= */
 
     const directors = [
-
       "Chantal Akerman",
       "Pedro Almodóvar",
       "Robert Altman",
@@ -1507,7 +1087,6 @@
       "Seijun Suzuki",
       "Aleksei German",
       "Masanobu Hiraoka"
-
     ];
 
     /* =========================================================
@@ -1519,87 +1098,67 @@
     }
 
     function createDirector() {
+      const element = document.createElement("div");
 
-      const element =
-        document.createElement("div");
-
-      element.className =
-        "director";
+      element.className = "director";
 
       element.textContent =
-        directors[
-          Math.floor(
-            Math.random() *
-            directors.length
-          )
-        ];
+        directors[Math.floor(Math.random() * directors.length)];
 
-      element.style.left =
-        `${randomBetween(-8,96)}vw`;
+      element.style.left = `${randomBetween(-8, 96)}vw`;
 
       element.style.setProperty(
         "--duration",
-        `${randomBetween(4.2,8.5)}s`
+        `${randomBetween(4.2, 8.5)}s`
       );
 
       element.style.setProperty(
         "--delay",
-        `${randomBetween(0,0.25)}s`
+        `${randomBetween(0, 0.25)}s`
       );
 
       element.style.setProperty(
         "--opacity",
-        randomBetween(0.22,0.50)
+        randomBetween(0.22, 0.50)
       );
 
       element.style.setProperty(
         "--drift",
-        `${randomBetween(-130,130)}px`
+        `${randomBetween(-130, 130)}px`
       );
 
       element.style.setProperty(
         "--mid-drift",
-        `${randomBetween(-60,60)}px`
+        `${randomBetween(-60, 60)}px`
       );
 
       element.style.setProperty(
         "--skew",
-        `${randomBetween(-3,3)}deg`
+        `${randomBetween(-3, 3)}deg`
       );
 
-      element.style.fontSize =
-        `${randomBetween(11,20)}px`;
+      element.style.fontSize = `${randomBetween(11, 20)}px`;
 
-      directorLayer.appendChild(
-        element
-      );
+      directorLayer.appendChild(element);
 
       element.addEventListener(
         "animationend",
         () => element.remove(),
-        {
-          once: true
-        }
+        { once: true }
       );
     }
 
     function startDirectorCascade() {
-
-      for (
-        let i = 0;
-        i < 32;
-        i++
-      ) {
+      for (let i = 0; i < 32; i++) {
         createDirector();
       }
 
       function nextDirector() {
-
         createDirector();
 
         setTimeout(
           nextDirector,
-          randomBetween(130,420)
+          randomBetween(130, 420)
         );
       }
 
@@ -1611,15 +1170,10 @@
        ========================================================= */
 
     function updateWheel() {
-
-      const count =
-        movies.length;
+      const count = movies.length;
 
       if (count === 0) {
-
-        wheel.style.background =
-          "var(--sea-1)";
-
+        wheel.style.background = "var(--sea-1)";
         return;
       }
 
@@ -1634,31 +1188,15 @@
         "#b1e2d3"
       ];
 
-      const segmentSize =
-        360 / count;
-
+      const segmentSize = 360 / count;
       const stops = [];
 
-      for (
-        let i = 0;
-        i < count;
-        i++
-      ) {
+      for (let i = 0; i < count; i++) {
+        const start = i * segmentSize;
+        const end = (i + 1) * segmentSize;
+        const color = colors[i % colors.length];
 
-        const start =
-          i * segmentSize;
-
-        const end =
-          (i + 1) * segmentSize;
-
-        const color =
-          colors[
-            i % colors.length
-          ];
-
-        stops.push(
-          `${color} ${start}deg ${end}deg`
-        );
+        stops.push(`${color} ${start}deg ${end}deg`);
       }
 
       wheel.style.background =
@@ -1670,42 +1208,26 @@
        ========================================================= */
 
     async function loadMovies() {
-
-      remaining.textContent =
-        "Loading movies...";
-
+      remaining.textContent = "Loading movies...";
       spinButton.disabled = true;
+      message.textContent = "";
 
-      const {
-        data,
-        error
-      } =
-        await client
-          .from("Movies")
-          .select("id, title, year")
-          .eq("chosen", false);
+      const { data, error } = await client
+        .from("Movies")
+        .select("id, title, year")
+        .eq("chosen", false);
 
       if (error) {
+        console.error("Supabase error:", error);
 
-        console.error(
-          "Supabase error:",
-          error
-        );
-
-        remaining.textContent =
-          "";
-
-        message.textContent =
-          "Supabase error: " +
-          error.message;
-
+        remaining.textContent = "";
+        message.textContent = "Supabase error: " + error.message;
         spinButton.disabled = true;
 
         return;
       }
 
-      movies =
-        data || [];
+      movies = data || [];
 
       updateWheel();
       updateRemaining();
@@ -1716,184 +1238,124 @@
        ========================================================= */
 
     function updateRemaining() {
-
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
       spinButton.disabled =
-        movies.length === 0 ||
-        isSpinning;
+        movies.length === 0 || isSpinning;
+    }
+
+    /* =========================================================
+       HEADER ANIMATION
+       ========================================================= */
+
+    function revealMovie(movie) {
+      headerText.classList.remove(
+        "slide-in",
+        "movie-result"
+      );
+
+      headerText.classList.add("slide-out");
+
+      setTimeout(() => {
+        const year = movie.year ? ` — ${movie.year}` : "";
+
+        headerText.textContent = `${movie.title}${year}`;
+
+        headerText.classList.add("movie-result");
+        headerText.classList.remove("slide-out");
+
+        /*
+          Restart the entrance animation cleanly.
+          The animation is now the only owner of transform.
+        */
+        void headerText.offsetWidth;
+
+        headerText.classList.add("slide-in");
+      }, 300);
     }
 
     /* =========================================================
        SPIN
        ========================================================= */
 
-    spinButton.addEventListener(
-      "click",
-      async () => {
-
-        if (
-          movies.length === 0 ||
-          isSpinning
-        ) {
-          return;
-        }
-
-        isSpinning = true;
-
-        document.body.classList.add(
-          "spinning"
-        );
-
-        spinButton.disabled = true;
-
-        message.textContent = "";
-
-        updateWheel();
-
-        const randomIndex =
-          Math.floor(
-            Math.random() *
-            movies.length
-          );
-
-        const movie =
-          movies[randomIndex];
-
-        rotation +=
-          1800 +
-          Math.floor(
-            Math.random() * 720
-          );
-
-        wheel.style.transform =
-          `rotate(${rotation}deg)`;
-
-        /* HEADER */
-
-        setTimeout(
-          () => {
-
-            headerText.classList.remove(
-              "slide-in",
-              "movie-result"
-            );
-
-            headerText.classList.add(
-              "slide-out"
-            );
-
-            setTimeout(
-              () => {
-
-                const year =
-                  movie.year
-                    ? ` — ${movie.year}`
-                    : "";
-
-                headerText.textContent =
-                  `${movie.title}${year}`;
-
-                headerText.classList.add(
-                  "movie-result"
-                );
-
-                headerText.classList.remove(
-                  "slide-out"
-                );
-
-                void headerText.offsetWidth;
-
-                headerText.classList.add(
-                  "slide-in"
-                );
-
-              },
-              300
-            );
-
-          },
-          3300
-        );
-
-        /* DATABASE */
-
-        setTimeout(
-          async () => {
-
-            try {
-
-              const {
-                error
-              } =
-                await client
-                  .from("Movies")
-                  .update({
-                    chosen: true,
-                    chosen_at:
-                      new Date().toISOString()
-                  })
-                  .eq(
-                    "id",
-                    movie.id
-                  );
-
-              if (error) {
-
-                console.error(
-                  "Update error:",
-                  error
-                );
-
-                message.textContent =
-                  "The movie was selected, but it could not be marked as chosen.";
-
-                return;
-              }
-
-              movies =
-                movies.filter(
-                  m =>
-                    m.id !== movie.id
-                );
-
-            } catch (error) {
-
-              console.error(
-                "Unexpected update error:",
-                error
-              );
-
-              message.textContent =
-                "The movie was selected, but there was a database connection problem.";
-
-            } finally {
-
-              isSpinning = false;
-
-              document.body.classList.remove(
-                "spinning"
-              );
-
-              updateRemaining();
-            }
-
-          },
-          4100
-        );
-
+    spinButton.addEventListener("click", async () => {
+      if (movies.length === 0 || isSpinning) {
+        return;
       }
-    );
+
+      isSpinning = true;
+
+      document.body.classList.add("spinning");
+
+      spinButton.disabled = true;
+      message.textContent = "";
+
+      updateWheel();
+
+      const randomIndex =
+        Math.floor(Math.random() * movies.length);
+
+      const movie = movies[randomIndex];
+
+      rotation +=
+        1800 + Math.floor(Math.random() * 720);
+
+      wheel.style.transform = `rotate(${rotation}deg)`;
+
+      /* REVEAL MOVIE TITLE */
+
+      setTimeout(() => {
+        revealMovie(movie);
+      }, 3300);
+
+      /* UPDATE DATABASE */
+
+      setTimeout(async () => {
+        try {
+          const { error } = await client
+            .from("Movies")
+            .update({
+              chosen: true,
+              chosen_at: new Date().toISOString()
+            })
+            .eq("id", movie.id);
+
+          if (error) {
+            console.error("Update error:", error);
+
+            message.textContent =
+              "The movie was selected, but it could not be marked as chosen.";
+
+            return;
+          }
+
+          movies = movies.filter(
+            m => m.id !== movie.id
+          );
+
+        } catch (error) {
+          console.error("Unexpected update error:", error);
+
+          message.textContent =
+            "The movie was selected, but there was a database connection problem.";
+
+        } finally {
+          isSpinning = false;
+
+          document.body.classList.remove("spinning");
+
+          updateRemaining();
+        }
+      }, 4100);
+    });
 
     /* =========================================================
        START
        ========================================================= */
 
     startDirectorCascade();
-
     loadMovies();
-
   </script>
 
 </body>
