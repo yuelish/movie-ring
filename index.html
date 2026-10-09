@@ -28,34 +28,29 @@
       --sea-8: #b1e2d3;
     }
 
-    /* =========================================================
-       VIEWPORT: NO MAIN-PAGE SCROLLING
-       ========================================================= */
-
+    /* ONLY LAYOUT CHANGE: prevent vertical page scrolling */
     html {
       width: 100%;
       height: 100%;
-      min-height: 0;
       margin: 0;
       padding: 0;
       overflow: hidden;
       background: #005eff;
-      overscroll-behavior: none;
     }
 
     body {
-      position: relative;
       width: 100%;
-      height: 100%;
-      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
       margin: 0;
-      padding: 0;
       overflow: hidden;
-      overscroll-behavior: none;
 
       color: var(--white);
 
-      font-family: Helvetica, Arial, sans-serif;
+      font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
 
       background:
         radial-gradient(
@@ -67,7 +62,8 @@
           #00248a 100%
         );
 
-      animation: screenFlicker 4.5s steps(1) infinite;
+      animation:
+        screenFlicker 4.5s steps(1) infinite;
     }
 
     /* =========================================================
@@ -76,11 +72,15 @@
 
     body::before {
       content: "";
+
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
+
+      width: 100vw;
+      height: 100vh;
+
       z-index: 1;
+
       pointer-events: none;
 
       background:
@@ -92,7 +92,9 @@
         );
 
       mix-blend-mode: screen;
-      animation: bluePulse 3s ease-in-out infinite;
+
+      animation:
+        bluePulse 3s ease-in-out infinite;
     }
 
     @keyframes bluePulse {
@@ -113,23 +115,35 @@
 
     #directorLayer {
       position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+
+      top: 0;
+      left: 0;
+
+      width: 100vw;
+      height: 100vh;
+
       overflow: hidden;
+
       z-index: 2;
+
       pointer-events: none;
     }
 
     .director {
       position: absolute;
+
       top: -15vh;
+
       white-space: nowrap;
 
       color: rgba(230,250,255,0.56);
+
       font-size: clamp(12px, 1.35vw, 20px);
+
       font-weight: 700;
+
       letter-spacing: -0.4px;
+
       opacity: 0;
 
       text-shadow:
@@ -137,7 +151,9 @@
         -2px 0 rgba(0,240,255,0.55),
         0 0 9px rgba(0,220,255,0.45);
 
-      will-change: transform, opacity;
+      will-change:
+        transform,
+        opacity;
 
       animation:
         directorFall
@@ -150,6 +166,7 @@
     @keyframes directorFall {
       0% {
         opacity: 0;
+
         transform:
           translate3d(0,-18vh,0)
           skewX(var(--skew));
@@ -161,7 +178,11 @@
 
       45% {
         transform:
-          translate3d(var(--mid-drift),45vh,0)
+          translate3d(
+            var(--mid-drift),
+            45vh,
+            0
+          )
           skewX(var(--skew));
       }
 
@@ -171,8 +192,13 @@
 
       100% {
         opacity: 0;
+
         transform:
-          translate3d(var(--drift),120vh,0)
+          translate3d(
+            var(--drift),
+            120vh,
+            0
+          )
           skewX(var(--skew));
       }
     }
@@ -183,28 +209,55 @@
 
     #vhsNoise {
       position: fixed;
-      inset: -50%;
+
+      top: -50%;
+      left: -50%;
+
       width: 200%;
       height: 200%;
+
       z-index: 50;
+
       pointer-events: none;
 
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 
       opacity: 0.18;
+
       mix-blend-mode: screen;
 
-      animation: noiseMove 0.11s steps(2) infinite;
+      animation:
+        noiseMove
+        0.11s
+        steps(2)
+        infinite;
     }
 
     @keyframes noiseMove {
-      0%   { transform: translate(0,0); }
-      20%  { transform: translate(-4%,2%); }
-      40%  { transform: translate(3%,-4%); }
-      60%  { transform: translate(5%,3%); }
-      80%  { transform: translate(-3%,-2%); }
-      100% { transform: translate(2%,4%); }
+      0% {
+        transform: translate(0,0);
+      }
+
+      20% {
+        transform: translate(-4%,2%);
+      }
+
+      40% {
+        transform: translate(3%,-4%);
+      }
+
+      60% {
+        transform: translate(5%,3%);
+      }
+
+      80% {
+        transform: translate(-3%,-2%);
+      }
+
+      100% {
+        transform: translate(2%,4%);
+      }
     }
 
     /* =========================================================
@@ -213,10 +266,14 @@
 
     #scanlines {
       position: fixed;
+
       inset: 0;
-      width: 100%;
-      height: 100%;
+
+      width: 100vw;
+      height: 100vh;
+
       z-index: 51;
+
       pointer-events: none;
 
       background:
@@ -230,20 +287,34 @@
         );
 
       background-size: 100% 7px;
-      animation: scanMove 0.14s linear infinite;
+
+      animation:
+        scanMove
+        0.14s
+        linear
+        infinite;
     }
 
     @keyframes scanMove {
-      from { transform: translateY(0); }
-      to   { transform: translateY(7px); }
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(7px);
+      }
     }
 
     #scanlines2 {
       position: fixed;
+
       inset: 0;
-      width: 100%;
-      height: 100%;
+
+      width: 100vw;
+      height: 100vh;
+
       z-index: 52;
+
       pointer-events: none;
 
       background:
@@ -255,12 +326,21 @@
           transparent 20px
         );
 
-      animation: scanSweep 2.8s linear infinite;
+      animation:
+        scanSweep
+        2.8s
+        linear
+        infinite;
     }
 
     @keyframes scanSweep {
-      from { transform: translateY(-40px); }
-      to   { transform: translateY(40px); }
+      from {
+        transform: translateY(-40px);
+      }
+
+      to {
+        transform: translateY(40px);
+      }
     }
 
     /* =========================================================
@@ -269,10 +349,14 @@
 
     #colorBleed {
       position: fixed;
+
       inset: 0;
-      width: 100%;
-      height: 100%;
+
+      width: 100vw;
+      height: 100vh;
+
       z-index: 53;
+
       pointer-events: none;
 
       opacity: 0.35;
@@ -287,15 +371,34 @@
         );
 
       mix-blend-mode: screen;
-      animation: colorShift 2.1s steps(1) infinite;
+
+      animation:
+        colorShift
+        2.1s
+        steps(1)
+        infinite;
     }
 
     @keyframes colorShift {
-      0%, 72%, 100% { transform: translateX(0); }
-      73% { transform: translateX(-5px); }
-      74% { transform: translateX(7px); }
-      75% { transform: translateX(-3px); }
-      76% { transform: translateX(0); }
+      0%, 72%, 100% {
+        transform: translateX(0);
+      }
+
+      73% {
+        transform: translateX(-5px);
+      }
+
+      74% {
+        transform: translateX(7px);
+      }
+
+      75% {
+        transform: translateX(-3px);
+      }
+
+      76% {
+        transform: translateX(0);
+      }
     }
 
     /* =========================================================
@@ -304,12 +407,18 @@
 
     #tracking {
       position: fixed;
+
       left: -10%;
+
       width: 120%;
       height: 38px;
+
       top: 35%;
+
       z-index: 62;
+
       pointer-events: none;
+
       opacity: 0;
 
       background:
@@ -323,33 +432,48 @@
         );
 
       filter: blur(1px);
-      animation: trackingGlitch 5.8s steps(1) infinite;
+
+      animation:
+        trackingGlitch
+        5.8s
+        steps(1)
+        infinite;
     }
 
     @keyframes trackingGlitch {
       0%, 67%, 100% {
         opacity: 0;
-        transform: translateY(0) translateX(0);
+        transform:
+          translateY(0)
+          translateX(0);
       }
 
       68% {
         opacity: 0.9;
-        transform: translateY(-8vh) translateX(-12px);
+        transform:
+          translateY(-8vh)
+          translateX(-12px);
       }
 
       69% {
         opacity: 0.5;
-        transform: translateY(4vh) translateX(22px);
+        transform:
+          translateY(4vh)
+          translateX(22px);
       }
 
       70% {
         opacity: 0.8;
-        transform: translateY(12vh) translateX(-30px);
+        transform:
+          translateY(12vh)
+          translateX(-30px);
       }
 
       71% {
         opacity: 0;
-        transform: translateY(0) translateX(0);
+        transform:
+          translateY(0)
+          translateX(0);
       }
     }
 
@@ -359,35 +483,57 @@
 
     #glitchBar {
       position: fixed;
+
       left: 0;
-      width: 100%;
+
+      width: 100vw;
       height: 5px;
+
       top: 62%;
+
       z-index: 63;
+
       pointer-events: none;
 
-      background: rgba(255,255,255,0.65);
+      background:
+        rgba(255,255,255,0.65);
 
-      box-shadow: 0 0 18px rgba(0,240,255,0.9);
+      box-shadow:
+        0 0 18px rgba(0,240,255,0.9);
+
       opacity: 0;
 
-      animation: glitchBar 7s steps(1) infinite;
+      animation:
+        glitchBar
+        7s
+        steps(1)
+        infinite;
     }
 
     @keyframes glitchBar {
-      0%, 80%, 100% { opacity: 0; }
+      0%, 80%, 100% {
+        opacity: 0;
+      }
 
       81% {
         opacity: 0.7;
-        transform: scaleX(0.35) translateX(-30%);
+
+        transform:
+          scaleX(0.35)
+          translateX(-30%);
       }
 
       81.2% {
         opacity: 0.3;
-        transform: scaleX(1.4) translateX(10%);
+
+        transform:
+          scaleX(1.4)
+          translateX(10%);
       }
 
-      81.4% { opacity: 0; }
+      81.4% {
+        opacity: 0;
+      }
     }
 
     /* =========================================================
@@ -396,10 +542,14 @@
 
     #crt {
       position: fixed;
+
       inset: 0;
-      width: 100%;
-      height: 100%;
+
+      width: 100vw;
+      height: 100vh;
+
       z-index: 64;
+
       pointer-events: none;
 
       background:
@@ -411,42 +561,68 @@
           rgba(0,3,15,0.72) 100%
         );
 
-      box-shadow: inset 0 0 130px rgba(0,0,0,0.65);
+      box-shadow:
+        inset 0 0 130px rgba(0,0,0,0.65);
     }
 
     /* =========================================================
-       APP: FIT ENTIRE PAGE INSIDE THE VIEWPORT
+       APP
        ========================================================= */
 
     .app {
       position: relative;
+
       z-index: 10;
 
       width: 100%;
-      height: 100%;
+      height: 100vh;
+      height: 100dvh;
       min-height: 0;
 
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
 
       text-align: center;
 
-      padding: clamp(12px, 3vh, 30px) 20px;
-      gap: 0;
+      /* Original top and horizontal spacing preserved.
+         Bottom padding removed to prevent page overflow. */
+      padding: 30px 20px 0;
 
       overflow: hidden;
 
-      animation: subtleJitter 9s steps(1) infinite;
+      animation:
+        subtleJitter
+        9s
+        steps(1)
+        infinite;
     }
 
     @keyframes subtleJitter {
-      0%, 93%, 100% { transform: translate(0,0); }
-      94% { transform: translate(-2px,0); }
-      94.2% { transform: translate(3px,0); }
-      94.4% { transform: translate(-1px,1px); }
-      94.6% { transform: translate(0,0); }
+      0%, 93%, 100% {
+        transform:
+          translate(0,0);
+      }
+
+      94% {
+        transform:
+          translate(-2px,0);
+      }
+
+      94.2% {
+        transform:
+          translate(3px,0);
+      }
+
+      94.4% {
+        transform:
+          translate(-1px,1px);
+      }
+
+      94.6% {
+        transform:
+          translate(0,0);
+      }
     }
 
     /* =========================================================
@@ -454,31 +630,37 @@
        ========================================================= */
 
     header {
-      flex: 0 0 auto;
       width: 100%;
       max-width: 1000px;
 
-      border-bottom: 2px solid var(--white);
-      padding-bottom: 12px;
-      margin-bottom: clamp(10px, 2vh, 24px);
+      border-bottom:
+        2px solid var(--white);
+
+      padding-bottom:
+        12px;
 
       overflow: hidden;
+
       position: relative;
 
-      box-shadow: 0 4px 0 rgba(0,238,255,0.2);
+      box-shadow:
+        0 4px 0 rgba(0,238,255,0.2);
     }
 
     .header-text {
       width: 100%;
 
-      font-size: clamp(8px,1.55vw,15px);
+      font-size:
+        clamp(8px,1.55vw,15px);
+
       font-weight: 700;
-      letter-spacing: -0.15px;
-      line-height: 1.2;
+
+      letter-spacing:
+        -0.15px;
+
+      line-height: 1;
 
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
 
       text-align: justify;
       text-align-last: justify;
@@ -489,56 +671,72 @@
         2px 0 rgba(255,0,55,0.5),
         -2px 0 rgba(0,240,255,0.55);
 
-      transition: transform 0.65s ease, opacity 0.65s ease;
+      transition:
+        transform 0.65s ease,
+        opacity 0.65s ease;
     }
 
     .header-text.slide-out {
-      transform: translateX(-100%);
+      transform:
+        translateX(-100%);
+
       opacity: 0;
     }
 
     .header-text.movie-result {
       text-align: center;
       text-align-last: center;
-      letter-spacing: 0.7px;
+
+      letter-spacing:
+        0.7px;
     }
 
     .header-text.slide-in {
-      animation: headerSlideIn 1s ease forwards;
+      animation:
+        headerSlideIn
+        1s ease forwards;
     }
 
     @keyframes headerSlideIn {
       from {
-        transform: translateX(100%);
+        transform:
+          translateX(100%);
+
         opacity: 0;
       }
 
       to {
-        transform: translateX(0);
+        transform:
+          translateX(0);
+
         opacity: 1;
       }
     }
 
     /* =========================================================
-       WHEEL: RESPONSIVE HEIGHT AND WIDTH
+       WHEEL
        ========================================================= */
 
     .wheel-container {
       position: relative;
-      flex: 0 1 auto;
 
-      width: min(78vw, 470px, 52vh);
-      aspect-ratio: 1 / 1;
-      height: auto;
-      max-height: 100%;
+      width:
+        min(78vw,470px);
 
-      margin: clamp(12px, 2vh, 28px) 0;
+      height:
+        min(78vw,470px);
+
+      margin:
+        55px 0 35px;
     }
 
     .wheel-container::before {
       content: "";
+
       position: absolute;
+
       inset: -8px;
+
       border-radius: 50%;
 
       background:
@@ -551,14 +749,20 @@
           transparent 84%
         );
 
-      filter: blur(3px);
-      pointer-events: none;
+      filter:
+        blur(3px);
+
+      pointer-events:
+        none;
     }
 
     .wheel-container::after {
       content: "";
+
       position: absolute;
+
       inset: -18px;
+
       border-radius: 50%;
 
       background:
@@ -570,27 +774,43 @@
           transparent 88%
         );
 
-      filter: blur(8px);
-      pointer-events: none;
+      filter:
+        blur(8px);
 
-      animation: wheelGlow 1.8s ease-in-out infinite;
+      pointer-events:
+        none;
+
+      animation:
+        wheelGlow
+        1.8s
+        ease-in-out
+        infinite;
     }
 
     @keyframes wheelGlow {
-      0%, 100% { opacity: 0.65; }
-      50% { opacity: 1; }
+      0%, 100% {
+        opacity: 0.65;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
 
     .wheel {
       position: absolute;
+
       z-index: 2;
+
       inset: 0;
 
       width: 100%;
       height: 100%;
 
       border-radius: 50%;
-      border: 3px solid var(--red);
+
+      border:
+        3px solid var(--red);
 
       background:
         conic-gradient(
@@ -609,18 +829,28 @@
         0 15px 35px rgba(0,0,0,0.65),
         0 0 35px rgba(255,48,77,0.3);
 
-      transition: transform 4s cubic-bezier(.12,.72,.12,1);
-      transform-origin: center center;
-      will-change: transform;
-      overflow: hidden;
+      transition:
+        transform 4s
+        cubic-bezier(.12,.72,.12,1);
+
+      transform-origin:
+        center center;
+
+      will-change:
+        transform;
+
+      overflow:
+        hidden;
     }
 
     .wheel::before {
       content: "";
+
       position: absolute;
 
       width: 70%;
       height: 32%;
+
       top: 7%;
       left: 15%;
 
@@ -633,8 +863,11 @@
           rgba(255,255,255,0)
         );
 
-      transform: rotate(-18deg);
-      pointer-events: none;
+      transform:
+        rotate(-18deg);
+
+      pointer-events:
+        none;
     }
 
     /* =========================================================
@@ -643,41 +876,55 @@
 
     .wheel-center {
       position: absolute;
+
       z-index: 5;
+
       top: 50%;
       left: 50%;
 
-      transform: translate(-50%,-50%);
+      transform:
+        translate(-50%,-50%);
 
-      width: clamp(62px, 19%, 92px);
-      aspect-ratio: 1 / 1;
-      height: auto;
+      width: 92px;
+      height: 92px;
 
       border-radius: 50%;
-      background: #031d3d;
-      color: var(--white);
+
+      background:
+        #031d3d;
+
+      color:
+        var(--white);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size: clamp(22px, 6vw, 32px);
+      font-size:
+        32px;
 
-      border: 4px solid var(--red);
+      border:
+        4px solid var(--red);
 
       box-shadow:
         inset 0 4px 8px rgba(255,48,77,0.32),
         inset 0 -2px 5px rgba(255,48,77,0.15),
         0 0 20px rgba(0,240,255,0.4);
 
-      cursor: pointer;
-      text-decoration: none;
+      cursor:
+        pointer;
 
-      transition: transform 0.15s ease;
+      text-decoration:
+        none;
+
+      transition:
+        transform 0.15s ease;
     }
 
     .wheel-center:hover {
-      transform: translate(-50%,-50%) scale(1.08);
+      transform:
+        translate(-50%,-50%)
+        scale(1.08);
     }
 
     /* =========================================================
@@ -686,16 +933,23 @@
 
     .pointer {
       position: absolute;
+
       z-index: 10;
 
-      top: -20px;
+      top: -24px;
       left: 50%;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      color: var(--red);
-      font-size: clamp(28px, 7vw, 38px);
-      line-height: 1;
+      color:
+        var(--red);
+
+      font-size:
+        38px;
+
+      line-height:
+        1;
 
       text-shadow:
         0 0 8px rgba(255,48,77,0.8),
@@ -707,21 +961,37 @@
        ========================================================= */
 
     #spinButton {
-      flex: 0 0 auto;
+      border:
+        2px solid var(--white);
 
-      border: 2px solid var(--white);
-      background: var(--white);
-      color: #031326;
+      background:
+        var(--white);
 
-      padding: 15px 55px;
-      border-radius: 0;
+      color:
+        #031326;
 
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 2px;
+      padding:
+        17px 65px;
 
-      cursor: pointer;
+      border-radius:
+        0;
+
+      font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      font-size:
+        15px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        2px;
+
+      cursor:
+        pointer;
 
       transition:
         background 0.15s ease,
@@ -734,37 +1004,60 @@
     }
 
     #spinButton:hover {
-      background: #fff200;
-      border-color: #fff200;
-      color: #020914;
-      transform: translateY(-2px);
+      background:
+        #fff200;
+
+      border-color:
+        #fff200;
+
+      color:
+        #020914;
+
+      transform:
+        translateY(-2px);
     }
 
     #spinButton:active {
-      transform: translateY(1px);
+      transform:
+        translateY(1px);
     }
 
     #spinButton:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      transform: none;
+      opacity:
+        0.35;
+
+      cursor:
+        not-allowed;
+
+      transform:
+        none;
     }
 
     /* =========================================================
-       REMAINING AND MESSAGE
+       REMAINING
        ========================================================= */
 
     .remaining {
-      flex: 0 0 auto;
-      margin-top: clamp(12px, 2vh, 20px);
+      margin-top:
+        20px;
 
-      font-size: 12px;
-      font-weight: 600;
-      font-style: italic;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      font-size:
+        12px;
 
-      color: #c9f5ff;
+      font-weight:
+        600;
+
+      font-style:
+        italic;
+
+      letter-spacing:
+        1px;
+
+      text-transform:
+        uppercase;
+
+      color:
+        #c9f5ff;
 
       text-shadow:
         2px 0 rgba(255,0,60,0.35),
@@ -772,78 +1065,141 @@
     }
 
     #message {
-      flex: 0 0 auto;
+      margin-top:
+        20px;
 
-      margin-top: 8px;
-      max-width: 600px;
+      max-width:
+        600px;
 
-      color: #ff9aad;
-      font-size: 12px;
-      line-height: 1.4;
+      color:
+        #ff6680;
 
-      overflow-wrap: anywhere;
+      font-size:
+        12px;
     }
 
     /* =========================================================
-       SPINNING EFFECTS
+       SPINNING
        ========================================================= */
 
     body.spinning .app {
-      animation: spinJitter 0.13s steps(2) infinite;
+      animation:
+        spinJitter
+        0.13s
+        steps(2)
+        infinite;
     }
 
     body.spinning #colorBleed {
-      opacity: 0.65;
-      animation: spinColorShift 0.09s steps(2) infinite;
+      opacity:
+        0.65;
+
+      animation:
+        spinColorShift
+        0.09s
+        steps(2)
+        infinite;
     }
 
     body.spinning #vhsNoise {
-      opacity: 0.32;
+      opacity:
+        0.32;
     }
 
     @keyframes spinJitter {
       0% {
-        transform: translateX(0) skewX(0);
+        transform:
+          translateX(0)
+          skewX(0);
       }
 
       25% {
-        transform: translateX(-3px) skewX(0.4deg);
+        transform:
+          translateX(-3px)
+          skewX(0.4deg);
       }
 
       50% {
-        transform: translateX(4px) skewX(-0.5deg);
+        transform:
+          translateX(4px)
+          skewX(-0.5deg);
       }
 
       75% {
-        transform: translateX(-2px) skewX(0.3deg);
+        transform:
+          translateX(-2px)
+          skewX(0.3deg);
       }
 
       100% {
-        transform: translateX(0) skewX(0);
+        transform:
+          translateX(0)
+          skewX(0);
       }
     }
 
     @keyframes spinColorShift {
-      0%   { transform: translateX(-8px); }
-      50%  { transform: translateX(9px); }
-      100% { transform: translateX(-6px); }
+      0% {
+        transform:
+          translateX(-8px);
+      }
+
+      50% {
+        transform:
+          translateX(9px);
+      }
+
+      100% {
+        transform:
+          translateX(-6px);
+      }
     }
 
     @keyframes screenFlicker {
       0%, 20%, 40%, 60%, 80%, 100% {
-        filter: brightness(1);
+        filter:
+          brightness(1);
       }
 
-      20.2% { filter: brightness(1.18); }
-      20.4% { filter: brightness(0.82); }
-      20.6% { filter: brightness(1.05); }
+      20.2% {
+        filter:
+          brightness(1.18);
+      }
 
-      53.1% { filter: brightness(0.9); }
-      53.3% { filter: brightness(1.15); }
-      53.5% { filter: brightness(1); }
+      20.4% {
+        filter:
+          brightness(0.82);
+      }
 
-      91.3% { filter: brightness(0.76); }
-      91.5% { filter: brightness(1.08); }
+      20.6% {
+        filter:
+          brightness(1.05);
+      }
+
+      53.1% {
+        filter:
+          brightness(0.9);
+      }
+
+      53.3% {
+        filter:
+          brightness(1.15);
+      }
+
+      53.5% {
+        filter:
+          brightness(1);
+      }
+
+      91.3% {
+        filter:
+          brightness(0.76);
+      }
+
+      91.5% {
+        filter:
+          brightness(1.08);
+      }
     }
 
     /* =========================================================
@@ -851,141 +1207,71 @@
        ========================================================= */
 
     @media (max-width: 600px) {
+
       .app {
         padding:
-          max(10px, env(safe-area-inset-top))
-          15px
-          max(10px, env(safe-area-inset-bottom));
+          20px 15px 0;
       }
 
       header {
-        padding-bottom: 9px;
-        margin-bottom: 10px;
+        padding-bottom:
+          10px;
       }
 
       .header-text {
-        font-size: clamp(7px, 2vw, 11px);
-        letter-spacing: -0.3px;
+        font-size:
+          7.5px;
+
+        letter-spacing:
+          -0.3px;
       }
 
       .header-text.movie-result {
-        letter-spacing: 0.5px;
+        letter-spacing:
+          0.5px;
       }
 
       .wheel-container {
-        width: min(82vw, 52vh);
-        margin: 14px 0;
+        width:
+          82vw;
+
+        height:
+          82vw;
+
+        margin-top:
+          48px;
+      }
+
+      .wheel-center {
+        width:
+          74px;
+
+        height:
+          74px;
+
+        font-size:
+          26px;
       }
 
       .pointer {
-        top: -18px;
+        font-size:
+          32px;
+
+        top:
+          -21px;
       }
 
       #spinButton {
-        width: min(80vw, 330px);
-        padding: 14px 25px;
-      }
+        width:
+          min(80vw,330px);
 
-      .remaining {
-        font-size: 11px;
-      }
-
-      #message {
-        font-size: 11px;
+        padding:
+          16px 30px;
       }
 
       .director {
-        font-size: 11px;
-      }
-    }
-
-    /* =========================================================
-       SHORT SCREENS / LANDSCAPE PHONES
-       ========================================================= */
-
-    @media (max-height: 650px) {
-      .app {
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-
-      header {
-        padding-bottom: 7px;
-        margin-bottom: 5px;
-      }
-
-      .wheel-container {
-        width: min(65vw, 56vh, 380px);
-        margin: 8px 0;
-      }
-
-      #spinButton {
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }
-
-      .remaining {
-        margin-top: 8px;
-      }
-
-      #message {
-        margin-top: 4px;
-      }
-    }
-
-    @media (max-height: 450px) {
-      .app {
-        padding-top: 5px;
-        padding-bottom: 5px;
-      }
-
-      .wheel-container {
-        width: min(48vh, 42vw, 300px);
-        margin: 5px 0;
-      }
-
-      .pointer {
-        top: -15px;
-        font-size: 25px;
-      }
-
-      #spinButton {
-        padding: 8px 25px;
-        font-size: 12px;
-      }
-
-      .remaining {
-        margin-top: 5px;
-        font-size: 10px;
-      }
-
-      #message {
-        font-size: 10px;
-      }
-    }
-
-    /* =========================================================
-       ACCESSIBILITY
-       ========================================================= */
-
-    @media (prefers-reduced-motion: reduce) {
-      body,
-      body::before,
-      .app,
-      .wheel-container::after,
-      #vhsNoise,
-      #scanlines,
-      #scanlines2,
-      #colorBleed,
-      #tracking,
-      #glitchBar,
-      .director {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-      }
-
-      .wheel {
-        transition-duration: 0.01ms !important;
+        font-size:
+          11px;
       }
     }
   </style>
@@ -997,55 +1283,78 @@
 
   <div id="directorLayer" aria-hidden="true"></div>
 
-  <!-- VHS EFFECTS -->
 
-  <div id="vhsNoise" aria-hidden="true"></div>
-  <div id="scanlines" aria-hidden="true"></div>
-  <div id="scanlines2" aria-hidden="true"></div>
-  <div id="colorBleed" aria-hidden="true"></div>
-  <div id="tracking" aria-hidden="true"></div>
-  <div id="glitchBar" aria-hidden="true"></div>
-  <div id="crt" aria-hidden="true"></div>
+  <!-- VHS EFFECT -->
+
+  <div id="vhsNoise"></div>
+  <div id="scanlines"></div>
+  <div id="scanlines2"></div>
+  <div id="colorBleed"></div>
+  <div id="tracking"></div>
+  <div id="glitchBar"></div>
+  <div id="crt"></div>
+
 
   <!-- APPLICATION -->
 
   <main class="app">
 
     <header>
-      <div id="headerText" class="header-text">
+
+      <div
+        id="headerText"
+        class="header-text"
+      >
         i hate movies more than i hate the second thing on the list of the things i hate
       </div>
+
     </header>
+
 
     <div class="wheel-container">
 
-      <div class="pointer" aria-hidden="true">▼</div>
+      <div class="pointer">
+        ▼
+      </div>
 
-      <div id="wheel" class="wheel" aria-hidden="true"></div>
+
+      <div
+        id="wheel"
+        class="wheel"
+      ></div>
+
 
       <a
         href="history.html"
         class="wheel-center"
         aria-label="View previously chosen films"
         title="Previously Chosen"
-      >🌐</a>
+      >
+        🌐
+      </a>
 
     </div>
 
-    <button id="spinButton" type="button">
+
+    <button id="spinButton">
       SPIN
     </button>
 
-    <div id="remaining" class="remaining" aria-live="polite">
+
+    <div
+      id="remaining"
+      class="remaining"
+    >
       Loading movies...
     </div>
 
-    <div id="message" role="status" aria-live="polite"></div>
+
+    <div id="message"></div>
 
   </main>
 
+
   <script>
-    "use strict";
 
     /* =========================================================
        SUPABASE
@@ -1057,34 +1366,49 @@
     const SUPABASE_KEY =
       "sb_publishable_ETChgCgyYIhfVkaOY6zrSw_Hx1s2ixW";
 
-    const client = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    const client =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
 
     /* =========================================================
        ELEMENTS
        ========================================================= */
 
-    const wheel = document.getElementById("wheel");
-    const spinButton = document.getElementById("spinButton");
-    const remaining = document.getElementById("remaining");
-    const headerText = document.getElementById("headerText");
-    const message = document.getElementById("message");
-    const directorLayer = document.getElementById("directorLayer");
+    const wheel =
+      document.getElementById("wheel");
+
+    const spinButton =
+      document.getElementById("spinButton");
+
+    const remaining =
+      document.getElementById("remaining");
+
+    const headerText =
+      document.getElementById("headerText");
+
+    const message =
+      document.getElementById("message");
+
+    const directorLayer =
+      document.getElementById("directorLayer");
+
 
     let movies = [];
+
     let rotation = 0;
+
     let isSpinning = false;
 
-    let directorTimer = null;
-    let activeSpinTimeouts = [];
 
     /* =========================================================
        DIRECTORS
        ========================================================= */
 
     const directors = [
+
       "Chantal Akerman",
       "Pedro Almodóvar",
       "Robert Altman",
@@ -1095,6 +1419,7 @@
       "Federico Fellini",
       "Jean-Luc Godard",
       "Alfred Hitchcock",
+
       "Stanley Kubrick",
       "Akira Kurosawa",
       "David Lynch",
@@ -1105,6 +1430,7 @@
       "François Truffaut",
       "Agnès Varda",
       "Wong Kar-wai",
+
       "Paul Thomas Anderson",
       "Wes Anderson",
       "Jane Campion",
@@ -1115,6 +1441,7 @@
       "Terrence Malick",
       "Martin Scorsese",
       "Steven Soderbergh",
+
       "Wim Wenders",
       "Lars von Trier",
       "Bong Joon-ho",
@@ -1125,6 +1452,7 @@
       "Richard Linklater",
       "Spike Lee",
       "Jim Jarmusch",
+
       "John Cassavetes",
       "Francis Ford Coppola",
       "George Cukor",
@@ -1135,6 +1463,7 @@
       "Nicholas Ray",
       "Samuel Fuller",
       "Elia Kazan",
+
       "Sidney Lumet",
       "Robert Mulligan",
       "Arthur Penn",
@@ -1145,6 +1474,7 @@
       "Preston Sturges",
       "Ernst Lubitsch",
       "Fritz Lang",
+
       "Rainer Werner Fassbinder",
       "Werner Herzog",
       "F. W. Murnau",
@@ -1155,6 +1485,7 @@
       "Jean-Pierre Melville",
       "Jacques Demy",
       "Éric Rohmer",
+
       "Chris Marker",
       "Louis Malle",
       "Marcel Carné",
@@ -1165,6 +1496,7 @@
       "Leos Carax",
       "Andrei Tarkovsky",
       "Sergei Eisenstein",
+
       "Dziga Vertov",
       "Elem Klimov",
       "Larisa Shepitko",
@@ -1175,6 +1507,7 @@
       "Agnieszka Holland",
       "Ousmane Sembène",
       "Mira Nair",
+
       "Mati Diop",
       "Apichatpong Weerasethakul",
       "Edward Yang",
@@ -1185,97 +1518,123 @@
       "Seijun Suzuki",
       "Aleksei German",
       "Masanobu Hiraoka"
+
     ];
 
+
     /* =========================================================
-       RANDOM UTILITIES
+       DIRECTOR CASCADE
        ========================================================= */
 
     function randomBetween(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    /* =========================================================
-       DIRECTOR CASCADE
-       ========================================================= */
 
     function createDirector() {
-      const element = document.createElement("div");
 
-      element.className = "director";
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "director";
 
       element.textContent =
-        directors[Math.floor(Math.random() * directors.length)];
+        directors[
+          Math.floor(
+            Math.random() *
+            directors.length
+          )
+        ];
 
-      element.style.left = `${randomBetween(-8, 96)}vw`;
+      element.style.left =
+        `${randomBetween(-8,96)}vw`;
 
       element.style.setProperty(
         "--duration",
-        `${randomBetween(4.2, 8.5)}s`
+        `${randomBetween(4.2,8.5)}s`
       );
 
       element.style.setProperty(
         "--delay",
-        `${randomBetween(0, 0.25)}s`
+        `${randomBetween(0,0.25)}s`
       );
 
       element.style.setProperty(
         "--opacity",
-        randomBetween(0.22, 0.50)
+        randomBetween(0.22,0.50)
       );
 
       element.style.setProperty(
         "--drift",
-        `${randomBetween(-130, 130)}px`
+        `${randomBetween(-130,130)}px`
       );
 
       element.style.setProperty(
         "--mid-drift",
-        `${randomBetween(-60, 60)}px`
+        `${randomBetween(-60,60)}px`
       );
 
       element.style.setProperty(
         "--skew",
-        `${randomBetween(-3, 3)}deg`
+        `${randomBetween(-3,3)}deg`
       );
 
-      element.style.fontSize = `${randomBetween(11, 20)}px`;
+      element.style.fontSize =
+        `${randomBetween(11,20)}px`;
 
-      directorLayer.appendChild(element);
+      directorLayer.appendChild(
+        element
+      );
 
       element.addEventListener(
         "animationend",
         () => element.remove(),
-        { once: true }
+        {
+          once: true
+        }
       );
     }
 
+
     function startDirectorCascade() {
-      for (let i = 0; i < 32; i++) {
+
+      for (
+        let i = 0;
+        i < 32;
+        i++
+      ) {
         createDirector();
       }
 
       function nextDirector() {
+
         createDirector();
 
-        directorTimer = setTimeout(
+        setTimeout(
           nextDirector,
-          randomBetween(130, 420)
+          randomBetween(130,420)
         );
       }
 
       nextDirector();
     }
 
+
     /* =========================================================
        WHEEL
        ========================================================= */
 
     function updateWheel() {
-      const count = movies.length;
+
+      const count =
+        movies.length;
 
       if (count === 0) {
-        wheel.style.background = "var(--sea-1)";
+
+        wheel.style.background =
+          "var(--sea-1)";
+
         return;
       }
 
@@ -1290,185 +1649,278 @@
         "#b1e2d3"
       ];
 
-      const segmentSize = 360 / count;
+      const segmentSize =
+        360 / count;
+
       const stops = [];
 
-      for (let i = 0; i < count; i++) {
-        const start = i * segmentSize;
-        const end = (i + 1) * segmentSize;
-        const color = colors[i % colors.length];
+      for (
+        let i = 0;
+        i < count;
+        i++
+      ) {
 
-        stops.push(`${color} ${start}deg ${end}deg`);
+        const start =
+          i * segmentSize;
+
+        const end =
+          (i + 1) * segmentSize;
+
+        const color =
+          colors[
+            i % colors.length
+          ];
+
+        stops.push(
+          `${color} ${start}deg ${end}deg`
+        );
       }
 
-      wheel.style.background = `conic-gradient(${stops.join(",")})`;
+      wheel.style.background =
+        `conic-gradient(${stops.join(",")})`;
     }
+
 
     /* =========================================================
        LOAD MOVIES
        ========================================================= */
 
     async function loadMovies() {
-      remaining.textContent = "Loading movies...";
-      message.textContent = "";
-      spinButton.disabled = true;
 
-      try {
-        const { data, error } = await client
+      remaining.textContent =
+        "Loading movies...";
+
+      const {
+        data,
+        error
+      } =
+        await client
           .from("Movies")
           .select("id, title, year")
           .eq("chosen", false);
 
-        if (error) {
-          throw error;
-        }
+      if (error) {
 
-        movies = data || [];
+        console.error(
+          "Supabase error:",
+          error
+        );
 
-        updateWheel();
-        updateRemaining();
-
-        if (movies.length === 0) {
-          message.textContent = "All movies have been chosen.";
-        }
-      } catch (error) {
-        console.error("Supabase error:", error);
-
-        remaining.textContent = "Movies could not be loaded.";
+        remaining.textContent =
+          "";
 
         message.textContent =
-          "Database error: " +
-          (error.message || "Please try again.");
+          "Supabase error: " +
+          error.message;
 
-        spinButton.disabled = true;
+        spinButton.disabled =
+          true;
+
+        return;
       }
+
+      movies =
+        data || [];
+
+      updateWheel();
+      updateRemaining();
     }
+
 
     /* =========================================================
        COUNTER
        ========================================================= */
 
     function updateRemaining() {
+
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
       spinButton.disabled =
-        movies.length === 0 || isSpinning;
+        movies.length === 0 ||
+        isSpinning;
     }
 
-    /* =========================================================
-       SPIN TIMEOUT MANAGEMENT
-       ========================================================= */
-
-    function scheduleSpinTask(callback, delay) {
-      const timer = setTimeout(callback, delay);
-      activeSpinTimeouts.push(timer);
-      return timer;
-    }
-
-    function clearSpinTasks() {
-      activeSpinTimeouts.forEach(clearTimeout);
-      activeSpinTimeouts = [];
-    }
 
     /* =========================================================
        SPIN
        ========================================================= */
 
-    spinButton.addEventListener("click", async () => {
-      if (movies.length === 0 || isSpinning) {
-        return;
-      }
+    spinButton.addEventListener(
+      "click",
+      async () => {
 
-      isSpinning = true;
-
-      document.body.classList.add("spinning");
-
-      spinButton.disabled = true;
-      message.textContent = "";
-
-      updateWheel();
-
-      const randomIndex = Math.floor(Math.random() * movies.length);
-      const movie = movies[randomIndex];
-
-      rotation += 1800 + Math.floor(Math.random() * 720);
-
-      wheel.style.transform = `rotate(${rotation}deg)`;
-
-      /* Update the header after the wheel starts spinning. */
-
-      scheduleSpinTask(() => {
-        headerText.classList.remove("slide-in", "movie-result");
-        headerText.classList.add("slide-out");
-
-        scheduleSpinTask(() => {
-          const year = movie.year ? ` — ${movie.year}` : "";
-
-          headerText.textContent = `${movie.title}${year}`;
-
-          headerText.classList.add("movie-result");
-          headerText.classList.remove("slide-out");
-
-          void headerText.offsetWidth;
-
-          headerText.classList.add("slide-in");
-        }, 300);
-      }, 3300);
-
-      /* Mark the selected movie as chosen in Supabase. */
-
-      scheduleSpinTask(async () => {
-        try {
-          const { error } = await client
-            .from("Movies")
-            .update({
-              chosen: true,
-              chosen_at: new Date().toISOString()
-            })
-            .eq("id", movie.id);
-
-          if (error) {
-            throw error;
-          }
-
-          movies = movies.filter(m => m.id !== movie.id);
-
-        } catch (error) {
-          console.error("Update error:", error);
-
-          message.textContent =
-            "The movie was selected, but it could not be marked as chosen. " +
-            (error.message || "");
-
-        } finally {
-          isSpinning = false;
-
-          document.body.classList.remove("spinning");
-
-          updateRemaining();
+        if (
+          movies.length === 0 ||
+          isSpinning
+        ) {
+          return;
         }
-      }, 4100);
-    });
+
+        isSpinning =
+          true;
+
+        document.body.classList.add(
+          "spinning"
+        );
+
+        spinButton.disabled =
+          true;
+
+        message.textContent =
+          "";
+
+        updateWheel();
+
+
+        const randomIndex =
+          Math.floor(
+            Math.random() *
+            movies.length
+          );
+
+
+        const movie =
+          movies[randomIndex];
+
+
+        rotation +=
+          1800 +
+          Math.floor(
+            Math.random() *
+            720
+          );
+
+
+        wheel.style.transform =
+          `rotate(${rotation}deg)`;
+
+
+        /* HEADER */
+
+        setTimeout(
+          () => {
+
+            headerText.classList.remove(
+              "slide-in",
+              "movie-result"
+            );
+
+            headerText.classList.add(
+              "slide-out"
+            );
+
+
+            setTimeout(
+              () => {
+
+                const year =
+                  movie.year
+                    ? ` — ${movie.year}`
+                    : "";
+
+                headerText.textContent =
+                  `${movie.title}${year}`;
+
+                headerText.classList.add(
+                  "movie-result"
+                );
+
+                headerText.classList.remove(
+                  "slide-out"
+                );
+
+                void headerText.offsetWidth;
+
+                headerText.classList.add(
+                  "slide-in"
+                );
+
+              },
+              300
+            );
+
+          },
+          3300
+        );
+
+
+        /* DATABASE */
+
+        setTimeout(
+          async () => {
+
+            const {
+              error
+            } =
+              await client
+                .from("Movies")
+                .update({
+                  chosen: true,
+                  chosen_at:
+                    new Date().toISOString()
+                })
+                .eq(
+                  "id",
+                  movie.id
+                );
+
+
+            if (error) {
+
+              console.error(
+                "Update error:",
+                error
+              );
+
+              message.textContent =
+                "The movie was selected, but it could not be marked as chosen.";
+
+              isSpinning =
+                false;
+
+              document.body.classList.remove(
+                "spinning"
+              );
+
+              updateRemaining();
+
+              return;
+            }
+
+
+            movies =
+              movies.filter(
+                m =>
+                  m.id !== movie.id
+              );
+
+
+            isSpinning =
+              false;
+
+            document.body.classList.remove(
+              "spinning"
+            );
+
+            updateRemaining();
+
+          },
+          4100
+        );
+
+      }
+    );
+
 
     /* =========================================================
        START
        ========================================================= */
 
     startDirectorCascade();
+
     loadMovies();
 
-    /* =========================================================
-       CLEANUP
-       ========================================================= */
-
-    window.addEventListener("pagehide", () => {
-      if (directorTimer !== null) {
-        clearTimeout(directorTimer);
-      }
-
-      clearSpinTasks();
-    });
   </script>
 
 </body>
