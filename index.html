@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <title>Movie Ring</title>
 
@@ -31,21 +31,25 @@
     html {
       width: 100%;
       height: 100%;
+      min-height: 100%;
       margin: 0;
       padding: 0;
       overflow: hidden;
       background: #005eff;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
       width: 100%;
-      height: 100%;
+      height: 100vh;
+      height: 100dvh;
       min-height: 0;
       margin: 0;
       overflow: hidden;
+      position: relative;
+      isolation: isolate;
 
       color: var(--white);
-
       font-family: Helvetica, Arial, sans-serif;
 
       background:
@@ -104,13 +108,13 @@
 
     #directorLayer {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
       z-index: 2;
       pointer-events: none;
+      contain: paint;
     }
 
     .director {
@@ -149,9 +153,7 @@
       }
 
       45% {
-        transform:
-          translate3d(var(--mid-drift),45vh,0)
-          skewX(var(--skew));
+        transform: translate3d(var(--mid-drift),45vh,0) skewX(var(--skew));
       }
 
       90% {
@@ -160,9 +162,7 @@
 
       100% {
         opacity: 0;
-        transform:
-          translate3d(var(--drift),120vh,0)
-          skewX(var(--skew));
+        transform: translate3d(var(--drift),120vh,0) skewX(var(--skew));
       }
     }
 
@@ -172,8 +172,7 @@
 
     #vhsNoise {
       position: fixed;
-      top: -50%;
-      left: -50%;
+      inset: -50%;
       width: 200%;
       height: 200%;
       z-index: 50;
@@ -188,11 +187,11 @@
     }
 
     @keyframes noiseMove {
-      0%   { transform: translate(0,0); }
-      20%  { transform: translate(-4%,2%); }
-      40%  { transform: translate(3%,-4%); }
-      60%  { transform: translate(5%,3%); }
-      80%  { transform: translate(-3%,-2%); }
+      0% { transform: translate(0,0); }
+      20% { transform: translate(-4%,2%); }
+      40% { transform: translate(3%,-4%); }
+      60% { transform: translate(5%,3%); }
+      80% { transform: translate(-3%,-2%); }
       100% { transform: translate(2%,4%); }
     }
 
@@ -224,7 +223,7 @@
 
     @keyframes scanMove {
       from { transform: translateY(0); }
-      to   { transform: translateY(7px); }
+      to { transform: translateY(7px); }
     }
 
     #scanlines2 {
@@ -249,7 +248,7 @@
 
     @keyframes scanSweep {
       from { transform: translateY(-40px); }
-      to   { transform: translateY(40px); }
+      to { transform: translateY(40px); }
     }
 
     /* =========================================================
@@ -362,9 +361,7 @@
     }
 
     @keyframes glitchBar {
-      0%, 80%, 100% {
-        opacity: 0;
-      }
+      0%, 80%, 100% { opacity: 0; }
 
       81% {
         opacity: 0.7;
@@ -376,9 +373,7 @@
         transform: scaleX(1.4) translateX(10%);
       }
 
-      81.4% {
-        opacity: 0;
-      }
+      81.4% { opacity: 0; }
     }
 
     /* =========================================================
@@ -412,6 +407,7 @@
     .app {
       position: relative;
       z-index: 10;
+
       width: 100%;
       height: 100%;
       min-height: 0;
@@ -447,13 +443,12 @@
 
     .header-text {
       width: 100%;
-
-      font-size: clamp(8px, 1.55vw, 15px);
+      font-size: clamp(8px,1.55vw,15px);
       font-weight: 700;
       letter-spacing: -0.15px;
       line-height: 1;
-
       white-space: nowrap;
+
       text-align: justify;
       text-align-last: justify;
 
@@ -463,44 +458,42 @@
         2px 0 rgba(255,0,55,0.5),
         -2px 0 rgba(0,240,255,0.55);
 
-      /*
-        FIX:
-        Do not transition transform and animate transform
-        simultaneously. This prevents the title from shifting
-        when the slide-in animation finishes.
-      */
-      transition: opacity 0.3s ease;
-      will-change: transform, opacity;
+      transition: opacity 0.35s ease;
     }
 
     .header-text.slide-out {
-      transform: translate3d(-100%, 0, 0);
       opacity: 0;
     }
 
     .header-text.movie-result {
+      display: block;
+      width: 100%;
+      padding: 0 8px;
+
       text-align: center;
       text-align-last: center;
       letter-spacing: 0.7px;
-      line-height: 1.2;
-
+      line-height: 1.15;
       white-space: normal;
       overflow-wrap: anywhere;
+      word-break: normal;
+
+      transform: none;
     }
 
     .header-text.slide-in {
-      animation: headerSlideIn 0.8s ease-out both;
+      animation: headerSlideIn 0.65s ease-out both;
     }
 
     @keyframes headerSlideIn {
       from {
-        transform: translate3d(100%, 0, 0);
         opacity: 0;
+        transform: translateX(24px);
       }
 
       to {
-        transform: translate3d(0, 0, 0);
         opacity: 1;
+        transform: translateX(0);
       }
     }
 
@@ -510,8 +503,8 @@
 
     .wheel-container {
       position: relative;
-      width: min(78vw, 470px);
-      height: min(78vw, 470px);
+      width: min(78vw,470px);
+      height: min(78vw,470px);
       flex-shrink: 0;
       margin: 55px 0 35px;
     }
@@ -565,6 +558,7 @@
       position: absolute;
       z-index: 2;
       inset: 0;
+
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -608,6 +602,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
+
       width: 92px;
       height: 92px;
       border-radius: 50%;
@@ -645,6 +640,7 @@
       top: -24px;
       left: 50%;
       transform: translateX(-50%);
+
       color: var(--red);
       font-size: 38px;
       line-height: 1;
@@ -663,12 +659,15 @@
       border: 2px solid var(--white);
       background: var(--white);
       color: #031326;
+
       padding: 17px 65px;
       border-radius: 0;
+
       font-family: Helvetica, Arial, sans-serif;
       font-size: 15px;
       font-weight: 700;
       letter-spacing: 2px;
+
       cursor: pointer;
 
       transition:
@@ -705,11 +704,13 @@
     .remaining {
       flex-shrink: 0;
       margin-top: 20px;
+
       font-size: 12px;
       font-weight: 600;
       font-style: italic;
       letter-spacing: 1px;
       text-transform: uppercase;
+
       color: #c9f5ff;
 
       text-shadow:
@@ -723,6 +724,7 @@
       max-width: 600px;
       color: #ff6680;
       font-size: 12px;
+      overflow-wrap: anywhere;
     }
 
     /* =========================================================
@@ -744,8 +746,8 @@
     }
 
     @keyframes spinColorShift {
-      0%   { transform: translateX(-8px); }
-      50%  { transform: translateX(9px); }
+      0% { transform: translateX(-8px); }
+      50% { transform: translateX(9px); }
       100% { transform: translateX(-6px); }
     }
 
@@ -757,11 +759,9 @@
       20.2% { filter: brightness(1.18); }
       20.4% { filter: brightness(0.82); }
       20.6% { filter: brightness(1.05); }
-
       53.1% { filter: brightness(0.9); }
       53.3% { filter: brightness(1.15); }
       53.5% { filter: brightness(1); }
-
       91.3% { filter: brightness(0.76); }
       91.5% { filter: brightness(1.08); }
     }
@@ -772,34 +772,64 @@
 
     @media (max-width: 600px) {
       .app {
-        padding: 20px 15px 0;
+        padding:
+          max(12px, env(safe-area-inset-top))
+          15px
+          max(12px, env(safe-area-inset-bottom));
       }
 
       header {
         padding-bottom: 10px;
       }
 
-      /*
-        FIX: Larger original header text on mobile.
-      */
       .header-text {
-        font-size: clamp(9px, 2.5vw, 12px);
+        font-size: clamp(10px, 2.8vw, 13px);
         letter-spacing: -0.2px;
+        line-height: 1.25;
+        white-space: normal;
+        overflow-wrap: normal;
+        text-align: center;
+        text-align-last: center;
       }
 
       .header-text.movie-result {
-        font-size: clamp(18px, 5vw, 28px);
-        letter-spacing: 0.5px;
-        line-height: 1.2;
+        display: block;
+        width: 100%;
+        padding: 0 4px;
+
+        font-size: clamp(20px, 6vw, 30px);
+        line-height: 1.15;
+        letter-spacing: 0;
+        text-align: center;
+        text-align-last: center;
+
         white-space: normal;
         overflow-wrap: anywhere;
+        word-break: normal;
+
+        transform: none;
+      }
+
+      .header-text.movie-result.slide-in {
+        animation: mobileHeaderReveal 0.65s ease-out both;
+      }
+
+      @keyframes mobileHeaderReveal {
+        from {
+          opacity: 0;
+          transform: translateX(12px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
       }
 
       .wheel-container {
-        width: min(82vw, 470px);
-        height: min(82vw, 470px);
-        margin-top: 48px;
-        margin-bottom: 35px;
+        width: min(76vw, 38vh, 350px);
+        height: min(76vw, 38vh, 350px);
+        margin: clamp(20px, 5vh, 40px) 0 24px;
       }
 
       .wheel-center {
@@ -814,12 +844,21 @@
       }
 
       #spinButton {
-        width: min(80vw, 330px);
+        width: min(80vw,330px);
         padding: 16px 30px;
       }
 
       .director {
         font-size: 11px;
+      }
+
+      .remaining {
+        margin-top: 14px;
+      }
+
+      #message {
+        margin-top: 10px;
+        max-width: 100%;
       }
     }
 
@@ -829,7 +868,7 @@
 
     @media (max-height: 750px) {
       .app {
-        padding-top: 16px;
+        padding-top: max(12px, env(safe-area-inset-top));
       }
 
       .wheel-container {
@@ -850,7 +889,7 @@
 
     @media (max-height: 600px) {
       .app {
-        padding-top: 10px;
+        padding-top: max(8px, env(safe-area-inset-top));
       }
 
       header {
@@ -876,7 +915,7 @@
       }
 
       #spinButton {
-        padding: 12px 40px;
+        padding: 12px 30px;
       }
 
       .remaining {
@@ -887,26 +926,74 @@
         margin-top: 8px;
       }
     }
+
+    @media (max-width: 600px) and (max-height: 700px) {
+      .wheel-container {
+        width: min(58vw, 42vh, 300px);
+        height: min(58vw, 42vh, 300px);
+        margin-top: 18px;
+        margin-bottom: 18px;
+      }
+
+      #spinButton {
+        padding: 12px 30px;
+      }
+
+      .remaining {
+        margin-top: 10px;
+      }
+
+      #message {
+        margin-top: 8px;
+      }
+    }
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      body,
+      body::before,
+      #vhsNoise,
+      #scanlines,
+      #scanlines2,
+      #colorBleed,
+      #tracking,
+      #glitchBar,
+      .wheel-container::after,
+      .director {
+        animation: none !important;
+      }
+
+      .director {
+        display: none;
+      }
+
+      .header-text.slide-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
 
 <body>
-
   <!-- DIRECTOR CASCADE -->
   <div id="directorLayer" aria-hidden="true"></div>
 
   <!-- VHS EFFECTS -->
-  <div id="vhsNoise"></div>
-  <div id="scanlines"></div>
-  <div id="scanlines2"></div>
-  <div id="colorBleed"></div>
-  <div id="tracking"></div>
-  <div id="glitchBar"></div>
-  <div id="crt"></div>
+  <div id="vhsNoise" aria-hidden="true"></div>
+  <div id="scanlines" aria-hidden="true"></div>
+  <div id="scanlines2" aria-hidden="true"></div>
+  <div id="colorBleed" aria-hidden="true"></div>
+  <div id="tracking" aria-hidden="true"></div>
+  <div id="glitchBar" aria-hidden="true"></div>
+  <div id="crt" aria-hidden="true"></div>
 
   <!-- APPLICATION -->
   <main class="app">
-
     <header>
       <div id="headerText" class="header-text">
         i hate movies more than i hate the second thing on the list of the things i hate
@@ -914,32 +1001,25 @@
     </header>
 
     <div class="wheel-container">
+      <div class="pointer" aria-hidden="true">▼</div>
 
-      <div class="pointer">▼</div>
-
-      <div id="wheel" class="wheel"></div>
+      <div id="wheel" class="wheel" aria-label="Movie selection wheel"></div>
 
       <a
         href="history.html"
         class="wheel-center"
         aria-label="View previously chosen films"
         title="Previously Chosen"
-      >
-        🌐
-      </a>
-
+      >🌐</a>
     </div>
 
-    <button id="spinButton">
-      SPIN
-    </button>
+    <button id="spinButton" type="button">SPIN</button>
 
-    <div id="remaining" class="remaining">
+    <div id="remaining" class="remaining" aria-live="polite">
       Loading movies...
     </div>
 
-    <div id="message"></div>
-
+    <div id="message" role="status" aria-live="polite"></div>
   </main>
 
   <script>
@@ -972,6 +1052,7 @@
     let movies = [];
     let rotation = 0;
     let isSpinning = false;
+    let spinTimeouts = [];
 
     /* =========================================================
        DIRECTORS
@@ -988,7 +1069,6 @@
       "Federico Fellini",
       "Jean-Luc Godard",
       "Alfred Hitchcock",
-
       "Stanley Kubrick",
       "Akira Kurosawa",
       "David Lynch",
@@ -999,7 +1079,6 @@
       "François Truffaut",
       "Agnès Varda",
       "Wong Kar-wai",
-
       "Paul Thomas Anderson",
       "Wes Anderson",
       "Jane Campion",
@@ -1010,7 +1089,6 @@
       "Terrence Malick",
       "Martin Scorsese",
       "Steven Soderbergh",
-
       "Wim Wenders",
       "Lars von Trier",
       "Bong Joon-ho",
@@ -1021,7 +1099,6 @@
       "Richard Linklater",
       "Spike Lee",
       "Jim Jarmusch",
-
       "John Cassavetes",
       "Francis Ford Coppola",
       "George Cukor",
@@ -1032,7 +1109,6 @@
       "Nicholas Ray",
       "Samuel Fuller",
       "Elia Kazan",
-
       "Sidney Lumet",
       "Robert Mulligan",
       "Arthur Penn",
@@ -1043,7 +1119,6 @@
       "Preston Sturges",
       "Ernst Lubitsch",
       "Fritz Lang",
-
       "Rainer Werner Fassbinder",
       "Werner Herzog",
       "F. W. Murnau",
@@ -1054,7 +1129,6 @@
       "Jean-Pierre Melville",
       "Jacques Demy",
       "Éric Rohmer",
-
       "Chris Marker",
       "Louis Malle",
       "Marcel Carné",
@@ -1065,7 +1139,6 @@
       "Leos Carax",
       "Andrei Tarkovsky",
       "Sergei Eisenstein",
-
       "Dziga Vertov",
       "Elem Klimov",
       "Larisa Shepitko",
@@ -1076,7 +1149,6 @@
       "Agnieszka Holland",
       "Ousmane Sembène",
       "Mira Nair",
-
       "Mati Diop",
       "Apichatpong Weerasethakul",
       "Edward Yang",
@@ -1090,16 +1162,25 @@
     ];
 
     /* =========================================================
-       DIRECTOR CASCADE
+       UTILITIES
        ========================================================= */
 
     function randomBetween(min, max) {
       return Math.random() * (max - min) + min;
     }
 
+    function later(callback, delay) {
+      const timeout = window.setTimeout(callback, delay);
+      spinTimeouts.push(timeout);
+      return timeout;
+    }
+
+    /* =========================================================
+       DIRECTOR CASCADE
+       ========================================================= */
+
     function createDirector() {
       const element = document.createElement("div");
-
       element.className = "director";
 
       element.textContent =
@@ -1149,6 +1230,12 @@
     }
 
     function startDirectorCascade() {
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (reducedMotion) return;
+
       for (let i = 0; i < 32; i++) {
         createDirector();
       }
@@ -1156,7 +1243,7 @@
       function nextDirector() {
         createDirector();
 
-        setTimeout(
+        window.setTimeout(
           nextDirector,
           randomBetween(130, 420)
         );
@@ -1212,25 +1299,27 @@
       spinButton.disabled = true;
       message.textContent = "";
 
-      const { data, error } = await client
-        .from("Movies")
-        .select("id, title, year")
-        .eq("chosen", false);
+      try {
+        const { data, error } = await client
+          .from("Movies")
+          .select("id, title, year")
+          .eq("chosen", false);
 
-      if (error) {
+        if (error) throw error;
+
+        movies = data || [];
+
+        updateWheel();
+        updateRemaining();
+      } catch (error) {
         console.error("Supabase error:", error);
 
         remaining.textContent = "";
-        message.textContent = "Supabase error: " + error.message;
+        message.textContent =
+          "Unable to load movies. Please refresh and try again.";
+
         spinButton.disabled = true;
-
-        return;
       }
-
-      movies = data || [];
-
-      updateWheel();
-      updateRemaining();
     }
 
     /* =========================================================
@@ -1246,32 +1335,36 @@
     }
 
     /* =========================================================
-       HEADER ANIMATION
+       HEADER REVEAL
        ========================================================= */
 
     function revealMovie(movie) {
       headerText.classList.remove(
         "slide-in",
+        "slide-out",
         "movie-result"
       );
 
-      headerText.classList.add("slide-out");
+      headerText.style.opacity = "0";
 
-      setTimeout(() => {
+      later(() => {
         const year = movie.year ? ` — ${movie.year}` : "";
 
         headerText.textContent = `${movie.title}${year}`;
 
         headerText.classList.add("movie-result");
-        headerText.classList.remove("slide-out");
 
         /*
-          Restart the entrance animation cleanly.
-          The animation is now the only owner of transform.
+          Reset the animation before restarting it.
+          The title uses opacity and a small translation rather
+          than a full-width slide that can look glitchy on mobile.
         */
+        headerText.style.transform = "none";
+
         void headerText.offsetWidth;
 
         headerText.classList.add("slide-in");
+        headerText.style.opacity = "";
       }, 300);
     }
 
@@ -1285,16 +1378,15 @@
       }
 
       isSpinning = true;
-
       document.body.classList.add("spinning");
-
       spinButton.disabled = true;
       message.textContent = "";
 
       updateWheel();
 
-      const randomIndex =
-        Math.floor(Math.random() * movies.length);
+      const randomIndex = Math.floor(
+        Math.random() * movies.length
+      );
 
       const movie = movies[randomIndex];
 
@@ -1303,15 +1395,13 @@
 
       wheel.style.transform = `rotate(${rotation}deg)`;
 
-      /* REVEAL MOVIE TITLE */
-
-      setTimeout(() => {
+      /* Reveal the selected film near the end of the spin. */
+      later(() => {
         revealMovie(movie);
       }, 3300);
 
-      /* UPDATE DATABASE */
-
-      setTimeout(async () => {
+      /* Mark the selected film as chosen in Supabase. */
+      later(async () => {
         try {
           const { error } = await client
             .from("Movies")
@@ -1331,7 +1421,7 @@
           }
 
           movies = movies.filter(
-            m => m.id !== movie.id
+            item => item.id !== movie.id
           );
 
         } catch (error) {
@@ -1342,9 +1432,7 @@
 
         } finally {
           isSpinning = false;
-
           document.body.classList.remove("spinning");
-
           updateRemaining();
         }
       }, 4100);
@@ -1357,6 +1445,5 @@
     startDirectorCascade();
     loadMovies();
   </script>
-
 </body>
 </html>
