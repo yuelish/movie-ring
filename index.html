@@ -28,7 +28,6 @@
       --sea-8: #b1e2d3;
     }
 
-    /* ONLY LAYOUT CHANGE: prevent vertical page scrolling */
     html {
       width: 100%;
       height: 100%;
@@ -47,10 +46,7 @@
 
       color: var(--white);
 
-      font-family:
-        Helvetica,
-        Arial,
-        sans-serif;
+      font-family: Helvetica, Arial, sans-serif;
 
       background:
         radial-gradient(
@@ -62,25 +58,18 @@
           #00248a 100%
         );
 
-      animation:
-        screenFlicker 4.5s steps(1) infinite;
+      animation: screenFlicker 4.5s steps(1) infinite;
     }
 
-    /* =========================================================
-       VHS BACKGROUND
-       ========================================================= */
+    /* VHS BACKGROUND */
 
     body::before {
       content: "";
-
       position: fixed;
       inset: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       z-index: 1;
-
       pointer-events: none;
 
       background:
@@ -92,9 +81,7 @@
         );
 
       mix-blend-mode: screen;
-
-      animation:
-        bluePulse 3s ease-in-out infinite;
+      animation: bluePulse 3s ease-in-out infinite;
     }
 
     @keyframes bluePulse {
@@ -109,41 +96,27 @@
       }
     }
 
-    /* =========================================================
-       DIRECTORS
-       ========================================================= */
+    /* DIRECTORS */
 
     #directorLayer {
       position: fixed;
-
       top: 0;
       left: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       overflow: hidden;
-
       z-index: 2;
-
       pointer-events: none;
     }
 
     .director {
       position: absolute;
-
       top: -15vh;
-
       white-space: nowrap;
-
       color: rgba(230,250,255,0.56);
-
       font-size: clamp(12px, 1.35vw, 20px);
-
       font-weight: 700;
-
       letter-spacing: -0.4px;
-
       opacity: 0;
 
       text-shadow:
@@ -151,9 +124,7 @@
         -2px 0 rgba(0,240,255,0.55),
         0 0 9px rgba(0,220,255,0.45);
 
-      will-change:
-        transform,
-        opacity;
+      will-change: transform, opacity;
 
       animation:
         directorFall
@@ -166,7 +137,6 @@
     @keyframes directorFall {
       0% {
         opacity: 0;
-
         transform:
           translate3d(0,-18vh,0)
           skewX(var(--skew));
@@ -178,11 +148,7 @@
 
       45% {
         transform:
-          translate3d(
-            var(--mid-drift),
-            45vh,
-            0
-          )
+          translate3d(var(--mid-drift),45vh,0)
           skewX(var(--skew));
       }
 
@@ -192,46 +158,29 @@
 
       100% {
         opacity: 0;
-
         transform:
-          translate3d(
-            var(--drift),
-            120vh,
-            0
-          )
+          translate3d(var(--drift),120vh,0)
           skewX(var(--skew));
       }
     }
 
-    /* =========================================================
-       VHS NOISE
-       ========================================================= */
+    /* VHS NOISE */
 
     #vhsNoise {
       position: fixed;
-
       top: -50%;
       left: -50%;
-
       width: 200%;
       height: 200%;
-
       z-index: 50;
-
       pointer-events: none;
 
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
 
       opacity: 0.18;
-
       mix-blend-mode: screen;
-
-      animation:
-        noiseMove
-        0.11s
-        steps(2)
-        infinite;
+      animation: noiseMove 0.11s steps(2) infinite;
     }
 
     @keyframes noiseMove {
@@ -260,20 +209,14 @@
       }
     }
 
-    /* =========================================================
-       SCANLINES
-       ========================================================= */
+    /* SCANLINES */
 
     #scanlines {
       position: fixed;
-
       inset: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       z-index: 51;
-
       pointer-events: none;
 
       background:
@@ -287,12 +230,7 @@
         );
 
       background-size: 100% 7px;
-
-      animation:
-        scanMove
-        0.14s
-        linear
-        infinite;
+      animation: scanMove 0.14s linear infinite;
     }
 
     @keyframes scanMove {
@@ -307,14 +245,10 @@
 
     #scanlines2 {
       position: fixed;
-
       inset: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       z-index: 52;
-
       pointer-events: none;
 
       background:
@@ -326,11 +260,7 @@
           transparent 20px
         );
 
-      animation:
-        scanSweep
-        2.8s
-        linear
-        infinite;
+      animation: scanSweep 2.8s linear infinite;
     }
 
     @keyframes scanSweep {
@@ -343,22 +273,15 @@
       }
     }
 
-    /* =========================================================
-       RGB BLEED
-       ========================================================= */
+    /* RGB BLEED */
 
     #colorBleed {
       position: fixed;
-
       inset: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       z-index: 53;
-
       pointer-events: none;
-
       opacity: 0.35;
 
       background:
@@ -371,12 +294,7 @@
         );
 
       mix-blend-mode: screen;
-
-      animation:
-        colorShift
-        2.1s
-        steps(1)
-        infinite;
+      animation: colorShift 2.1s steps(1) infinite;
     }
 
     @keyframes colorShift {
@@ -401,24 +319,16 @@
       }
     }
 
-    /* =========================================================
-       TRACKING
-       ========================================================= */
+    /* TRACKING */
 
     #tracking {
       position: fixed;
-
       left: -10%;
-
       width: 120%;
       height: 38px;
-
       top: 35%;
-
       z-index: 62;
-
       pointer-events: none;
-
       opacity: 0;
 
       background:
@@ -432,82 +342,52 @@
         );
 
       filter: blur(1px);
-
-      animation:
-        trackingGlitch
-        5.8s
-        steps(1)
-        infinite;
+      animation: trackingGlitch 5.8s steps(1) infinite;
     }
 
     @keyframes trackingGlitch {
       0%, 67%, 100% {
         opacity: 0;
-        transform:
-          translateY(0)
-          translateX(0);
+        transform: translateY(0) translateX(0);
       }
 
       68% {
         opacity: 0.9;
-        transform:
-          translateY(-8vh)
-          translateX(-12px);
+        transform: translateY(-8vh) translateX(-12px);
       }
 
       69% {
         opacity: 0.5;
-        transform:
-          translateY(4vh)
-          translateX(22px);
+        transform: translateY(4vh) translateX(22px);
       }
 
       70% {
         opacity: 0.8;
-        transform:
-          translateY(12vh)
-          translateX(-30px);
+        transform: translateY(12vh) translateX(-30px);
       }
 
       71% {
         opacity: 0;
-        transform:
-          translateY(0)
-          translateX(0);
+        transform: translateY(0) translateX(0);
       }
     }
 
-    /* =========================================================
-       GLITCH BAR
-       ========================================================= */
+    /* GLITCH BAR */
 
     #glitchBar {
       position: fixed;
-
       left: 0;
-
-      width: 100vw;
+      width: 100%;
       height: 5px;
-
       top: 62%;
-
       z-index: 63;
-
       pointer-events: none;
 
-      background:
-        rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.65);
 
-      box-shadow:
-        0 0 18px rgba(0,240,255,0.9);
-
+      box-shadow: 0 0 18px rgba(0,240,255,0.9);
       opacity: 0;
-
-      animation:
-        glitchBar
-        7s
-        steps(1)
-        infinite;
+      animation: glitchBar 7s steps(1) infinite;
     }
 
     @keyframes glitchBar {
@@ -517,18 +397,12 @@
 
       81% {
         opacity: 0.7;
-
-        transform:
-          scaleX(0.35)
-          translateX(-30%);
+        transform: scaleX(0.35) translateX(-30%);
       }
 
       81.2% {
         opacity: 0.3;
-
-        transform:
-          scaleX(1.4)
-          translateX(10%);
+        transform: scaleX(1.4) translateX(10%);
       }
 
       81.4% {
@@ -536,20 +410,14 @@
       }
     }
 
-    /* =========================================================
-       CRT
-       ========================================================= */
+    /* CRT */
 
     #crt {
       position: fixed;
-
       inset: 0;
-
-      width: 100vw;
-      height: 100vh;
-
+      width: 100%;
+      height: 100%;
       z-index: 64;
-
       pointer-events: none;
 
       background:
@@ -561,22 +429,16 @@
           rgba(0,3,15,0.72) 100%
         );
 
-      box-shadow:
-        inset 0 0 130px rgba(0,0,0,0.65);
+      box-shadow: inset 0 0 130px rgba(0,0,0,0.65);
     }
 
-    /* =========================================================
-       APP
-       ========================================================= */
+    /* APP */
 
     .app {
       position: relative;
-
       z-index: 10;
-
       width: 100%;
-      height: 100vh;
-      height: 100dvh;
+      height: 100%;
       min-height: 0;
 
       display: flex;
@@ -585,81 +447,36 @@
 
       text-align: center;
 
-      /* Original top and horizontal spacing preserved.
-         Bottom padding removed to prevent page overflow. */
-      padding: 30px 20px 0;
-
+      padding: 30px 20px 20px;
       overflow: hidden;
 
-      animation:
-        subtleJitter
-        9s
-        steps(1)
-        infinite;
+      /* Keep the app fixed in place while the wheel spins. */
+      transform: none;
+      animation: none;
     }
 
-    @keyframes subtleJitter {
-      0%, 93%, 100% {
-        transform:
-          translate(0,0);
-      }
-
-      94% {
-        transform:
-          translate(-2px,0);
-      }
-
-      94.2% {
-        transform:
-          translate(3px,0);
-      }
-
-      94.4% {
-        transform:
-          translate(-1px,1px);
-      }
-
-      94.6% {
-        transform:
-          translate(0,0);
-      }
-    }
-
-    /* =========================================================
-       HEADER
-       ========================================================= */
+    /* HEADER */
 
     header {
       width: 100%;
       max-width: 1000px;
+      flex-shrink: 0;
 
-      border-bottom:
-        2px solid var(--white);
-
-      padding-bottom:
-        12px;
-
+      border-bottom: 2px solid var(--white);
+      padding-bottom: 12px;
       overflow: hidden;
-
       position: relative;
 
-      box-shadow:
-        0 4px 0 rgba(0,238,255,0.2);
+      box-shadow: 0 4px 0 rgba(0,238,255,0.2);
     }
 
     .header-text {
       width: 100%;
 
-      font-size:
-        clamp(8px,1.55vw,15px);
-
+      font-size: clamp(8px,1.55vw,15px);
       font-weight: 700;
-
-      letter-spacing:
-        -0.15px;
-
+      letter-spacing: -0.15px;
       line-height: 1;
-
       white-space: nowrap;
 
       text-align: justify;
@@ -671,72 +488,53 @@
         2px 0 rgba(255,0,55,0.5),
         -2px 0 rgba(0,240,255,0.55);
 
-      transition:
-        transform 0.65s ease,
-        opacity 0.65s ease;
+      transition: transform 0.65s ease, opacity 0.65s ease;
     }
 
     .header-text.slide-out {
-      transform:
-        translateX(-100%);
-
+      transform: translateX(-100%);
       opacity: 0;
     }
 
     .header-text.movie-result {
       text-align: center;
       text-align-last: center;
-
-      letter-spacing:
-        0.7px;
+      letter-spacing: 0.7px;
     }
 
     .header-text.slide-in {
-      animation:
-        headerSlideIn
-        1s ease forwards;
+      animation: headerSlideIn 1s ease forwards;
     }
 
     @keyframes headerSlideIn {
       from {
-        transform:
-          translateX(100%);
-
+        transform: translateX(100%);
         opacity: 0;
       }
 
       to {
-        transform:
-          translateX(0);
-
+        transform: translateX(0);
         opacity: 1;
       }
     }
 
-    /* =========================================================
-       WHEEL
-       ========================================================= */
+    /* WHEEL */
 
     .wheel-container {
       position: relative;
+      flex-shrink: 1;
 
-      width:
-        min(78vw,470px);
+      width: min(78vw,470px);
+      height: min(78vw,470px);
+      aspect-ratio: 1 / 1;
 
-      height:
-        min(78vw,470px);
-
-      margin:
-        55px 0 35px;
+      margin: 55px 0 35px;
     }
 
     .wheel-container::before {
       content: "";
-
       position: absolute;
-
       inset: -8px;
-
       border-radius: 50%;
 
       background:
@@ -749,20 +547,14 @@
           transparent 84%
         );
 
-      filter:
-        blur(3px);
-
-      pointer-events:
-        none;
+      filter: blur(3px);
+      pointer-events: none;
     }
 
     .wheel-container::after {
       content: "";
-
       position: absolute;
-
       inset: -18px;
-
       border-radius: 50%;
 
       background:
@@ -774,17 +566,9 @@
           transparent 88%
         );
 
-      filter:
-        blur(8px);
-
-      pointer-events:
-        none;
-
-      animation:
-        wheelGlow
-        1.8s
-        ease-in-out
-        infinite;
+      filter: blur(8px);
+      pointer-events: none;
+      animation: wheelGlow 1.8s ease-in-out infinite;
     }
 
     @keyframes wheelGlow {
@@ -799,18 +583,13 @@
 
     .wheel {
       position: absolute;
-
       z-index: 2;
-
       inset: 0;
 
       width: 100%;
       height: 100%;
-
       border-radius: 50%;
-
-      border:
-        3px solid var(--red);
+      border: 3px solid var(--red);
 
       background:
         conic-gradient(
@@ -829,31 +608,20 @@
         0 15px 35px rgba(0,0,0,0.65),
         0 0 35px rgba(255,48,77,0.3);
 
-      transition:
-        transform 4s
-        cubic-bezier(.12,.72,.12,1);
-
-      transform-origin:
-        center center;
-
-      will-change:
-        transform;
-
-      overflow:
-        hidden;
+      transition: transform 4s cubic-bezier(.12,.72,.12,1);
+      transform-origin: 50% 50%;
+      will-change: transform;
+      overflow: hidden;
+      backface-visibility: hidden;
     }
 
     .wheel::before {
       content: "";
-
       position: absolute;
-
       width: 70%;
       height: 32%;
-
       top: 7%;
       left: 15%;
-
       border-radius: 50%;
 
       background:
@@ -863,135 +631,85 @@
           rgba(255,255,255,0)
         );
 
-      transform:
-        rotate(-18deg);
-
-      pointer-events:
-        none;
+      transform: rotate(-18deg);
+      pointer-events: none;
     }
 
-    /* =========================================================
-       CENTER / HISTORY LINK
-       ========================================================= */
+    /* CENTER / HISTORY LINK */
 
     .wheel-center {
       position: absolute;
-
       z-index: 5;
-
       top: 50%;
       left: 50%;
 
-      transform:
-        translate(-50%,-50%);
+      transform: translate(-50%,-50%);
 
       width: 92px;
       height: 92px;
-
       border-radius: 50%;
 
-      background:
-        #031d3d;
-
-      color:
-        var(--white);
+      background: #031d3d;
+      color: var(--white);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      font-size:
-        32px;
-
-      border:
-        4px solid var(--red);
+      font-size: 32px;
+      border: 4px solid var(--red);
 
       box-shadow:
         inset 0 4px 8px rgba(255,48,77,0.32),
         inset 0 -2px 5px rgba(255,48,77,0.15),
         0 0 20px rgba(0,240,255,0.4);
 
-      cursor:
-        pointer;
-
-      text-decoration:
-        none;
-
-      transition:
-        transform 0.15s ease;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s ease;
     }
 
     .wheel-center:hover {
-      transform:
-        translate(-50%,-50%)
-        scale(1.08);
+      transform: translate(-50%,-50%) scale(1.08);
     }
 
-    /* =========================================================
-       POINTER
-       ========================================================= */
+    /* POINTER */
 
     .pointer {
       position: absolute;
-
       z-index: 10;
-
       top: -24px;
       left: 50%;
 
-      transform:
-        translateX(-50%);
+      transform: translateX(-50%);
 
-      color:
-        var(--red);
-
-      font-size:
-        38px;
-
-      line-height:
-        1;
+      color: var(--red);
+      font-size: 38px;
+      line-height: 1;
 
       text-shadow:
         0 0 8px rgba(255,48,77,0.8),
         0 0 15px rgba(0,230,255,0.5);
     }
 
-    /* =========================================================
-       BUTTON
-       ========================================================= */
+    /* BUTTON */
 
     #spinButton {
-      border:
-        2px solid var(--white);
+      flex-shrink: 0;
 
-      background:
-        var(--white);
+      border: 2px solid var(--white);
+      background: var(--white);
+      color: #031326;
 
-      color:
-        #031326;
+      padding: 17px 65px;
+      border-radius: 0;
 
-      padding:
-        17px 65px;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
 
-      border-radius:
-        0;
-
-      font-family:
-        Helvetica,
-        Arial,
-        sans-serif;
-
-      font-size:
-        15px;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        2px;
-
-      cursor:
-        pointer;
+      cursor: pointer;
 
       transition:
         background 0.15s ease,
@@ -1004,60 +722,35 @@
     }
 
     #spinButton:hover {
-      background:
-        #fff200;
-
-      border-color:
-        #fff200;
-
-      color:
-        #020914;
-
-      transform:
-        translateY(-2px);
+      background: #fff200;
+      border-color: #fff200;
+      color: #020914;
+      transform: translateY(-2px);
     }
 
     #spinButton:active {
-      transform:
-        translateY(1px);
+      transform: translateY(1px);
     }
 
     #spinButton:disabled {
-      opacity:
-        0.35;
-
-      cursor:
-        not-allowed;
-
-      transform:
-        none;
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    /* =========================================================
-       REMAINING
-       ========================================================= */
+    /* REMAINING */
 
     .remaining {
-      margin-top:
-        20px;
+      flex-shrink: 0;
+      margin-top: 20px;
 
-      font-size:
-        12px;
+      font-size: 12px;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-transform: uppercase;
 
-      font-weight:
-        600;
-
-      font-style:
-        italic;
-
-      letter-spacing:
-        1px;
-
-      text-transform:
-        uppercase;
-
-      color:
-        #c9f5ff;
+      color: #c9f5ff;
 
       text-shadow:
         2px 0 rgba(255,0,60,0.35),
@@ -1065,213 +758,157 @@
     }
 
     #message {
-      margin-top:
-        20px;
-
-      max-width:
-        600px;
-
-      color:
-        #ff6680;
-
-      font-size:
-        12px;
+      flex-shrink: 0;
+      margin-top: 20px;
+      max-width: 600px;
+      color: #ff6680;
+      font-size: 12px;
     }
 
-    /* =========================================================
-       SPINNING
-       ========================================================= */
-
-    body.spinning .app {
-      animation:
-        spinJitter
-        0.13s
-        steps(2)
-        infinite;
-    }
+    /* SPINNING
+       Do not animate .app or its layout position.
+       Only the existing VHS effects change during a spin. */
 
     body.spinning #colorBleed {
-      opacity:
-        0.65;
-
-      animation:
-        spinColorShift
-        0.09s
-        steps(2)
-        infinite;
+      opacity: 0.65;
+      animation: spinColorShift 0.09s steps(2) infinite;
     }
 
     body.spinning #vhsNoise {
-      opacity:
-        0.32;
-    }
-
-    @keyframes spinJitter {
-      0% {
-        transform:
-          translateX(0)
-          skewX(0);
-      }
-
-      25% {
-        transform:
-          translateX(-3px)
-          skewX(0.4deg);
-      }
-
-      50% {
-        transform:
-          translateX(4px)
-          skewX(-0.5deg);
-      }
-
-      75% {
-        transform:
-          translateX(-2px)
-          skewX(0.3deg);
-      }
-
-      100% {
-        transform:
-          translateX(0)
-          skewX(0);
-      }
+      opacity: 0.32;
     }
 
     @keyframes spinColorShift {
       0% {
-        transform:
-          translateX(-8px);
+        transform: translateX(-8px);
       }
 
       50% {
-        transform:
-          translateX(9px);
+        transform: translateX(9px);
       }
 
       100% {
-        transform:
-          translateX(-6px);
+        transform: translateX(-6px);
       }
     }
 
     @keyframes screenFlicker {
       0%, 20%, 40%, 60%, 80%, 100% {
-        filter:
-          brightness(1);
+        filter: brightness(1);
       }
 
       20.2% {
-        filter:
-          brightness(1.18);
+        filter: brightness(1.18);
       }
 
       20.4% {
-        filter:
-          brightness(0.82);
+        filter: brightness(0.82);
       }
 
       20.6% {
-        filter:
-          brightness(1.05);
+        filter: brightness(1.05);
       }
 
       53.1% {
-        filter:
-          brightness(0.9);
+        filter: brightness(0.9);
       }
 
       53.3% {
-        filter:
-          brightness(1.15);
+        filter: brightness(1.15);
       }
 
       53.5% {
-        filter:
-          brightness(1);
+        filter: brightness(1);
       }
 
       91.3% {
-        filter:
-          brightness(0.76);
+        filter: brightness(0.76);
       }
 
       91.5% {
-        filter:
-          brightness(1.08);
+        filter: brightness(1.08);
       }
     }
 
-    /* =========================================================
-       MOBILE
-       ========================================================= */
+    /* MOBILE */
 
     @media (max-width: 600px) {
-
       .app {
-        padding:
-          20px 15px 0;
+        padding: 20px 15px 15px;
       }
 
       header {
-        padding-bottom:
-          10px;
+        padding-bottom: 10px;
       }
 
       .header-text {
-        font-size:
-          7.5px;
-
-        letter-spacing:
-          -0.3px;
+        font-size: 7.5px;
+        letter-spacing: -0.3px;
       }
 
       .header-text.movie-result {
-        letter-spacing:
-          0.5px;
+        letter-spacing: 0.5px;
       }
 
       .wheel-container {
-        width:
-          82vw;
-
-        height:
-          82vw;
-
-        margin-top:
-          48px;
+        width: min(82vw, calc(100dvh - 300px));
+        height: min(82vw, calc(100dvh - 300px));
+        margin-top: 48px;
+        margin-bottom: 25px;
       }
 
       .wheel-center {
-        width:
-          74px;
-
-        height:
-          74px;
-
-        font-size:
-          26px;
+        width: 74px;
+        height: 74px;
+        font-size: 26px;
       }
 
       .pointer {
-        font-size:
-          32px;
-
-        top:
-          -21px;
+        font-size: 32px;
+        top: -21px;
       }
 
       #spinButton {
-        width:
-          min(80vw,330px);
-
-        padding:
-          16px 30px;
+        width: min(80vw,330px);
+        padding: 16px 30px;
       }
 
       .director {
-        font-size:
-          11px;
+        font-size: 11px;
+      }
+    }
+
+    /* SHORT SCREENS */
+
+    @media (max-height: 700px) {
+      .app {
+        padding-top: 15px;
+      }
+
+      .wheel-container {
+        width: min(58vh, 40vw, 400px);
+        height: min(58vh, 40vw, 400px);
+        margin-top: 25px;
+        margin-bottom: 20px;
+      }
+
+      .wheel-center {
+        width: 74px;
+        height: 74px;
+        font-size: 26px;
+      }
+
+      #spinButton {
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .remaining {
+        margin-top: 12px;
+      }
+
+      #message {
+        margin-top: 10px;
       }
     }
   </style>
@@ -1283,7 +920,6 @@
 
   <div id="directorLayer" aria-hidden="true"></div>
 
-
   <!-- VHS EFFECT -->
 
   <div id="vhsNoise"></div>
@@ -1294,35 +930,21 @@
   <div id="glitchBar"></div>
   <div id="crt"></div>
 
-
   <!-- APPLICATION -->
 
   <main class="app">
 
     <header>
-
-      <div
-        id="headerText"
-        class="header-text"
-      >
+      <div id="headerText" class="header-text">
         i hate movies more than i hate the second thing on the list of the things i hate
       </div>
-
     </header>
-
 
     <div class="wheel-container">
 
-      <div class="pointer">
-        ▼
-      </div>
+      <div class="pointer">▼</div>
 
-
-      <div
-        id="wheel"
-        class="wheel"
-      ></div>
-
+      <div id="wheel" class="wheel"></div>
 
       <a
         href="history.html"
@@ -1335,30 +957,20 @@
 
     </div>
 
-
     <button id="spinButton">
       SPIN
     </button>
 
-
-    <div
-      id="remaining"
-      class="remaining"
-    >
+    <div id="remaining" class="remaining">
       Loading movies...
     </div>
-
 
     <div id="message"></div>
 
   </main>
 
-
   <script>
-
-    /* =========================================================
-       SUPABASE
-       ========================================================= */
+    /* SUPABASE */
 
     const SUPABASE_URL =
       "https://kjyqhalcyrcklhgkqqtd.supabase.co";
@@ -1372,10 +984,7 @@
         SUPABASE_KEY
       );
 
-
-    /* =========================================================
-       ELEMENTS
-       ========================================================= */
+    /* ELEMENTS */
 
     const wheel =
       document.getElementById("wheel");
@@ -1395,20 +1004,13 @@
     const directorLayer =
       document.getElementById("directorLayer");
 
-
     let movies = [];
-
     let rotation = 0;
-
     let isSpinning = false;
 
-
-    /* =========================================================
-       DIRECTORS
-       ========================================================= */
+    /* DIRECTORS */
 
     const directors = [
-
       "Chantal Akerman",
       "Pedro Almodóvar",
       "Robert Altman",
@@ -1419,7 +1021,6 @@
       "Federico Fellini",
       "Jean-Luc Godard",
       "Alfred Hitchcock",
-
       "Stanley Kubrick",
       "Akira Kurosawa",
       "David Lynch",
@@ -1430,7 +1031,6 @@
       "François Truffaut",
       "Agnès Varda",
       "Wong Kar-wai",
-
       "Paul Thomas Anderson",
       "Wes Anderson",
       "Jane Campion",
@@ -1441,7 +1041,6 @@
       "Terrence Malick",
       "Martin Scorsese",
       "Steven Soderbergh",
-
       "Wim Wenders",
       "Lars von Trier",
       "Bong Joon-ho",
@@ -1452,7 +1051,6 @@
       "Richard Linklater",
       "Spike Lee",
       "Jim Jarmusch",
-
       "John Cassavetes",
       "Francis Ford Coppola",
       "George Cukor",
@@ -1463,7 +1061,6 @@
       "Nicholas Ray",
       "Samuel Fuller",
       "Elia Kazan",
-
       "Sidney Lumet",
       "Robert Mulligan",
       "Arthur Penn",
@@ -1474,7 +1071,6 @@
       "Preston Sturges",
       "Ernst Lubitsch",
       "Fritz Lang",
-
       "Rainer Werner Fassbinder",
       "Werner Herzog",
       "F. W. Murnau",
@@ -1485,7 +1081,6 @@
       "Jean-Pierre Melville",
       "Jacques Demy",
       "Éric Rohmer",
-
       "Chris Marker",
       "Louis Malle",
       "Marcel Carné",
@@ -1496,7 +1091,6 @@
       "Leos Carax",
       "Andrei Tarkovsky",
       "Sergei Eisenstein",
-
       "Dziga Vertov",
       "Elem Klimov",
       "Larisa Shepitko",
@@ -1507,7 +1101,6 @@
       "Agnieszka Holland",
       "Ousmane Sembène",
       "Mira Nair",
-
       "Mati Diop",
       "Apichatpong Weerasethakul",
       "Edward Yang",
@@ -1518,33 +1111,22 @@
       "Seijun Suzuki",
       "Aleksei German",
       "Masanobu Hiraoka"
-
     ];
 
-
-    /* =========================================================
-       DIRECTOR CASCADE
-       ========================================================= */
+    /* DIRECTOR CASCADE */
 
     function randomBetween(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-
     function createDirector() {
+      const element = document.createElement("div");
 
-      const element =
-        document.createElement("div");
-
-      element.className =
-        "director";
+      element.className = "director";
 
       element.textContent =
         directors[
-          Math.floor(
-            Math.random() *
-            directors.length
-          )
+          Math.floor(Math.random() * directors.length)
         ];
 
       element.style.left =
@@ -1583,32 +1165,21 @@
       element.style.fontSize =
         `${randomBetween(11,20)}px`;
 
-      directorLayer.appendChild(
-        element
-      );
+      directorLayer.appendChild(element);
 
       element.addEventListener(
         "animationend",
         () => element.remove(),
-        {
-          once: true
-        }
+        { once: true }
       );
     }
 
-
     function startDirectorCascade() {
-
-      for (
-        let i = 0;
-        i < 32;
-        i++
-      ) {
+      for (let i = 0; i < 32; i++) {
         createDirector();
       }
 
       function nextDirector() {
-
         createDirector();
 
         setTimeout(
@@ -1620,21 +1191,13 @@
       nextDirector();
     }
 
-
-    /* =========================================================
-       WHEEL
-       ========================================================= */
+    /* WHEEL */
 
     function updateWheel() {
-
-      const count =
-        movies.length;
+      const count = movies.length;
 
       if (count === 0) {
-
-        wheel.style.background =
-          "var(--sea-1)";
-
+        wheel.style.background = "var(--sea-1)";
         return;
       }
 
@@ -1649,27 +1212,13 @@
         "#b1e2d3"
       ];
 
-      const segmentSize =
-        360 / count;
-
+      const segmentSize = 360 / count;
       const stops = [];
 
-      for (
-        let i = 0;
-        i < count;
-        i++
-      ) {
-
-        const start =
-          i * segmentSize;
-
-        const end =
-          (i + 1) * segmentSize;
-
-        const color =
-          colors[
-            i % colors.length
-          ];
+      for (let i = 0; i < count; i++) {
+        const start = i * segmentSize;
+        const end = (i + 1) * segmentSize;
+        const color = colors[i % colors.length];
 
         stops.push(
           `${color} ${start}deg ${end}deg`
@@ -1680,247 +1229,138 @@
         `conic-gradient(${stops.join(",")})`;
     }
 
-
-    /* =========================================================
-       LOAD MOVIES
-       ========================================================= */
+    /* LOAD MOVIES */
 
     async function loadMovies() {
+      remaining.textContent = "Loading movies...";
 
-      remaining.textContent =
-        "Loading movies...";
-
-      const {
-        data,
-        error
-      } =
-        await client
-          .from("Movies")
-          .select("id, title, year")
-          .eq("chosen", false);
+      const { data, error } = await client
+        .from("Movies")
+        .select("id, title, year")
+        .eq("chosen", false);
 
       if (error) {
+        console.error("Supabase error:", error);
 
-        console.error(
-          "Supabase error:",
-          error
-        );
-
-        remaining.textContent =
-          "";
-
+        remaining.textContent = "";
         message.textContent =
-          "Supabase error: " +
-          error.message;
+          "Supabase error: " + error.message;
 
-        spinButton.disabled =
-          true;
-
+        spinButton.disabled = true;
         return;
       }
 
-      movies =
-        data || [];
+      movies = data || [];
 
       updateWheel();
       updateRemaining();
     }
 
-
-    /* =========================================================
-       COUNTER
-       ========================================================= */
+    /* COUNTER */
 
     function updateRemaining() {
-
       remaining.textContent =
         `${movies.length} movie${movies.length === 1 ? "" : "s"} remaining`;
 
       spinButton.disabled =
-        movies.length === 0 ||
-        isSpinning;
+        movies.length === 0 || isSpinning;
     }
 
+    /* SPIN */
 
-    /* =========================================================
-       SPIN
-       ========================================================= */
+    spinButton.addEventListener("click", async () => {
+      if (movies.length === 0 || isSpinning) {
+        return;
+      }
 
-    spinButton.addEventListener(
-      "click",
-      async () => {
+      isSpinning = true;
 
-        if (
-          movies.length === 0 ||
-          isSpinning
-        ) {
+      document.body.classList.add("spinning");
+
+      spinButton.disabled = true;
+      message.textContent = "";
+
+      updateWheel();
+
+      const randomIndex =
+        Math.floor(Math.random() * movies.length);
+
+      const movie = movies[randomIndex];
+
+      rotation +=
+        1800 + Math.floor(Math.random() * 720);
+
+      wheel.style.transform =
+        `rotate(${rotation}deg)`;
+
+      /* HEADER */
+
+      setTimeout(() => {
+        headerText.classList.remove(
+          "slide-in",
+          "movie-result"
+        );
+
+        headerText.classList.add("slide-out");
+
+        setTimeout(() => {
+          const year = movie.year
+            ? ` — ${movie.year}`
+            : "";
+
+          headerText.textContent =
+            `${movie.title}${year}`;
+
+          headerText.classList.add("movie-result");
+          headerText.classList.remove("slide-out");
+
+          void headerText.offsetWidth;
+
+          headerText.classList.add("slide-in");
+        }, 300);
+      }, 3300);
+
+      /* DATABASE */
+
+      setTimeout(async () => {
+        const { error } = await client
+          .from("Movies")
+          .update({
+            chosen: true,
+            chosen_at: new Date().toISOString()
+          })
+          .eq("id", movie.id);
+
+        if (error) {
+          console.error("Update error:", error);
+
+          message.textContent =
+            "The movie was selected, but it could not be marked as chosen.";
+
+          isSpinning = false;
+
+          document.body.classList.remove("spinning");
+
+          updateRemaining();
           return;
         }
 
-        isSpinning =
-          true;
-
-        document.body.classList.add(
-          "spinning"
+        movies = movies.filter(
+          m => m.id !== movie.id
         );
 
-        spinButton.disabled =
-          true;
+        isSpinning = false;
 
-        message.textContent =
-          "";
+        document.body.classList.remove("spinning");
 
-        updateWheel();
+        updateRemaining();
+      }, 4100);
+    });
 
-
-        const randomIndex =
-          Math.floor(
-            Math.random() *
-            movies.length
-          );
-
-
-        const movie =
-          movies[randomIndex];
-
-
-        rotation +=
-          1800 +
-          Math.floor(
-            Math.random() *
-            720
-          );
-
-
-        wheel.style.transform =
-          `rotate(${rotation}deg)`;
-
-
-        /* HEADER */
-
-        setTimeout(
-          () => {
-
-            headerText.classList.remove(
-              "slide-in",
-              "movie-result"
-            );
-
-            headerText.classList.add(
-              "slide-out"
-            );
-
-
-            setTimeout(
-              () => {
-
-                const year =
-                  movie.year
-                    ? ` — ${movie.year}`
-                    : "";
-
-                headerText.textContent =
-                  `${movie.title}${year}`;
-
-                headerText.classList.add(
-                  "movie-result"
-                );
-
-                headerText.classList.remove(
-                  "slide-out"
-                );
-
-                void headerText.offsetWidth;
-
-                headerText.classList.add(
-                  "slide-in"
-                );
-
-              },
-              300
-            );
-
-          },
-          3300
-        );
-
-
-        /* DATABASE */
-
-        setTimeout(
-          async () => {
-
-            const {
-              error
-            } =
-              await client
-                .from("Movies")
-                .update({
-                  chosen: true,
-                  chosen_at:
-                    new Date().toISOString()
-                })
-                .eq(
-                  "id",
-                  movie.id
-                );
-
-
-            if (error) {
-
-              console.error(
-                "Update error:",
-                error
-              );
-
-              message.textContent =
-                "The movie was selected, but it could not be marked as chosen.";
-
-              isSpinning =
-                false;
-
-              document.body.classList.remove(
-                "spinning"
-              );
-
-              updateRemaining();
-
-              return;
-            }
-
-
-            movies =
-              movies.filter(
-                m =>
-                  m.id !== movie.id
-              );
-
-
-            isSpinning =
-              false;
-
-            document.body.classList.remove(
-              "spinning"
-            );
-
-            updateRemaining();
-
-          },
-          4100
-        );
-
-      }
-    );
-
-
-    /* =========================================================
-       START
-       ========================================================= */
+    /* START */
 
     startDirectorCascade();
-
     loadMovies();
-
   </script>
 
 </body>
