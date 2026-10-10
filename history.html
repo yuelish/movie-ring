@@ -500,7 +500,7 @@ async function loadHistory() {
       .from("Movies")
       .select("id, title, year, chosen_at")
       .eq("chosen", true)
-      .order("chosen_at", { ascending: false });
+      .order("chosen_at", { ascending: true });
 
     if (error) throw error;
 
